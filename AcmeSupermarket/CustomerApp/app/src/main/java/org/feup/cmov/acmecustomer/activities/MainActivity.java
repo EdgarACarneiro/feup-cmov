@@ -1,4 +1,4 @@
-package org.feup.cmov.acmecustomer;
+package org.feup.cmov.acmecustomer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import org.feup.cmov.acmecustomer.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.generateQRCode();
+        //this.generateQRCode();
     }
 
-    private void generateQRCode() {
+    /*private void generateQRCode() {
         QRCodeWriter writer = new QRCodeWriter();
         try {
             BitMatrix bitMatrix = writer.encode("teste", BarcodeFormat.QR_CODE, 512, 512);
@@ -39,6 +41,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (WriterException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
