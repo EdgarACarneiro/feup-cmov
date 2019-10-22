@@ -3,8 +3,13 @@ package org.feup.cmov.acmecustomer.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import org.feup.cmov.acmecustomer.R;
+import org.feup.cmov.acmecustomer.models.Customer;
+import org.feup.cmov.acmecustomer.models.PaymentInfo;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -13,7 +18,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        Button submitButton = findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onFinishedRegistration();
+                    }
+                }
+        );
         //this.generateQRCode();
+    }
+
+    protected void onFinishedRegistration() {
+        String name = ((EditText)findViewById(R.id.input_name)).getText().toString();
+        String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
+        String password = ((EditText)findViewById(R.id.input_password)).getText().toString();
+
+        double cardNumber = Double.parseDouble(((EditText)findViewById(R.id.input_card_number)).getText().toString());
+        String cardHolder = ((EditText)findViewById(R.id.input_card_holder)).getText().toString();
+        int cardMonth = Integer.parseInt(((EditText)findViewById(R.id.input_card_expiration_month)).getText().toString());
+        int cardYear = Integer.parseInt(((EditText)findViewById(R.id.input_card_expiration_year)).getText().toString());
+        int cvv = Integer.parseInt(((EditText)findViewById(R.id.input_cvv)).getText().toString());
+
+        Customer newCustomer = new Customer(name,
+                                            username,
+                                            password,
+                                            new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
+
+        System.out.println(newCustomer.toString());
     }
 
     /*private void generateQRCode() {

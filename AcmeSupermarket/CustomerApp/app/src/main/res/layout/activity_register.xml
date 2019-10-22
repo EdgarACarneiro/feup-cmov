@@ -208,7 +208,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/card_expiration_month"
+                android:id="@+id/input_card_expiration_month"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -223,10 +223,10 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
-                android:text="/" />
+                android:text="@string/forward_slash" />
 
             <EditText
-                android:id="@+id/card_expiration_year"
+                android:id="@+id/input_card_expiration_year"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

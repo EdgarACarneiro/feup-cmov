@@ -17,4 +17,5 @@
     <string name="enter_card_expiration_year">YY</string>
     <string name="cvv">CVV</string>
     <string name="finish_registration">Finish</string>
+    <string name="forward_slash">/</string>
 </resources>
