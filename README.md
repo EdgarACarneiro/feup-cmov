@@ -1,5 +1,5 @@
 # feup-cmov
-Project developed for 'Mobile Computation', a fifth year subject @FEUP. Made in collaboration with @chaotixkilla .
+Project developed for 'Mobile Computation', a fifth year subject @FEUP. Made in collaboration with[chaotixkilla](https://github.com/chaotixkilla).
 
 ## Practical Assignment \#1
 
@@ -12,7 +12,7 @@ Using the app, the customers should first make a registration (only once when th
 At any time, the app should be capable of consulting past transactions’ information, and retrieve available emitted loyalty vouchers, that can concede a discount in some future buy. A loyalty voucher is offered whenever the customer accumulated payments surpassed a multiple of some value.
 
 
-## Practical Assignment \#1
+## Practical Assignment \#2
 
 To be announced.
 
