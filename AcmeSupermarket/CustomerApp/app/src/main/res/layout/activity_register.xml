@@ -8,13 +8,13 @@
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
     android:orientation="vertical"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.RegisterActivity">
 
     <TextView
         android:id="@+id/registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/open_sans_bold"
         android:gravity="center_horizontal"
         android:text="@string/register"
@@ -270,11 +270,30 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/have_an_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/have_an_account"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:text="@string/finish_registration" />
 

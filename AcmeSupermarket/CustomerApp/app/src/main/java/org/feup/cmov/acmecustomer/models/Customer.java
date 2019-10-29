@@ -11,6 +11,11 @@ public class Customer implements QRCodeInterface {
         this.paymentInfo = paymentInfo;
     }
 
+    public Customer(String uuid, String name, String username, String password, PaymentInfo paymentInfo) {
+        this.metadata = new CustomerMetadata(uuid, name, username, password);
+        this.paymentInfo = paymentInfo;
+    }
+
     public String getName() {
         return this.metadata.getName();
     }

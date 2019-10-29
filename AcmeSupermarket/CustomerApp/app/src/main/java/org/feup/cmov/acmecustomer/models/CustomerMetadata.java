@@ -3,14 +3,25 @@ package org.feup.cmov.acmecustomer.models;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 public class CustomerMetadata {
+    private UUID UUID;
     private String name;
     private String username;
     private String password;
     private KeyPair keyPair;
 
     protected CustomerMetadata(String name, String username, String password) {
+        this.UUID = UUID.randomUUID();
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.generateKeyPair();
+    }
+
+    protected CustomerMetadata(String uuid, String name, String username, String password) {
+        this.UUID = UUID.fromString(uuid);
         this.name = name;
         this.username = username;
         this.password = password;
