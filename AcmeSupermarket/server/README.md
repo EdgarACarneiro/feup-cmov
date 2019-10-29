@@ -20,5 +20,6 @@ And then, to actually launch the server:
 ```shell
 export FLASK_APP=flaskr
 export FLASK_DEBUG=true
-flask run
+flask init-db               # For initializing the db
+flask run                   # Launch app
 ```
