@@ -1,17 +1,46 @@
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS voucher;
+DROP TABLE IF EXISTS acmeTransaction;
+DROP TABLE IF EXISTS product;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+  username TEXT NOT NULL,
+  nickname TEXT NOT NULL,
+  password TEXT NOT NULL,
+  paymentCard INTEGER NOT NULL,
+  userPublicKey TEXT NOT NULL
 );
 
-CREATE TABLE post (
+CREATE TABLE voucher (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  author_id INTEGER NOT NULL,
+  ownerID INTEGER NOT NULL,
+  discount INTEGER NOT NULL,
+  FOREIGN KEY (ownerID) REFERENCES user (id)
+);
+
+CREATE TABLE acmeTransaction (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ownerID INTEGER NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id)
+  total INTEGER NOT NULL,
+  discounted INTEGER NOT NULL,
+  voucherID INTEGER DEFAULT NULL,
+  FOREIGN KEY (ownerID) REFERENCES user (id)
+  FOREIGN KEY (voucherID) REFERENCES voucher (id)
+);
+
+CREATE TABLE product (
+  code INTEGER PRIMARY KEY AUTOINCREMENT,
+  price INTEGER NOT NULL,
+  prodName TEXT NOT NULL
+);
+
+CREATE TABLE transactionProdcuts (
+  transactionID INTEGER NOT NULL,
+  productID INTEGER NOT NULL,
+  quantity INTEGER DEFAULT 1,
+  FOREIGN KEY (transactionID) REFERENCES acmeTransaction (id)
+  FOREIGN KEY (productID) REFERENCES product (id)
+  PRIMARY KEY (transactionID, productID)
 );
