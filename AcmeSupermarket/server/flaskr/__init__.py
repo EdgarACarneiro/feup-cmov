@@ -6,6 +6,7 @@ from cryptography.hazmat.primitives import serialization
 from .db import db
 from .views.auth import auth
 from .utils import generic_error_handler
+from .keys import keys
 
 
 def create_app(test_config=None):
@@ -27,24 +28,19 @@ def create_app(test_config=None):
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
-        # TODO - Run the script here
-        # TODO - Create keys generation as init_app thingy
+        # Generate Supermarket keys
+        print('fds')
+        keys.init_keys(app.instance_path)
     except OSError:
         pass
 
-    # Complete with KEYS & Parsing keys for storage
-    app.config.from_pyfile('config.cfg', silent=True)
-    app.config['PUBLIC_KEY'] = serialization.load_pem_public_key(
-        app.config['PUBLIC_KEY'],
-        backend=default_backend()
-    )
-    app.config['PRIVATE_KEY'] = serialization.load_pem_private_key(
-        app.config['PRIVATE_KEY'],
-        password=None,
-        backend=default_backend()
-    )
+    # Complete with KEYS for storage
+    app.config['PRIVATE_KEY'], app.config['PUBLIC_KEY'] =\
+        keys.load_keys(app.instance_path)
 
+    # Adding new commands to app cli
     db.init_app(app)
+    keys.init_app(app)
 
     # Bluprints
     app.register_blueprint(auth)

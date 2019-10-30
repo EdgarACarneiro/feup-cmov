@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..utils import generic_error_handler, gen_UUID
 from flaskr.db.db import get_db
+from flaskr.keys.keys import public_key_to_bytes
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -55,7 +56,9 @@ def register():
     return current_app.response_class(
         response=json.dumps({
             'uuid': user_uuid,
-            'public_key': current_app.config["PUBLIC_KEY"]
+            'public_key': str(
+                public_key_to_bytes(current_app.config["PUBLIC_KEY"])
+            )
         }),
         status=201,
         mimetype='application/json'
