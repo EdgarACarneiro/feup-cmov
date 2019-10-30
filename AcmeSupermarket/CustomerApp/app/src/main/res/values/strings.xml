@@ -18,5 +18,7 @@
     <string name="cvv">CVV</string>
     <string name="finish_registration">Finish</string>
     <string name="forward_slash">/</string>
-    <string name="have_an_account">Already have an account? Login instead</string>
+    <string name="have_an_account">Already have an account? Login instead!</string>
+    <string name="login">Login</string>
+    <string name="dont_have_account">Don\'t have an account? Register instead!</string>
 </resources>
