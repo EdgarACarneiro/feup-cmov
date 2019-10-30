@@ -29,7 +29,6 @@ def create_app(test_config=None):
     try:
         os.makedirs(app.instance_path)
         # Generate Supermarket keys
-        print('fds')
         keys.init_keys(app.instance_path)
     except OSError:
         pass

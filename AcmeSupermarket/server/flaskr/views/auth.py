@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ..utils import generic_error_handler, gen_UUID
+from ..utils import generic_error_handler, gen_UUID, bytes_to_string
 from flaskr.db.db import get_db
 from flaskr.keys.keys import public_key_to_bytes
 
@@ -56,7 +56,7 @@ def register():
     return current_app.response_class(
         response=json.dumps({
             'uuid': user_uuid,
-            'public_key': str(
+            'public_key': bytes_to_string(
                 public_key_to_bytes(current_app.config["PUBLIC_KEY"])
             )
         }),

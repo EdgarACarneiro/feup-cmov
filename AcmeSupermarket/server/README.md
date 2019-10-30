@@ -43,7 +43,7 @@ curl -d "nickname=yoloDude&paymentCard=928465823&key=supadupakey" -X POST http:/
 Expected _json_ response:
 ```json
 {
-    "public_key": "b'-----BEGIN PUBLIC KEY-----\\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANj1kmumzLb3q5VzHVpfi2/d7MvZGVTh\\npAult04LidIjLKQo/PQX3SiT7QXwH3fAKEqinOJdxSS0ZATe/FXygMsCAwEAAQ==\\n-----END PUBLIC KEY-----\\n'",
+    "public_key":"-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANj1kmumzLb3q5VzHVpfi2/d7MvZGVTh\npAult04LidIjLKQo/PQX3SiT7QXwH3fAKEqinOJdxSS0ZATe/FXygMsCAwEAAQ==\n-----END PUBLIC KEY-----\n",
     "uuid": "1c7372bf-03b7-47cd-9cfc-eb68a6b1e406"
 }
 ```
