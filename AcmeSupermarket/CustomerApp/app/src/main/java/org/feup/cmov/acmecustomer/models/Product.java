@@ -2,7 +2,7 @@ package org.feup.cmov.acmecustomer.models;
 
 import java.util.UUID;
 
-public class Item {
+public class Product {
 
     private UUID UUID;
     private String name;
@@ -30,7 +30,7 @@ public class Item {
         }
     }
 
-    public Item(String uuid, String name, int euros, int cents) {
+    public Product(String uuid, String name, int euros, int cents) {
         this.UUID = UUID.fromString(uuid);
         this.name = name;
         this.price = new ItemPrice(euros, cents);
