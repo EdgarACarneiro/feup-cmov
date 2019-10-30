@@ -43,7 +43,7 @@ curl -d "nickname=yoloDude&paymentCard=928465823&key=supadupakey" -X POST http:/
 Expected _json_ response:
 ```json
 {
-    "supermarketKey": "dev",
+    "public_key": "dev",
     "uuid": "40bd5ff6-eb90-4a79-9b9b-80ee79e5cb02"
 }
 ```
