@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -57,6 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
                                             username,
                                             password,
                                             new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
+
+        TextView errorMessage = findViewById(R.id.error_message);
+        errorMessage.setText(newCustomer.getMetadata().getKeyPair().getPublic().toString());
+        errorMessage.setVisibility(View.VISIBLE);
 
         System.out.println(newCustomer.toString());
     }

@@ -74,4 +74,8 @@ public class CustomerMetadata {
     protected String getPassword() {
         return this.password;
     }
+
+    public KeyPair getKeyPair() {
+        return this.keyPair;
+    }
 }
