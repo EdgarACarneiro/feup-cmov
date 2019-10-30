@@ -2,26 +2,25 @@ DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS voucher;
 DROP TABLE IF EXISTS acmeTransaction;
 DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS transactionProdcuts;
 
 CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT NOT NULL,
-  nickname TEXT NOT NULL,
-  password TEXT NOT NULL,
+  id VARCHAR(16) PRIMARY KEY,
+  nickname TEXT UNIQUE NOT NULL,
   paymentCard INTEGER NOT NULL,
   userPublicKey TEXT NOT NULL
 );
 
 CREATE TABLE voucher (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  ownerID INTEGER NOT NULL,
+  ownerID VARCHAR(16) NOT NULL,
   discount INTEGER NOT NULL,
   FOREIGN KEY (ownerID) REFERENCES user (id)
 );
 
 CREATE TABLE acmeTransaction (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  ownerID INTEGER NOT NULL,
+  ownerID VARCHAR(16) NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   total INTEGER NOT NULL,
   discounted INTEGER NOT NULL,
@@ -31,16 +30,16 @@ CREATE TABLE acmeTransaction (
 );
 
 CREATE TABLE product (
-  code INTEGER PRIMARY KEY AUTOINCREMENT,
+  code VARCHAR(16) PRIMARY KEY,
   price INTEGER NOT NULL,
   prodName TEXT NOT NULL
 );
 
 CREATE TABLE transactionProdcuts (
   transactionID INTEGER NOT NULL,
-  productID INTEGER NOT NULL,
+  productID VARCHAR(16) NOT NULL,
   quantity INTEGER DEFAULT 1,
   FOREIGN KEY (transactionID) REFERENCES acmeTransaction (id)
-  FOREIGN KEY (productID) REFERENCES product (id)
+  FOREIGN KEY (productID) REFERENCES product (code)
   PRIMARY KEY (transactionID, productID)
 );

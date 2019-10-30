@@ -32,10 +32,9 @@ Here are some useful queries to test the available routes using [curl](https://c
 
 * `auth/register`
 ```shell
-curl -d "username=admin&password=default" -X POST http://localhost:5000/auth/register
+curl -d "nickname=yoloDude&paymentCard=928465823&key=supadupakey" -X POST http://localhost:5000/auth/register
 ```
-
-* `auth/login`
-```shell
-curl -d "username=admin&password=default" -X POST http://localhost:5000/auth/login
+Expected _json_ response:
+```json
+{"supermarketKey": "dev", "uuid": "A"}
 ```

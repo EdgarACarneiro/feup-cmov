@@ -1,7 +1,8 @@
 import os
 from flask import Flask
-from . import db
-from . import auth
+from .db import db
+from .views.auth import auth
+from .utils import generic_error_handler
 
 
 def create_app(test_config=None):
@@ -26,12 +27,19 @@ def create_app(test_config=None):
         pass
 
     db.init_app(app)
-    app.register_blueprint(auth.bp)
 
+    # Bluprints
+    app.register_blueprint(auth)
 
     # a simple page that says hello
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    app.register_error_handler(
+        500, lambda _: generic_error_handler(
+            500, 'Something went wrong. Please try again later.'
+        )
+    )
 
     return app
