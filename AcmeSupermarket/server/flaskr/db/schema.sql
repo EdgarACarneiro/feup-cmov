@@ -8,24 +8,25 @@ CREATE TABLE user (
   id VARCHAR(16) PRIMARY KEY,
   nickname TEXT UNIQUE NOT NULL,
   paymentCard INTEGER NOT NULL,
-  userPublicKey TEXT NOT NULL
+  userPublicKey TEXT NOT NULL,
+  accumulatedDiscount INTEGER DEFAULT 0
 );
 
 CREATE TABLE voucher (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ownerID VARCHAR(16) NOT NULL,
-  discount INTEGER NOT NULL,
+  used BOOLEAN DEFAULT 0,
   FOREIGN KEY (ownerID) REFERENCES user (id)
 );
 
 CREATE TABLE acmeTransaction (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ownerID VARCHAR(16) NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   total INTEGER NOT NULL,
-  discounted INTEGER NOT NULL,
+  discounted INTEGER DEFAULT 0,
   voucherID INTEGER DEFAULT NULL,
-  FOREIGN KEY (ownerID) REFERENCES user (id)
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (ownerID) REFERENCES user (id),
   FOREIGN KEY (voucherID) REFERENCES voucher (id)
 );
 
@@ -39,7 +40,7 @@ CREATE TABLE transactionProdcuts (
   transactionID INTEGER NOT NULL,
   productID VARCHAR(16) NOT NULL,
   quantity INTEGER DEFAULT 1,
-  FOREIGN KEY (transactionID) REFERENCES acmeTransaction (id)
-  FOREIGN KEY (productID) REFERENCES product (code)
+  FOREIGN KEY (transactionID) REFERENCES acmeTransaction (id),
+  FOREIGN KEY (productID) REFERENCES product (code),
   PRIMARY KEY (transactionID, productID)
 );

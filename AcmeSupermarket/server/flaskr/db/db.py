@@ -4,7 +4,6 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
-
 def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
@@ -38,6 +37,19 @@ def init_db_command():
     click.echo('Initialized the database.')
 
 
+# Import here because of circular imports
+from .seed import seed_db
+
+@click.command('seed-db')
+@with_appcontext
+def seed_db_command():
+    """Clear the existing data and create new tables."""
+    init_db()
+    seed_db()
+    click.echo('Seeded the database.')
+
+
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    app.cli.add_command(seed_db_command)
