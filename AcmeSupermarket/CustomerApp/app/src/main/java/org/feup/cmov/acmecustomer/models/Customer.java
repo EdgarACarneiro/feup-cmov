@@ -2,7 +2,9 @@ package org.feup.cmov.acmecustomer.models;
 
 import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
 
-public class Customer implements QRCodeInterface {
+import java.io.Serializable;
+
+public class Customer implements QRCodeInterface, Serializable {
     private CustomerMetadata metadata;
     private PaymentInfo paymentInfo;
 
