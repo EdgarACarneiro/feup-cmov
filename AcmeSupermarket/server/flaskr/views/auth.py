@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ..utils import generic_error_handler
+from ..utils import generic_error_handler, gen_UUID
 from flaskr.db.db import get_db
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
@@ -27,14 +27,14 @@ def load_logged_in_user():
 def register():
     # Extracting from request
     nickname = request.form['nickname']
-    paymentCard = request.form['paymentCard']
-    userPublicKey = request.form['key']
+    payment_card = request.form['paymentCard']
+    user_public_key = request.form['key']
 
     db = get_db()
 
     if not nickname or\
-            not paymentCard or\
-            not userPublicKey:
+            not payment_card or\
+            not user_public_key:
         abort(400)
 
     elif db.execute(
@@ -42,13 +42,12 @@ def register():
     ).fetchone() is not None:
         abort(409)
 
-    user_uuid = 'A'  # Hardcoded for now, generate uuid later
-
     # Registering the new USer
+    user_uuid = str(gen_UUID())
     db.execute(
         'INSERT INTO user (id, nickname, paymentCard,\
                 userPublicKey) VALUES (?, ?, ?, ?)',
-        (user_uuid, nickname, paymentCard, userPublicKey)
+        (user_uuid, nickname, payment_card, user_public_key)
     )
     db.commit()
 
