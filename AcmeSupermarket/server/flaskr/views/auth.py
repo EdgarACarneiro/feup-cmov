@@ -55,7 +55,7 @@ def register():
     return current_app.response_class(
         response=json.dumps({
             'uuid': user_uuid,
-            'supermarketKey': current_app.config["SECRET_KEY"]
+            'supermarketKey': current_app.config["PUBLIC_KEY"]
         }),
         status=201,
         mimetype='application/json'
