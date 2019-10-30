@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        /*EditText cardNumber = findViewById(R.id.input_card_number);
+        cardNumber.addTextChangedListener(new CardNumberFormattingTextWatcher());*/
 
         TextView login = findViewById(R.id.have_an_account);
         login.setOnClickListener(
@@ -39,7 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
         );
-        //this.generateQRCode();
     }
 
     protected void onFinishedRegistration() {
@@ -85,8 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
         String cardNumber = ((EditText)findViewById(R.id.input_card_number)).getText().toString();
         String cardHolder = ((EditText)findViewById(R.id.input_card_holder)).getText().toString();
         int cardMonth = parseInt(((EditText)findViewById(R.id.input_card_expiration_month)).getText().toString());
-        //int cardYear = Integer.parseInt(((EditText)findViewById(R.id.input_card_expiration_year)).getText().toString());
-        //int cvv = Integer.parseInt(((EditText)findViewById(R.id.input_cvv)).getText().toString());
 
         return name.length() > 3 && username.length() > 3 && password.length() >= 5
                 && cardNumber.length() == 16 && cardHolder.length() > 3
@@ -107,27 +109,30 @@ public class RegisterActivity extends AppCompatActivity {
             return Integer.parseInt(s);
     }
 
-    /*private void generateQRCode() {
-        QRCodeWriter writer = new QRCodeWriter();
-        final static String CHARACTER_SET = "ISO-8859-1";
+    /*public static class CardNumberFormattingTextWatcher implements TextWatcher {
 
-        Hashtable<EncodeHintType, String> hints = new Hashtable<>();
-        hints.put(EncodeHintType.CHARACTER_SET, CHARACTER_SET);
+        private boolean lock;
 
-        try {
-            BitMatrix bitMatrix = writer.encode("teste", BarcodeFormat.QR_CODE, 512, 512, hints);
-            int width = bitMatrix.getWidth();
-            int height = bitMatrix.getHeight();
-            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (lock || s.length() > 16) {
+                return;
+            }
+            lock = true;
+            for (int i = 4; i < s.length(); i += 5) {
+                if (s.toString().charAt(i) != ' ') {
+                    s.insert(i, " ");
                 }
             }
-            //((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
-
-        } catch (WriterException e) {
-            e.printStackTrace();
+            lock = false;
         }
     }*/
 
