@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
 
             //missing REST call to login
 
-            /*Intent intent = new Intent(this, MainScreen.class);
-            startActivity(intent);*/
+            //Intent intent = new Intent(this, ShoppingCartActivity.class);
+            //startActivity(intent);
         } else {
             TextView errorMessage = findViewById(R.id.error_message);
             errorMessage.setText("Please verify the data before submit!");
