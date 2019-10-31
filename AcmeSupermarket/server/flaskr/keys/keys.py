@@ -3,6 +3,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.exceptions import InvalidSignature
 
 
 import click
@@ -28,6 +29,27 @@ def sign(private_key, message):
         ),
         algorithm=hashes.SHA256()
     )
+
+
+def verify(public_key, signature, data):
+    """Verify the given signature using the given public key.
+    Returns true if verified, False otherwise"""
+    is_signature_correct = True
+
+    try:
+        public_key.verify(
+            signature=signature,
+            data=data,
+            padding=padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            algorithm=hashes.SHA256()
+        )
+    except InvalidSignature:
+        is_signature_correct = False
+
+    return is_signature_correct
 
 
 def init_keys(keys_folder: str):

@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, request, session, current_app, request, abort, json
 )
-from flaskr.keys.keys import sign
+from flaskr.keys.keys import sign, verify
 
 acme = Blueprint('acme', __name__)
 
@@ -26,6 +26,28 @@ def get_products():
             current_app.config['PRIVATE_KEY'],
             str(products)
         ),
+        status=200,
+        mimetype='application/json'
+    )
+
+@acme.route('/checkout', methods=['POST'])
+def checkout():
+    db = get_db()
+
+    content = list(request.form.keys())[0]
+    # signature = content[-64:]
+    # message = bytes_to_string(content[: -64])
+    uuid = str(content[:4])
+
+    user = db.execute(
+        'SELECT userPublicKey FROM user WHERE id = ?',
+        (uuid, )
+    ).fetchone()
+    user['userPublicKey']
+
+    # if verify()
+
+    return current_app.response_class(
         status=200,
         mimetype='application/json'
     )

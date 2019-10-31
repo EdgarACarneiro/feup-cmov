@@ -37,7 +37,7 @@ flask gen-keys              # For generating new server public and private keys
 
 Here are some useful queries to test the available routes using [curl](https://curl.haxx.se).
 
-### `auth/register`
+* ### `auth/register`
 ```shell
 curl -d "nickname=yoloDude&paymentCard=928465823&key=supadupakey" -X POST http://localhost:5000/auth/register
 ```
@@ -50,11 +50,11 @@ Expected _json_ response:
 }
 ```
 
-### `acme/get-products`
+* ### `get-products`
 ```shell
 curl http://localhost:5000/get-products
 ```
-> Response will be signed by the ACME's private key
+> Response will be signed by ACME's private key
 
 Expected _json_ response, after verifying and converting text to _json_:
 ```json
@@ -85,4 +85,9 @@ Expected _json_ response, after verifying and converting text to _json_:
         "prodName": "Wine Tapada Das Lebres 1L"
     }
 ]
+```
+
+* ### `checkout`
+```shell
+curl --data-raw 0001 -X POST http://localhost:5000/checkout
 ```

@@ -7,9 +7,9 @@ def seed_db():
 
     # Create Users
     users = [
-        ('1', 'Bot1', 987654321, 'testKey'),
-        ('2', 'Bot2', 123456789, 'anotherKey'),
-        ('3', 'Bot3', 918273645, 'key')
+        ('0001', 'Bot1', 987654321, 'testKey'),
+        ('0002', 'Bot2', 123456789, 'anotherKey'),
+        ('0003', 'Bot3', 918273645, 'key')
     ]
     for user in users:
         db.execute(
@@ -34,10 +34,10 @@ def seed_db():
 
     # Create Vouchers
     vouchers = [
-        (1, '1', int(False)),
-        (2, '1', int(True)),
-        (3, '1', int(False)),
-        (4, '3', int(True))
+        (1, '0001', int(False)),
+        (2, '0001', int(True)),
+        (3, '0001', int(False)),
+        (4, '0003', int(True))
     ]
     for voucher in vouchers:
         db.execute(
@@ -47,20 +47,20 @@ def seed_db():
 
     # Create Transactions
     transactions = [
-        (1, '1', 397, 200, 2, [
+        (1, '0001', 397, 200, 2, [
             ('prod1', 2),
             ('prod2', 1)
         ]),
-        (2, '1', 513, 0, None, [
+        (2, '0001', 513, 0, None, [
             ('prod1', 1),
             ('prod2', 1),
             ('prod3', 1),
             ('prod4', 1)
         ]),
-        (3, '2', 7100, 0, None, [
+        (3, '0002', 7100, 0, None, [
             ('prod5', 5)
         ]),
-        (4, '3', 397, 0, 4, [
+        (4, '0003', 397, 0, 4, [
             ('prod4', 10),
             ('prod2', 10)
         ]),
