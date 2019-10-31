@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickCheckout(View view) {
-        Checkout checkout = new Checkout("127.0.0.1:5000");
+        Checkout checkout = new Checkout("10.0.2.2:5000");
         Thread thr = new Thread(checkout);
         thr.start();
     }

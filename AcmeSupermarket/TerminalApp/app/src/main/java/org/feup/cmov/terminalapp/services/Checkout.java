@@ -23,20 +23,17 @@ public class Checkout extends HttpClient implements Runnable {
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setUseCaches (false);
+            urlConnection.setUseCaches(false);
 
-
-            System.out.println("Awatiing Server Response");
+            System.out.println(urlConnection.getOutputStream());
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
-            String payload = "";
+            String payload = "wuutt";
             outputStream.writeBytes(payload);
             outputStream.flush();
             outputStream.close();
-            System.out.println("Awatiing Server Response2");
 
             // get response
             int responseCode = urlConnection.getResponseCode();
-            System.out.println("Awatiing Server Response3");
             if(responseCode == 200) {
                 String response = readStream(urlConnection.getInputStream());
                 System.out.print("CONNECTION SUCCEEDED - RESPONSE: " + response);
@@ -45,7 +42,7 @@ public class Checkout extends HttpClient implements Runnable {
                 System.out.print("FAILED CONNECTION");
         }
         catch (Exception e) {
-            System.out.print(e);
+            System.out.println(e.fillInStackTrace());
         }
         finally {
             if(urlConnection != null)
