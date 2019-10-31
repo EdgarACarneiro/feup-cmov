@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives import serialization
 
 from .db import db
 from .views.auth import auth
+from .views.acme import acme
 from .utils import generic_error_handler
 from .keys import keys
 
@@ -43,6 +44,7 @@ def create_app(test_config=None):
 
     # Bluprints
     app.register_blueprint(auth)
+    app.register_blueprint(acme)
 
     # a simple page that says hello
     @app.route('/hello')
