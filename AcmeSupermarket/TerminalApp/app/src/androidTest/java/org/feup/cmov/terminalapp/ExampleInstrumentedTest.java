@@ -1,4 +1,4 @@
-package com.up201503784.terminalapp;
+package org.feup.cmov.terminalapp;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.up201503784.terminalapp", appContext.getPackageName());
+        assertEquals("org.feup.cmov.terminalapp", appContext.getPackageName());
     }
 }

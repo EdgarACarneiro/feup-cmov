@@ -1,4 +1,4 @@
-package com.up201503784.terminalapp;
+package org.feup.cmov.terminalapp;
 
 import org.junit.Test;
 
