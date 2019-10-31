@@ -1,0 +1,55 @@
+package org.feup.cmov.terminalapp.services;
+
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class Checkout extends HttpClient implements Runnable {
+
+    public Checkout(String baseAddress) {
+        super(baseAddress);
+    }
+
+    @Override
+    public void run() {
+        System.out.println("STARTING THREAD");
+        URL url;
+        HttpURLConnection urlConnection = null;
+
+        try {
+            url = new URL("http://" + address + "/checkout");
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setUseCaches (false);
+
+
+            System.out.println("Awatiing Server Response");
+            DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
+            String payload = "";
+            outputStream.writeBytes(payload);
+            outputStream.flush();
+            outputStream.close();
+            System.out.println("Awatiing Server Response2");
+
+            // get response
+            int responseCode = urlConnection.getResponseCode();
+            System.out.println("Awatiing Server Response3");
+            if(responseCode == 200) {
+                String response = readStream(urlConnection.getInputStream());
+                System.out.print("CONNECTION SUCCEEDED - RESPONSE: " + response);
+            }
+            else
+                System.out.print("FAILED CONNECTION");
+        }
+        catch (Exception e) {
+            System.out.print(e);
+        }
+        finally {
+            if(urlConnection != null)
+                urlConnection.disconnect();
+        }
+    }
+}

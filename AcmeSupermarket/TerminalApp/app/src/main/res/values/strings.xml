@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TerminalApp</string>
+    <string name="checkout">Checkout</string>
 </resources>
