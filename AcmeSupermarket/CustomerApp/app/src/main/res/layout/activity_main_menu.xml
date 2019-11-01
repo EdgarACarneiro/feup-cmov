@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:background="#B7DAB6A0"
     android:orientation="vertical"
+    android:padding="15dp"
     tools:context=".activities.MainMenuActivity">
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="140dp"
         android:layout_marginBottom="15dp"
         android:baselineAligned="false"
         android:orientation="horizontal">
@@ -25,29 +26,34 @@
             <TextView
                 android:id="@+id/customer_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
                 android:fontFamily="@font/open_sans_semibold"
+                android:gravity="center_vertical"
                 android:text="@string/customer_name"
-                android:textSize="30sp" />
+                android:textAlignment="viewStart"
+                android:textSize="36sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/your_cart"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:fontFamily="@font/open_sans_bold"
                     android:text="@string/your_shopping_cart"
+                    android:textAlignment="viewStart"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/shopping_cart_value"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:fontFamily="@font/open_sans_bold"
                     android:text="@string/shopping_value"
@@ -60,7 +66,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@android:drawable/btn_star_big_on" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -75,7 +88,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:background="@drawable/ripple_oval"
-            android:backgroundTint="#FFD600"
+            android:backgroundTint="#FFAA00"
             android:clickable="true"
             android:focusable="true"
             app:backgroundTint="#00FFFFFF"

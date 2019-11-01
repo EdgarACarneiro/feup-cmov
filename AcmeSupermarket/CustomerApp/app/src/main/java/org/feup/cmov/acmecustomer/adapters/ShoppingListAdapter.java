@@ -40,7 +40,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public void onBindViewHolder(ShoppingListViewHolder holder, int position) {
         holder.productName.setText(this.products.get(position).getName());
-        holder.productPrice.setText(Double.toString(this.products.get(position).getFullPrice()));
+        holder.productPrice.setText(this.products.get(position).getFullPrice() + "€");
     }
 
     @Override

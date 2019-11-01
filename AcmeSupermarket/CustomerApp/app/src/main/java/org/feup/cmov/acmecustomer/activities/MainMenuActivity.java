@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
@@ -35,10 +36,20 @@ public class MainMenuActivity extends AppCompatActivity {
 
         mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart());
         recyclerView.setAdapter(mAdapter);
+
+        TextView customerName = findViewById(R.id.customer_name);
+        customerName.setText("Hello, " + this.currentCustomer.getName());
+
+        TextView cartValue = findViewById(R.id.shopping_cart_value);
+        cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
     }
 
     public ArrayList<Product> createProducts() {
         ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
         products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
         products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
         products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));

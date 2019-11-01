@@ -21,4 +21,12 @@ public class ShoppingCart implements Serializable {
     public void setShoppingCart(ArrayList<Product> shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
+
+    public double getValue() {
+        double value = 0.0;
+        for(int i = 0; i < this.shoppingCart.size(); i++) {
+            value += this.shoppingCart.get(i).getFullPrice();
+        }
+        return value;
+    }
 }

@@ -21,7 +21,7 @@
     <string name="have_an_account">Already have an account? Login instead!</string>
     <string name="login">Login</string>
     <string name="dont_have_account">Don\'t have an account? Register instead!</string>
-    <string name="your_shopping_cart">Your Shopping Cart</string>
+    <string name="your_shopping_cart">Current Cart Value: </string>
     <string name="customer_name">Customer Name</string>
     <string name="shopping_value">Value</string>
 </resources>
