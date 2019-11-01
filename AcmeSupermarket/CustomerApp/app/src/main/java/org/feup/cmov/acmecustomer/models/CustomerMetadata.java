@@ -3,6 +3,7 @@ package org.feup.cmov.acmecustomer.models;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 import javax.security.auth.x500.X500Principal;
 
-public class CustomerMetadata {
+public class CustomerMetadata implements Serializable {
     private UUID UUID;
     private String name;
     private String username;

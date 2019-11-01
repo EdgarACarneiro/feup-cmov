@@ -38,6 +38,10 @@ public class Customer implements QRCodeInterface, Serializable {
         return this.currentCart.getShoppingCart();
     }
 
+    public void setShoppingCart(ArrayList<Product> products) {
+        this.currentCart.setShoppingCart(products);
+    }
+
     public String encode() {
         return "";
     }

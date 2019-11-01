@@ -1,12 +1,14 @@
 package org.feup.cmov.acmecustomer.models;
 
-public class PaymentInfo {
+import java.io.Serializable;
+
+public class PaymentInfo implements Serializable {
     private double cardNumber;
     private String cardOwner;
     private CardValidity cardValidity;
     private int CVV;
 
-    protected class CardValidity {
+    protected class CardValidity implements Serializable {
         private int month;
         private int year;
 
