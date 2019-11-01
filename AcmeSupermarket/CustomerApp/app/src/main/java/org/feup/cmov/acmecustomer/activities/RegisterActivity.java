@@ -65,8 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
                     password,
                     new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
 
-            /*Intent intent = new Intent(this, MainScreen.class);
-            startActivity(intent);*/
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            intent.putExtra("Customer", newCustomer);
+            startActivity(intent);
         } else {
             TextView errorMessage = findViewById(R.id.error_message);
             errorMessage.setText("Please verify the data before submit!");

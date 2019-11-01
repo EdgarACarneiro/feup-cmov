@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.feup.cmov.acmecustomer.R;
+import org.feup.cmov.acmecustomer.models.Customer;
+import org.feup.cmov.acmecustomer.models.PaymentInfo;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,9 +53,14 @@ public class LoginActivity extends AppCompatActivity {
             errorMessage.setVisibility(View.GONE);
 
             //missing REST call to login
+            Customer newCustomer = new Customer("Teste",
+                    "teste",
+                    "teste",
+                    new PaymentInfo(Double.parseDouble("1111222233334444"), "teste", 12 , 21, 111));
 
-            //Intent intent = new Intent(this, ShoppingCartActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            intent.putExtra("Customer", newCustomer);
+            startActivity(intent);
         } else {
             TextView errorMessage = findViewById(R.id.error_message);
             errorMessage.setText("Please verify the data before submit!");

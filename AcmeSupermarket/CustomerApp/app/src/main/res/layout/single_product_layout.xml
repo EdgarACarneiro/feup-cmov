@@ -18,7 +18,7 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/product_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
