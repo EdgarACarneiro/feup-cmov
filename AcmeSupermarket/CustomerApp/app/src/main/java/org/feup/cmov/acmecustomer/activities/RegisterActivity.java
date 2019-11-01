@@ -22,9 +22,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        /*EditText cardNumber = findViewById(R.id.input_card_number);
-        cardNumber.addTextChangedListener(new CardNumberFormattingTextWatcher());*/
-
         TextView login = findViewById(R.id.have_an_account);
         login.setOnClickListener(
                 new View.OnClickListener() {
@@ -108,32 +105,5 @@ public class RegisterActivity extends AppCompatActivity {
         else
             return Integer.parseInt(s);
     }
-
-    /*public static class CardNumberFormattingTextWatcher implements TextWatcher {
-
-        private boolean lock;
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (lock || s.length() > 16) {
-                return;
-            }
-            lock = true;
-            for (int i = 4; i < s.length(); i += 5) {
-                if (s.toString().charAt(i) != ' ') {
-                    s.insert(i, " ");
-                }
-            }
-            lock = false;
-        }
-    }*/
 
 }
