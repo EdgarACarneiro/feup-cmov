@@ -6,6 +6,9 @@ import java.net.URL;
 
 public class Checkout extends HttpClient implements Runnable {
 
+    /* Hardcoded for now */
+    private String groceries = "0001;prod1-099,prod2-199,prod2-199;1;True";
+
     public Checkout(String baseAddress) {
         super(baseAddress);
     }
@@ -27,19 +30,23 @@ public class Checkout extends HttpClient implements Runnable {
 
             System.out.println(urlConnection.getOutputStream());
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
-            String payload = "wuutt";
-            outputStream.writeBytes(payload);
+            // First write content
+            outputStream.writeBytes(this.groceries);
+
+            // Write content signed
+            // outputStream.write
             outputStream.flush();
             outputStream.close();
 
             // get response
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == 200) {
+                System.out.println("MAN SERISLY WTF");
                 String response = readStream(urlConnection.getInputStream());
-                System.out.print("CONNECTION SUCCEEDED - RESPONSE: " + response);
+                System.out.println("CONNECTION SUCCEEDED - RESPONSE: " + response);
             }
             else
-                System.out.print("FAILED CONNECTION");
+                System.out.println("FAILED CONNECTION");
         }
         catch (Exception e) {
             System.out.println(e.fillInStackTrace());

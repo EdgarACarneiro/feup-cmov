@@ -34,20 +34,51 @@ def get_products():
 def checkout():
     db = get_db()
 
-    content = list(request.form.keys())[0]
+    content = request.data
+    # content = request.data[: -64]
     # signature = content[-64:]
-    # message = bytes_to_string(content[: -64])
-    uuid = str(content[:4])
-
-    user = db.execute(
-        'SELECT userPublicKey FROM user WHERE id = ?',
-        (uuid, )
-    ).fetchone()
-    user['userPublicKey']
+    # user = db.execute(
+    #     'SELECT userPublicKey FROM user WHERE id = ?',
+    #     (uuid, )
+    # ).fetchone()
+    # user['userPublicKey']
 
     # if verify()
+
+    checkout_info = bytes_to_string(content).split(';')
+    if len(checkout_info) != 4:
+        abort(400)
+
+    uuid, shop_list, voucher, discount = checkout_info
+
+    # Processing shop_list
+    products = {}
+    for prod in shop_list.split(','): 
+        prod, price = prod.split('-')
+        if prod not in products:
+            products[prod] = {
+                'price': price,
+                'quantity': 1
+            }
+        else:
+            products[prod]['quantity'] += 1
+
+    print(products)
 
     return current_app.response_class(
         status=200,
         mimetype='application/json'
+    )
+
+# Customized Error handlers
+@acme.errorhandler(401)
+def handle_unauthorized_request(e):
+    return generic_error_handler(
+        401, "Attempt of unauthorized access to information."
+    )
+
+@acme.errorhandler(400)
+def handle_bad_request(e):
+    return generic_error_handler(
+        400, "Invalid data passed in request"
     )
