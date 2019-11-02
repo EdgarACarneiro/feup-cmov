@@ -82,7 +82,25 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/checkout_button"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="116dp"
+            android:background="@drawable/ripple_oval"
+            android:backgroundTint="#6200EA"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:backgroundTint="#00FFFFFF"
+            app:fabCustomSize="80dp"
+            app:fabSize="normal"
+            app:rippleColor="#FFFFFF"
+            app:srcCompat="@drawable/ic_shopping_cart_black_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_new_item_button"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="bottom|end"
@@ -95,7 +113,7 @@
             app:fabCustomSize="75dp"
             app:fabSize="normal"
             app:rippleColor="#FFFFFF"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+            app:srcCompat="@drawable/ic_add_black_24dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/product_list"

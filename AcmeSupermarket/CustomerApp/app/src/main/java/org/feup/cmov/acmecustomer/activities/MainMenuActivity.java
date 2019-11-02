@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
@@ -42,6 +45,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
         TextView cartValue = findViewById(R.id.shopping_cart_value);
         cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
+
+
+        FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
+        if(recyclerView.getAdapter().getItemCount() > 0) {
+            checkoutButton.show();
+        } else {
+            checkoutButton.hide();
+        }
     }
 
     public ArrayList<Product> createProducts() {
