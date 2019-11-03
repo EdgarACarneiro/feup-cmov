@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS paymentCard;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS voucher;
 DROP TABLE IF EXISTS acmeTransaction;
@@ -5,9 +6,8 @@ DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS transactionProdcuts;
 
 CREATE TABLE paymentCard (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
   cvv INTEGER NOT NULL,
-  cardNumber TEXT NOT NULL,
+  cardNumber TEXT PRIMARY KEY,
   monthValid INTEGER NOT NULL,
   yearValid INTEGER NOT NULL
 );
@@ -16,10 +16,10 @@ CREATE TABLE user (
   id VARCHAR(16) PRIMARY KEY,
   username TEXT NOT NULL,
   nickname TEXT UNIQUE NOT NULL,
-  cardId INTEGER NOT NULL,
+  cardNumber TEXT NOT NULL,
   userPublicKey TEXT NOT NULL,
   accumulatedDiscount INTEGER DEFAULT 0,
-  FOREIGN KEY (cardId) REFERENCES paymentCard (id)
+  FOREIGN KEY (cardNumber) REFERENCES paymentCard (cardNumber)
 );
 
 CREATE TABLE voucher (

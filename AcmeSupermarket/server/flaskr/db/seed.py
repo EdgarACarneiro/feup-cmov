@@ -7,25 +7,25 @@ def seed_db():
 
     # Create Payment Cards
     pcs = [
-        (1, 123, '123409930913', 987654321, 12, 23)
+        (123, '123409930913', 12, 23)
     ]
     for pc in pcs:
         db.execute(
-            'INSERT INTO paymentCard (id, cvv, cardNumber,\
-                    monthValid, yearValid) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO paymentCard (cvv, cardNumber, monthValid,\
+                    yearValid) VALUES (?, ?, ?, ?)',
             pc
         )
 
     # Create Users
     users = [
-        ('0001', 'Bot', 'Bot1', 1, 'testKey'),
-        ('0002', 'Bot', 'Bot2', 1, 'anotherKey'),
-        ('0003', 'Bot', 'Bot3', 1, 'key')
+        ('0001', 'Bot', 'Bot1', '123409930913', 'testKey'),
+        ('0002', 'Bot', 'Bot2', '123409930913', 'anotherKey'),
+        ('0003', 'Bot', 'Bot3', '123409930913', 'key')
     ]
     for user in users:
         db.execute(
-            'INSERT INTO user (id, nickname, paymentCard,\
-                    userPublicKey) VALUES (?, ?, ?, ?)',
+            'INSERT INTO user (id, username, nickname, cardNumber,\
+                    userPublicKey) VALUES (?, ?, ?, ?, ?)',
             user
         )
 
