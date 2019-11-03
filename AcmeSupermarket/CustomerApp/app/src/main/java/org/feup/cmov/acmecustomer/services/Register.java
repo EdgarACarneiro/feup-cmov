@@ -3,6 +3,7 @@ package org.feup.cmov.acmecustomer.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.feup.cmov.acmecustomer.interfaces.ResponseCallable;
 import org.feup.cmov.acmecustomer.models.Customer;
 
 import java.io.DataOutputStream;
@@ -13,15 +14,19 @@ public class Register extends HttpClient implements Runnable {
 
     private Customer customer;
 
-    public Register(Customer customer) {
+    private ResponseCallable onFinish;
+
+    public Register(Customer customer, ResponseCallable onFinish) {
         super();
         this.customer = customer;
+        this.onFinish = onFinish;
     }
 
     @Override
     public void run() {
         URL url;
         HttpURLConnection urlConnection = null;
+        String response = null;
 
         try {
             url = new URL("http://" + address + "/auth/register");
@@ -42,11 +47,11 @@ public class Register extends HttpClient implements Runnable {
             // Get response
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == 201) {
-                String response = readStream(urlConnection.getInputStream());
+                response = readStream(urlConnection.getInputStream());
                 System.out.println("CONNECTION SUCCEEDED - RESPONSE: " + response);
             }
             else
-                System.out.println("FAILED REQUEST");
+                System.out.println("FAILED RREGISTER");
         }
         catch (Exception e) {
             System.out.println(e.fillInStackTrace());
@@ -54,6 +59,8 @@ public class Register extends HttpClient implements Runnable {
         finally {
             if(urlConnection != null)
                 urlConnection.disconnect();
+
+            this.onFinish.call(response);
         }
     }
 }
