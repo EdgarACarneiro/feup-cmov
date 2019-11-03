@@ -34,6 +34,10 @@ public class Customer implements QRCodeInterface, Serializable {
         return this.metadata.getUsername();
     }
 
+    public PaymentInfo getPaymentInfo() {
+        return this.paymentInfo;
+    }
+
     public double getShoppingCartValue() {
         return this.currentCart.getValue();
     }

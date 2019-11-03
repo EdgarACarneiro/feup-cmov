@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
         String password = ((EditText)findViewById(R.id.input_password)).getText().toString();
 
-        double cardNumber = parseDouble(((EditText)findViewById(R.id.input_card_number)).getText().toString());
+        String cardNumber = ((EditText)findViewById(R.id.input_card_number)).getText().toString();
         String cardHolder = ((EditText)findViewById(R.id.input_card_holder)).getText().toString();
         int cardMonth = parseInt(((EditText)findViewById(R.id.input_card_expiration_month)).getText().toString());
         int cardYear = parseInt(((EditText)findViewById(R.id.input_card_expiration_year)).getText().toString());
@@ -91,13 +91,6 @@ public class RegisterActivity extends AppCompatActivity {
         return name.length() > 3 && username.length() > 3 && password.length() >= 5
                 && cardNumber.length() == 16 && cardHolder.length() > 3
                 && cardMonth > 0 && cardMonth <= 12;
-    }
-
-    private double parseDouble(String s){
-        if(s == null || s.isEmpty())
-            return 0.0;
-        else
-            return Double.parseDouble(s);
     }
 
     private int parseInt(String s){

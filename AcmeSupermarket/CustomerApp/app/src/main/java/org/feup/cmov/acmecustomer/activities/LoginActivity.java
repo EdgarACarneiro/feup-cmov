@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             Customer newCustomer = new Customer("Teste",
                     "teste",
                     "teste",
-                    new PaymentInfo(Double.parseDouble("1111222233334444"), "teste", 12 , 21, 111));
+                    new PaymentInfo("1111222233334444", "teste", 12 , 21, 111));
 
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra("Customer", newCustomer);

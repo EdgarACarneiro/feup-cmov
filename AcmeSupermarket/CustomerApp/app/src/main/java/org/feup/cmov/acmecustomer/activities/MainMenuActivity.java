@@ -43,6 +43,9 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView customerName = findViewById(R.id.customer_name);
         customerName.setText("Hello, " + this.currentCustomer.getName());
 
+        TextView cardNumber = findViewById(R.id.current_payment_option);
+        cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));
+
         TextView cartValue = findViewById(R.id.shopping_cart_value);
         cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
 

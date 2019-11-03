@@ -3,7 +3,7 @@ package org.feup.cmov.acmecustomer.models;
 import java.io.Serializable;
 
 public class PaymentInfo implements Serializable {
-    private double cardNumber;
+    private String cardNumber;
     private String cardOwner;
     private CardValidity cardValidity;
     private int CVV;
@@ -26,14 +26,35 @@ public class PaymentInfo implements Serializable {
         }
     }
 
-    public PaymentInfo(double cardNumber, String cardOwner, int month, int year, int CVV) {
+    public PaymentInfo(String cardNumber, String cardOwner, int month, int year, int CVV) {
         this.cardNumber = cardNumber;
         this.cardOwner = cardOwner;
         this.cardValidity = new CardValidity(month, year);
         this.CVV = CVV;
     }
 
-    public double getCardNumber() {
+    public String getMaskedCardNumber(String mask) {
+
+        int index = 0;
+        StringBuilder maskedNumber = new StringBuilder();
+        for (int i = 0; i < mask.length(); i++) {
+            char c = mask.charAt(i);
+            if (c == '#') {
+                maskedNumber.append(cardNumber.charAt(index));
+                index++;
+            } else if (c == 'x') {
+                maskedNumber.append(c);
+                index++;
+            } else {
+                maskedNumber.append(c);
+            }
+        }
+
+        // return the masked number
+        return maskedNumber.toString();
+    }
+
+    public String getCardNumber() {
         return this.cardNumber;
     }
 
