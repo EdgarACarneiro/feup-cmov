@@ -40,7 +40,6 @@ public class CustomerMetadata implements Serializable {
         final int KEY_SIZE = 512;
         final String KEY_ALGO = "RSA";
         final int CERT_SERIAL = 12121212;
-        //final String ENC_ALGO = "RSA/NONE/PKCS1Padding";
         String keyName = "AcmeKey";
 
         try {

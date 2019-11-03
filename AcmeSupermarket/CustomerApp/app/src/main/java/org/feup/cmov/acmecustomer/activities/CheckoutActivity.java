@@ -18,6 +18,9 @@ import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.models.ShoppingCart;
 
+import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -37,23 +40,35 @@ public class CheckoutActivity extends AppCompatActivity {
     private void generateQRCode() {
         QRCodeWriter writer = new QRCodeWriter();
         final String CHARACTER_SET = "ISO-8859-1";
-
-        Hashtable<EncodeHintType, String> hints = new Hashtable<>();
-        hints.put(EncodeHintType.CHARACTER_SET, CHARACTER_SET);
+        final String ANDROID_KEYSTORE = "AndroidKeyStore";
+        final String keyname = "AcmeKey";
 
         try {
-            BitMatrix bitMatrix = writer.encode(this.currentCustomer.getShoppingCart().encode(), BarcodeFormat.QR_CODE, 512, 512, hints);
-            int width = bitMatrix.getWidth();
-            int height = bitMatrix.getHeight();
-            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
-                }
-            }
-            ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
+            KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
+            keyStore.load(null);
+            KeyStore.Entry entry = keyStore.getEntry(keyname, null);
+            PrivateKey key;
 
-        } catch (WriterException e) {
+            if(entry != null) {
+                key = ((KeyStore.PrivateKeyEntry)entry).getPrivateKey();
+
+                Hashtable<EncodeHintType, String> hints = new Hashtable<>();
+                hints.put(EncodeHintType.CHARACTER_SET, CHARACTER_SET);
+                byte[] content = this.currentCustomer.getShoppingCart().encode(key);
+                String string = new String(content, StandardCharsets.ISO_8859_1);
+
+                BitMatrix bitMatrix = writer.encode(string, BarcodeFormat.QR_CODE, 512, 512, hints);
+                int width = bitMatrix.getWidth();
+                int height = bitMatrix.getHeight();
+                Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
+                        bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                    }
+                }
+                ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

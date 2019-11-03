@@ -7,7 +7,7 @@ import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Customer implements QRCodeInterface, Serializable {
+public class Customer implements Serializable {
     @Expose
     private CustomerMetadata metadata;
     @Expose
@@ -46,10 +46,6 @@ public class Customer implements QRCodeInterface, Serializable {
 
     public void setShoppingCart(ArrayList<Product> products) {
         this.currentCart.setProducts(products);
-    }
-
-    public String encode() {
-        return "";
     }
 
 }

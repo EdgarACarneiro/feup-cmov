@@ -1,7 +1,9 @@
 package org.feup.cmov.acmecustomer.interfaces;
 
+import java.security.PrivateKey;
+
 public interface QRCodeInterface {
-    String encode();
+    byte[] encode(PrivateKey privateKey);
 
     /*private void generateQRCode() {
         QRCodeWriter writer = new QRCodeWriter();
