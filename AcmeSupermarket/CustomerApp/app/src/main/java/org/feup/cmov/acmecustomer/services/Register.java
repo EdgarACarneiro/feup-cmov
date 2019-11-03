@@ -41,7 +41,7 @@ public class Register extends HttpClient implements Runnable {
 
             // Get response
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == 200) {
+            if(responseCode == 201) {
                 String response = readStream(urlConnection.getInputStream());
                 System.out.println("CONNECTION SUCCEEDED - RESPONSE: " + response);
             }

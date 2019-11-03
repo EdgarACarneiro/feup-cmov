@@ -43,8 +43,6 @@ def register():
         abort(400)
 
     public_key = array('b', data['metadata']['publicKey'])
-    print(public_key.tostring())
-    print(bytearray(public_key))
 
     if db.execute(
         'SELECT id FROM user WHERE nickname = ?', (
@@ -67,7 +65,7 @@ def register():
     db.execute(
         'INSERT INTO user (id, username, nickname, cardNumber,\
                 userPublicKey) VALUES (?, ?, ?, ?, ?)',
-        (user_uuid,
+        (user_uuid.bytes,
          data['metadata']['name'],
          data['metadata']['username'],
          data['paymentInfo']['cardNumber'],
