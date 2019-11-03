@@ -5,11 +5,22 @@ def seed_db():
     """Seed the database"""
     db = get_db()
 
+    # Create Payment Cards
+    pcs = [
+        (1, 123, '123409930913', 987654321, 12, 23)
+    ]
+    for pc in pcs:
+        db.execute(
+            'INSERT INTO paymentCard (id, cvv, cardNumber,\
+                    monthValid, yearValid) VALUES (?, ?, ?, ?, ?)',
+            pc
+        )
+
     # Create Users
     users = [
-        ('0001', 'Bot1', 987654321, 'testKey'),
-        ('0002', 'Bot2', 123456789, 'anotherKey'),
-        ('0003', 'Bot3', 918273645, 'key')
+        ('0001', 'Bot', 'Bot1', 1, 'testKey'),
+        ('0002', 'Bot', 'Bot2', 1, 'anotherKey'),
+        ('0003', 'Bot', 'Bot3', 1, 'key')
     ]
     for user in users:
         db.execute(
