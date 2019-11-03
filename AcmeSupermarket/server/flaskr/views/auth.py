@@ -1,5 +1,6 @@
 import functools
 
+from array import array
 from flask import (
     Blueprint, flash, g, request, session, current_app, request, abort, json
 )
@@ -26,31 +27,54 @@ def load_logged_in_user():
 
 @auth.route('/register', methods=['POST'])
 def register():
-    print(request.data)
     # Extracting from request
-    nickname = request.form['nickname']
-    payment_card = request.form['paymentCard']
-    user_public_key = request.form['key']
+    data = json.loads(bytes_to_string(request.data))
 
     db = get_db()
 
-    if not nickname or\
-            not payment_card or\
-            not user_public_key:
+    if not data['metadata']['name'] or\
+            not data['metadata']['username'] or\
+            not data['metadata']['password'] or\
+            not data['metadata']['publicKey'] or\
+            not data['paymentInfo']['CVV'] or\
+            not data['paymentInfo']['cardNumber'] or\
+            not data['paymentInfo']['cardValidity']['month'] or\
+            not data['paymentInfo']['cardValidity']['year']:
         abort(400)
 
-    elif db.execute(
-        'SELECT id FROM user WHERE nickname = ?', (nickname,)
+    public_key = array('b', data['metadata']['publicKey'])
+    print(public_key.tostring())
+    print(bytearray(public_key))
+
+    if db.execute(
+        'SELECT id FROM user WHERE nickname = ?', (
+            data['metadata']['username'],)
     ).fetchone() is not None:
         abort(409)
 
-    # Registering the new USer
-    user_uuid = str(gen_UUID())
+    # Creating the PaymentCard
     db.execute(
-        'INSERT INTO user (id, nickname, paymentCard,\
-                userPublicKey) VALUES (?, ?, ?, ?)',
-        (user_uuid, nickname, payment_card, user_public_key)
+        'INSERT INTO paymentCard (cvv, cardNumber, monthValid,\
+                yearValid) VALUES (?, ?, ?, ?)',
+        (data['paymentInfo']['CVV'],
+         data['paymentInfo']['cardNumber'],
+         data['paymentInfo']['cardValidity']['month'],
+         data['paymentInfo']['cardValidity']['year'])
     )
+
+    # Registering the new USer
+    user_uuid = gen_UUID()
+    db.execute(
+        'INSERT INTO user (id, username, nickname, cardNumber,\
+                userPublicKey) VALUES (?, ?, ?, ?, ?)',
+        (user_uuid,
+         data['metadata']['name'],
+         data['metadata']['username'],
+         data['paymentInfo']['cardNumber'],
+         public_key)
+    )
+
+    # Committing changes to db
     db.commit()
 
     # Returning the User's uuid and the supermarket key
@@ -116,5 +140,5 @@ def handle_bad_request(e):
 @auth.errorhandler(409)
 def handle_wrong_image_type(e):
     return generic_error_handler(
-        409, "There already exists an user with the given nickname."
+        409, "There already exists an user with the given username."
     )

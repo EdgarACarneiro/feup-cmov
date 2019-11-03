@@ -17,7 +17,7 @@ CREATE TABLE user (
   username TEXT NOT NULL,
   nickname TEXT UNIQUE NOT NULL,
   cardNumber TEXT NOT NULL,
-  userPublicKey TEXT NOT NULL,
+  userPublicKey BLOB NOT NULL,
   accumulatedDiscount INTEGER DEFAULT 0,
   FOREIGN KEY (cardNumber) REFERENCES paymentCard (cardNumber)
 );

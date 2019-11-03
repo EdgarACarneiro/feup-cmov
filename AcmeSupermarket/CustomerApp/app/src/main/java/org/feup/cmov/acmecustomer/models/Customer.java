@@ -1,18 +1,18 @@
 package org.feup.cmov.acmecustomer.models;
 
+import com.google.gson.annotations.Expose;
+
 import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Customer implements QRCodeInterface, Serializable {
+    @Expose
     private CustomerMetadata metadata;
+    @Expose
     private PaymentInfo paymentInfo;
-    /**
-     * The Customer current shopping cart.
-     * Set as transient so it is not set to the server on registration.
-     */
-    private transient ShoppingCart currentCart;
+    private ShoppingCart currentCart;
 
     public Customer(String name, String username, String password, PaymentInfo paymentInfo) {
         this.metadata = new CustomerMetadata(name, username, password);

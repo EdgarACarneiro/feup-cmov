@@ -1,15 +1,22 @@
 package org.feup.cmov.acmecustomer.models;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 public class PaymentInfo implements Serializable {
+    @Expose
     private String cardNumber;
     private String cardOwner;
+    @Expose
     private CardValidity cardValidity;
+    @Expose
     private int CVV;
 
     protected class CardValidity implements Serializable {
+        @Expose
         private int month;
+        @Expose
         private int year;
 
         protected CardValidity(int month, int year) {

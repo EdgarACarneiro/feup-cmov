@@ -1,9 +1,9 @@
 package org.feup.cmov.acmecustomer.services;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.feup.cmov.acmecustomer.models.Customer;
-import org.feup.cmov.acmecustomer.models.CustomerMetadata;
 
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -34,7 +34,7 @@ public class Register extends HttpClient implements Runnable {
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
 
             // Write Customer as json
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
             outputStream.writeBytes(gson.toJson(this.customer, Customer.class));
             outputStream.flush();
             outputStream.close();

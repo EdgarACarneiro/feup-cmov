@@ -3,6 +3,8 @@ package org.feup.cmov.acmecustomer.models;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.KeyPair;
@@ -14,16 +16,23 @@ import java.util.GregorianCalendar;
 import javax.security.auth.x500.X500Principal;
 
 public class CustomerMetadata implements Serializable {
+    @Expose
     private String name;
+    @Expose
     private String username;
+    @Expose
     private String password;
-    private transient KeyPair keyPair;
+    private KeyPair keyPair;
+    @Expose
+    private byte[] publicKey;
 
     protected CustomerMetadata(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.generateKeyPair();
+        // Needed for json serialization
+        this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 
     private void generateKeyPair() {
