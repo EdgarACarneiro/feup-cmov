@@ -13,6 +13,10 @@ public class HttpClient {
         this.address = address;
     }
 
+    HttpClient() {
+        this.address = "10.0.2.2:5000";
+    }
+
     protected String readStream(InputStream in) {
         BufferedReader reader = null;
         StringBuilder response = new StringBuilder();

@@ -10,27 +10,16 @@ import java.security.KeyPairGenerator;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.UUID;
 
 import javax.security.auth.x500.X500Principal;
 
 public class CustomerMetadata implements Serializable {
-    private UUID UUID;
     private String name;
     private String username;
     private String password;
-    private KeyPair keyPair;
+    private transient KeyPair keyPair;
 
     protected CustomerMetadata(String name, String username, String password) {
-        this.UUID = UUID.randomUUID();
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.generateKeyPair();
-    }
-
-    protected CustomerMetadata(String uuid, String name, String username, String password) {
-        this.UUID = UUID.fromString(uuid);
         this.name = name;
         this.username = username;
         this.password = password;

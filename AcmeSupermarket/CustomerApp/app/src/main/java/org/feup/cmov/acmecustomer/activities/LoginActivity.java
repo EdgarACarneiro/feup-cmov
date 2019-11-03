@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             errorMessage.setText("");
             errorMessage.setVisibility(View.GONE);
 
-            //missing REST call to login
+            //TODO: Login is actually local -> does not depend on server
             Customer newCustomer = new Customer("Teste",
                     "teste",
                     "teste",

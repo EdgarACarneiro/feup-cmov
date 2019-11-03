@@ -1,6 +1,9 @@
 package org.feup.cmov.acmecustomer.services;
 
+import com.google.gson.Gson;
+
 import org.feup.cmov.acmecustomer.models.Customer;
+import org.feup.cmov.acmecustomer.models.CustomerMetadata;
 
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -10,46 +13,40 @@ public class Register extends HttpClient implements Runnable {
 
     private Customer customer;
 
-    public Register(String baseAddress, Customer customer) {
-        super(baseAddress);
-
+    public Register(Customer customer) {
+        super();
         this.customer = customer;
     }
 
     @Override
     public void run() {
-        System.out.println("STARTING THREAD");
         URL url;
         HttpURLConnection urlConnection = null;
 
         try {
-            url = new URL("http://" + address + "/checkout");
+            url = new URL("http://" + address + "/auth/register");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setUseCaches(false);
-
-            System.out.println(urlConnection.getOutputStream());
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
-            // First write content
-            outputStream.writeBytes(this.customer.toString());
 
-            // Write content signed
-            // outputStream.write
+            // Write Customer as json
+            Gson gson = new Gson();
+            outputStream.writeBytes(gson.toJson(this.customer, Customer.class));
             outputStream.flush();
             outputStream.close();
 
-            // get response
+            // Get response
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == 200) {
-                System.out.println("MAN SERISLY WTF");
                 String response = readStream(urlConnection.getInputStream());
                 System.out.println("CONNECTION SUCCEEDED - RESPONSE: " + response);
             }
             else
-                System.out.println("FAILED CONNECTION");
+                System.out.println("FAILED REQUEST");
         }
         catch (Exception e) {
             System.out.println(e.fillInStackTrace());

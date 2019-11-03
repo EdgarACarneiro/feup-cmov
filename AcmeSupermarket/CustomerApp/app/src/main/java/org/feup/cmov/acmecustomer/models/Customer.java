@@ -8,16 +8,14 @@ import java.util.ArrayList;
 public class Customer implements QRCodeInterface, Serializable {
     private CustomerMetadata metadata;
     private PaymentInfo paymentInfo;
-    private ShoppingCart currentCart;
+    /**
+     * The Customer current shopping cart.
+     * Set as transient so it is not set to the server on registration.
+     */
+    private transient ShoppingCart currentCart;
 
     public Customer(String name, String username, String password, PaymentInfo paymentInfo) {
         this.metadata = new CustomerMetadata(name, username, password);
-        this.paymentInfo = paymentInfo;
-        this.currentCart = new ShoppingCart();
-    }
-
-    public Customer(String uuid, String name, String username, String password, PaymentInfo paymentInfo) {
-        this.metadata = new CustomerMetadata(uuid, name, username, password);
         this.paymentInfo = paymentInfo;
         this.currentCart = new ShoppingCart();
     }

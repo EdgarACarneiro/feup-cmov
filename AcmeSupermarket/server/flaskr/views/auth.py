@@ -26,6 +26,7 @@ def load_logged_in_user():
 
 @auth.route('/register', methods=['POST'])
 def register():
+    print(request.data)
     # Extracting from request
     nickname = request.form['nickname']
     payment_card = request.form['paymentCard']

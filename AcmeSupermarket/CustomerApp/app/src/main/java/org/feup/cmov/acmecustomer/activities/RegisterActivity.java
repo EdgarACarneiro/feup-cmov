@@ -14,6 +14,7 @@ import android.widget.TextView;
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
+import org.feup.cmov.acmecustomer.services.Register;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -59,11 +60,18 @@ public class RegisterActivity extends AppCompatActivity {
             errorMessage.setText("");
             errorMessage.setVisibility(View.GONE);
 
-            //missing REST call to register
             Customer newCustomer = new Customer(name,
                     username,
                     password,
                     new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
+
+            // Making register request to API
+            new Thread(new Register(newCustomer)).start();
+            System.out.println("Am I not getting here wtf");
+
+            // Maybe use this https://www.codejava.net/java-core/concurrency/java-concurrency-executing-value-returning-tasks-with-callable-and-future
+            // To know result of register and do something when it returns -> e.g. redirect to Main page
+
 
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra("Customer", newCustomer);
