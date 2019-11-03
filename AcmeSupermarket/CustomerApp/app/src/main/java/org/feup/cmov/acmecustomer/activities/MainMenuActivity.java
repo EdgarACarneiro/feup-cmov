@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,7 +14,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
 import org.feup.cmov.acmecustomer.models.Customer;
-import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.models.Product;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart());
+        mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart().getProducts());
         recyclerView.setAdapter(mAdapter);
 
         TextView customerName = findViewById(R.id.customer_name);
@@ -56,6 +56,12 @@ public class MainMenuActivity extends AppCompatActivity {
         } else {
             checkoutButton.hide();
         }
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkout();
+            }
+        });
     }
 
     public ArrayList<Product> createProducts() {
@@ -69,5 +75,11 @@ public class MainMenuActivity extends AppCompatActivity {
         products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
         products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
         return products;
+    }
+
+    public void checkout() {
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        intent.putExtra("Customer", this.currentCustomer);
+        startActivity(intent);
     }
 }

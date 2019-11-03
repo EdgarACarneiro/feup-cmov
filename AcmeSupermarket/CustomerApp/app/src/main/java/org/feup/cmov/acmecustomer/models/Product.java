@@ -1,14 +1,15 @@
 package org.feup.cmov.acmecustomer.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Product {
+public class Product implements Serializable {
 
     private UUID UUID;
     private String name;
     private ItemPrice price;
 
-    private class ItemPrice {
+    protected class ItemPrice implements Serializable {
         private int euros;
         private int cents;
 

@@ -40,12 +40,12 @@ public class Customer implements QRCodeInterface, Serializable {
         return this.currentCart.getValue();
     }
 
-    public ArrayList<Product> getShoppingCart() {
-        return this.currentCart.getShoppingCart();
+    public ShoppingCart getShoppingCart() {
+        return this.currentCart;
     }
 
     public void setShoppingCart(ArrayList<Product> products) {
-        this.currentCart.setShoppingCart(products);
+        this.currentCart.setProducts(products);
     }
 
     public String encode() {

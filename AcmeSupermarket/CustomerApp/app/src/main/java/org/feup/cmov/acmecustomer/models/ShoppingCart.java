@@ -1,32 +1,43 @@
 package org.feup.cmov.acmecustomer.models;
 
+import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ShoppingCart implements Serializable {
-    private ArrayList<Product> shoppingCart;
+public class ShoppingCart implements Serializable, QRCodeInterface {
+    private ArrayList<Product> products;
 
     public ShoppingCart() {
-        this.shoppingCart = new ArrayList<>();
+        this.products = new ArrayList<>();
     }
 
     public void addProduct(Product p) {
-        this.shoppingCart.add(p);
+        this.products.add(p);
     }
 
-    public ArrayList<Product> getShoppingCart() {
-        return this.shoppingCart;
+    public ArrayList<Product> getProducts() {
+        return this.products;
     }
 
-    public void setShoppingCart(ArrayList<Product> shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 
     public double getValue() {
         double value = 0.0;
-        for(int i = 0; i < this.shoppingCart.size(); i++) {
-            value += this.shoppingCart.get(i).getFullPrice();
+        for(int i = 0; i < this.products.size(); i++) {
+            value += this.products.get(i).getFullPrice();
         }
         return value;
+    }
+
+    public String encode() {
+        String s = "";
+        for(int i = 0; i < this.products.size(); i++) {
+            Product currentProduct = this.products.get(i);
+            s += "acme" + currentProduct.getUUID().toString() + currentProduct.getPrice().getEuros() + currentProduct.getPrice().getCents() + currentProduct.getName() + "\n";
+        }
+        return s;
     }
 }
