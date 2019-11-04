@@ -12,11 +12,26 @@ import java.net.URL;
 
 public class Register extends HttpClient implements Runnable {
 
+    public class RegisterResponse {
+
+        private String uuid;
+
+        private String public_key;
+
+        public byte[] getPublicKey() {
+            return this.public_key.substring(27, this.public_key.length() - 26).getBytes();
+        }
+
+        public String getUuid() {
+            return this.uuid;
+        }
+    }
+
     private Customer customer;
 
-    private ResponseCallable onFinish;
+    private ResponseCallable<RegisterResponse> onFinish;
 
-    public Register(Customer customer, ResponseCallable onFinish) {
+    public Register(Customer customer, ResponseCallable<RegisterResponse> onFinish) {
         super();
         this.customer = customer;
         this.onFinish = onFinish;
@@ -26,7 +41,7 @@ public class Register extends HttpClient implements Runnable {
     public void run() {
         URL url;
         HttpURLConnection urlConnection = null;
-        String response = null;
+        RegisterResponse response = null;
 
         try {
             url = new URL("http://" + address + "/auth/register");
@@ -46,18 +61,16 @@ public class Register extends HttpClient implements Runnable {
 
             // Get response
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == 201) {
-                response = readStream(urlConnection.getInputStream());
-                System.out.println("CONNECTION SUCCEEDED - RESPONSE: " + response);
+            if (responseCode == 201) {
+                response = (new Gson()).fromJson(
+                        readStream(urlConnection.getInputStream()),
+                        RegisterResponse.class
+                );
             }
-            else
-                System.out.println("FAILED RREGISTER");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.fillInStackTrace());
-        }
-        finally {
-            if(urlConnection != null)
+        } finally {
+            if (urlConnection != null)
                 urlConnection.disconnect();
 
             this.onFinish.call(response);

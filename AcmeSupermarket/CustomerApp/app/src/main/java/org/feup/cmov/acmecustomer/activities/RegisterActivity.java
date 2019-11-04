@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.feup.cmov.acmecustomer.R;
-import org.feup.cmov.acmecustomer.interfaces.ResponseCallable;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.Register;
@@ -58,7 +57,9 @@ public class RegisterActivity extends AppCompatActivity {
             new Thread(new Register(newCustomer, (response) -> {
                 if (response != null) {
                     // Success Registration
-                    System.out.println("OINTOUUUU");
+                    System.out.println(response.getPublicKey());
+                    System.out.println(response.getUuid());
+
                     Intent intent = new Intent(this, MainMenuActivity.class);
                     intent.putExtra("Customer", newCustomer);
                     startActivity(intent);

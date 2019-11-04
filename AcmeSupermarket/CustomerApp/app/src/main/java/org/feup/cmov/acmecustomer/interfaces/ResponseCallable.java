@@ -1,6 +1,6 @@
 package org.feup.cmov.acmecustomer.interfaces;
 
-public interface ResponseCallable {
+public interface ResponseCallable<T> {
 
-    void call(String response);
+    void call(T response);
 }
