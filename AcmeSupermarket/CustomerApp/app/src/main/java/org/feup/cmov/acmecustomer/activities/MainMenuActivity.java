@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -49,6 +52,13 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView cartValue = findViewById(R.id.shopping_cart_value);
         cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
 
+        FloatingActionButton addProductButton = findViewById(R.id.add_new_item_button);
+        addProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addProduct();
+            }
+        });
 
         FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
         if(recyclerView.getAdapter().getItemCount() > 0) {
@@ -62,6 +72,19 @@ public class MainMenuActivity extends AppCompatActivity {
                 checkout();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT");
+                if (contents != null){
+                    Toast.makeText(this, contents, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     public ArrayList<Product> createProducts() {
@@ -81,5 +104,18 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CheckoutActivity.class);
         intent.putExtra("Customer", this.currentCustomer);
         startActivity(intent);
+    }
+
+    public void addProduct() {
+        try {
+            Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+            intent.putExtra("SCAN_MODE",  "QR_CODE_MODE");
+            startActivityForResult(intent, 0);
+        }
+        catch (ActivityNotFoundException anfe) {
+            Uri uri = Uri.parse("market://search?q=pname:" + "com.google.zxing.client.android");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 }

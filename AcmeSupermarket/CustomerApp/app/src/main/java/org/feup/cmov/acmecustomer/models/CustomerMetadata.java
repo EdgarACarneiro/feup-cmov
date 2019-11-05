@@ -1,7 +1,10 @@
 package org.feup.cmov.acmecustomer.models;
 
+import android.content.Context;
+import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 
@@ -9,6 +12,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,6 +20,7 @@ import java.util.GregorianCalendar;
 import javax.security.auth.x500.X500Principal;
 
 public class CustomerMetadata implements Serializable {
+    private Context context;
     @Expose
     private String name;
     @Expose
@@ -30,12 +35,11 @@ public class CustomerMetadata implements Serializable {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.generateKeyPair();
         // Needed for json serialization
-        this.publicKey = this.keyPair.getPublic().getEncoded();
+        //this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 
-    private void generateKeyPair() {
+    public void generateKeyPair(Context context) {
         final String ANDROID_KEYSTORE = "AndroidKeyStore";
         final int KEY_SIZE = 512;
         final String KEY_ALGO = "RSA";
@@ -47,18 +51,22 @@ public class CustomerMetadata implements Serializable {
             Calendar end = new GregorianCalendar();
             end.add(Calendar.YEAR, 20);
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGO, ANDROID_KEYSTORE);
-            AlgorithmParameterSpec spec = new KeyGenParameterSpec.Builder(keyName, KeyProperties.PURPOSE_SIGN | KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+
+            AlgorithmParameterSpec spec = new KeyPairGeneratorSpec.Builder(context)
                     .setKeySize(KEY_SIZE)
-                    .setCertificateSubject(new X500Principal("CN=" + keyName))
-                    .setCertificateSerialNumber(BigInteger.valueOf(CERT_SERIAL))
-                    .setCertificateNotBefore(start.getTime())
-                    .setCertificateNotAfter(end.getTime())
+                    .setAlias(keyName)
+                    .setSubject(new X500Principal("CN=" + keyName))
+                    .setSerialNumber(BigInteger.valueOf(CERT_SERIAL))
+                    .setStartDate(start.getTime())
+                    .setEndDate(end.getTime())
                     .build();
             keyPairGenerator.initialize(spec);
             this.keyPair = keyPairGenerator.generateKeyPair();
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+        this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 
     protected String getName() {

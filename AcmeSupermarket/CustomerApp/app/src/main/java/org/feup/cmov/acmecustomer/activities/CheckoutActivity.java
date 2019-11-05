@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
@@ -21,6 +22,7 @@ import org.feup.cmov.acmecustomer.models.ShoppingCart;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.PrivateKey;
+import java.security.interfaces.RSAPrivateKey;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -41,22 +43,20 @@ public class CheckoutActivity extends AppCompatActivity {
         QRCodeWriter writer = new QRCodeWriter();
         final String CHARACTER_SET = "ISO-8859-1";
         final String ANDROID_KEYSTORE = "AndroidKeyStore";
-        final String keyname = "AcmeKey";
+        //final String keyName = "AcmeKey";
 
         try {
             KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
             keyStore.load(null);
-            KeyStore.Entry entry = keyStore.getEntry(keyname, null);
-            PrivateKey key;
+            //PrivateKey key = (PrivateKey) keyStore.getKey(keyName, null);
+            PrivateKey key = this.currentCustomer.getMetadata().getKeyPair().getPrivate();
+            Log.d("PRIVATE KEY: ", key.toString());
 
-            if(entry != null) {
-                key = ((KeyStore.PrivateKeyEntry)entry).getPrivateKey();
-
+            if(key != null) {
                 Hashtable<EncodeHintType, String> hints = new Hashtable<>();
                 hints.put(EncodeHintType.CHARACTER_SET, CHARACTER_SET);
                 byte[] content = this.currentCustomer.getShoppingCart().encode(key);
                 String string = new String(content, StandardCharsets.ISO_8859_1);
-
                 BitMatrix bitMatrix = writer.encode(string, BarcodeFormat.QR_CODE, 512, 512, hints);
                 int width = bitMatrix.getWidth();
                 int height = bitMatrix.getHeight();

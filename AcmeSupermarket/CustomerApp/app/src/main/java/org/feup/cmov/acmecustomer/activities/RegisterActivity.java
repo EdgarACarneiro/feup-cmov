@@ -53,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
                     password,
                     new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
 
+            newCustomer.getMetadata().generateKeyPair(this);
+
             // Making register request to API
             new Thread(new Register(newCustomer, (response) -> {
                 if (response != null) {

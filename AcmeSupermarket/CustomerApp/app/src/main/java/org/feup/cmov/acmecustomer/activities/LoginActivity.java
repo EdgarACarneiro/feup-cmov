@@ -58,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                     "teste",
                     new PaymentInfo("1111222233334444", "teste", 12 , 21, 111));
 
+            newCustomer.getMetadata().generateKeyPair(this);
+
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra("Customer", newCustomer);
             startActivity(intent);
@@ -71,8 +73,6 @@ public class LoginActivity extends AppCompatActivity {
     protected boolean noErrorsOnLogin() {
         String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
         String password = ((EditText)findViewById(R.id.input_password)).getText().toString();
-
-        //missing server response
 
         return username.length() > 3 && password.length() >= 5;
     }
