@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
+import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,11 +49,57 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void showError(String errorMsg) {
+        TextView errorMessage = findViewById(R.id.error_message);
+        errorMessage.setText(errorMsg);
+        errorMessage.setVisibility(View.VISIBLE);
+    }
+
+    private void clearError() {
+        TextView errorMessage = findViewById(R.id.error_message);
+        errorMessage.setText("");
+        errorMessage.setVisibility(View.GONE);
+    }
+
     protected void onLogin() {
-        if(noErrorsOnLogin()) {
-            TextView errorMessage = findViewById(R.id.error_message);
-            errorMessage.setText("");
-            errorMessage.setVisibility(View.GONE);
+        /*
+        // Validating input errors
+        if (!noErrorsOnLogin()) {
+            showError("Please verify the data before submit!");
+            return;
+        }
+
+        String username = ((EditText) findViewById(R.id.input_username)).getText().toString();
+        String password = ((EditText) findViewById(R.id.input_password)).getText().toString();
+        String customerUuid = LocalStorage.read(this.getApplicationContext(), username + "_uuid");
+
+        // Validating if customer exists
+        if (customerUuid == null) {
+            showError("The given User did not register on this phone.");
+            return;
+        }
+
+        // Validating password
+        Customer customer = (new Gson()).fromJson(
+                LocalStorage.read(this.getApplicationContext(), customerUuid),
+                Customer.class
+        );
+        if (!customer.verifyPassword(password))
+            showError("Wrong password!");
+        else {
+            clearError();
+
+            // Validated User
+            LocalStorage.setCurrentUuid(this.getApplicationContext, customerUuid);
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            intent.putExtra("Customer", customer);
+            startActivity(intent);
+        }
+        */
+
+        // PREVIOUS CODE
+        if (noErrorsOnLogin()) {
+            clearError();
 
             //TODO: Missing load of local info
             Customer newCustomer = new Customer("Teste",
@@ -64,9 +113,7 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("Customer", newCustomer);
             startActivity(intent);
         } else {
-            TextView errorMessage = findViewById(R.id.error_message);
-            errorMessage.setText("Please verify the data before submit!");
-            errorMessage.setVisibility(View.VISIBLE);
+            showError("Please verify the data before submit!");
         }
     }
 

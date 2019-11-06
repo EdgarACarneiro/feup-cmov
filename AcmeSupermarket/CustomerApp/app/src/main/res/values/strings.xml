@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name_key">ACME_SUPERMARKET</string>
     <string name="acme_key">ACME_SERVER_KEY</string>
+    <string name="current_uuid">ACME_CURRENT_USER_UUID</string>
     <string name="app_name">Acme Supermarket Customer App</string>
     <string name="register">Registration</string>
     <string name="name">Name</string>

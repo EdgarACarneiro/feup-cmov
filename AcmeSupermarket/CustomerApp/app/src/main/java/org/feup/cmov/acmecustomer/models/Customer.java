@@ -20,6 +20,8 @@ public class Customer implements Serializable {
         this.currentCart = new ShoppingCart();
     }
 
+    public Customer(String username, String password, )
+
     public CustomerMetadata getMetadata() {
         return this.metadata;
     }
@@ -30,6 +32,10 @@ public class Customer implements Serializable {
 
     public String getUsername() {
         return this.metadata.getUsername();
+    }
+
+    public boolean verifyPassword(String password) {
+        return this.metadata.getPassword() == password;
     }
 
     public PaymentInfo getPaymentInfo() {

@@ -33,4 +33,12 @@ public class LocalStorage {
         return LocalStorage.read(context, String.valueOf(R.string.acme_key)).getBytes();
     }
 
+    public static void setCurrentUuid(Context context, String uuid) {
+        LocalStorage.write(context, String.valueOf(R.string.current_uuid), uuid);
+    }
+
+    public static String getCurrentUuid(Context context) {
+        return LocalStorage.read(context, String.valueOf(R.string.current_uuid));
+    }
+
 }

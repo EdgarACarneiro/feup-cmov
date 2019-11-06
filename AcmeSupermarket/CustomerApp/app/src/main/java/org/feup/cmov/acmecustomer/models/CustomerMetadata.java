@@ -31,8 +31,6 @@ public class CustomerMetadata implements Serializable {
         this.name = name;
         this.username = username;
         this.password = password;
-        // Needed for json serialization
-        // this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 
     public void generateKeyPair(Context context) {
@@ -62,6 +60,7 @@ public class CustomerMetadata implements Serializable {
             e.printStackTrace();
         }
 
+        // Needed for json serialization
         this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 

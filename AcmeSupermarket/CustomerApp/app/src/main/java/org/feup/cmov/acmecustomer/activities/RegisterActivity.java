@@ -10,8 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
+import org.feup.cmov.acmecustomer.models.CustomerMetadata;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 import org.feup.cmov.acmecustomer.services.Register;
@@ -60,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
             // Making register request to API
             new Thread(new Register(newCustomer, (response) -> {
                 if (response != null) {
-                    storeCredentials(response);
+                    storeCredentials(response, newCustomer);
 
                     Intent intent = new Intent(this, MainMenuActivity.class);
                     intent.putExtra("Customer", newCustomer);
@@ -106,18 +110,24 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Store the credentials in local storage
      *
-     * @param response
+     * @param response The server's response
+     * @param customer The registered customer
      */
-    private void storeCredentials(Register.RegisterResponse response) {
+    private void storeCredentials(Register.RegisterResponse response, Customer customer) {
         Context context = this.getApplicationContext();
         String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
 
 
         LocalStorage.setAcmePublicKey(context, response.getPublicKey());
+
         // Setting User credentials
         LocalStorage.write(context, username + "_uuid", response.getUuid());
-        LocalStorage.write(context, username + "_password",
-                ((EditText)findViewById(R.id.input_password)).getText().toString()
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        LocalStorage.write(context, response.getUuid(), gson.toJson(customer, Customer.class));
+
+        // Setting User Private Key
+        LocalStorage.write(context, response.getUuid() + "_pk",
+                new String(customer.getMetadata().getKeyPair().getPrivate().getEncoded())
         );
     }
 
