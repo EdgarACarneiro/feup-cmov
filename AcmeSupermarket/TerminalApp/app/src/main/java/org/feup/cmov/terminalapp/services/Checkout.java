@@ -1,23 +1,28 @@
 package org.feup.cmov.terminalapp.services;
 
+import org.feup.cmov.terminalapp.interfaces.ResponseCallable;
+
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Checkout extends HttpClient implements Runnable {
 
-    /* Hardcoded for now */
-    private String groceries = "0001;prod1-099,prod2-199,prod2-199;1;True";
+    private String checkoutMsg;
 
-    public Checkout(String baseAddress) {
+    private ResponseCallable<Boolean> onFinnish;
+
+    public Checkout(String baseAddress, String checkoutMsg, ResponseCallable<Boolean> onFinnish) {
         super(baseAddress);
+        this.checkoutMsg = checkoutMsg;
+        this.onFinnish = onFinnish;
     }
 
     @Override
     public void run() {
-        System.out.println("STARTING THREAD");
         URL url;
         HttpURLConnection urlConnection = null;
+        boolean result = false;
 
         try {
             url = new URL("http://" + address + "/checkout");
@@ -30,23 +35,15 @@ public class Checkout extends HttpClient implements Runnable {
 
             System.out.println(urlConnection.getOutputStream());
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
-            // First write content
-            outputStream.writeBytes(this.groceries);
+            outputStream.writeBytes(this.checkoutMsg);
 
-            // Write content signed
-            // outputStream.write
             outputStream.flush();
             outputStream.close();
 
-            // get response
+            // Handle response
             int responseCode = urlConnection.getResponseCode();
-            if(responseCode == 200) {
-                System.out.println("MAN SERISLY WTF");
-                String response = readStream(urlConnection.getInputStream());
-                System.out.println("CONNECTION SUCCEEDED - RESPONSE: " + response);
-            }
-            else
-                System.out.println("FAILED CONNECTION");
+            if(responseCode == 200)
+                result = true;
         }
         catch (Exception e) {
             System.out.println(e.fillInStackTrace());
@@ -54,6 +51,8 @@ public class Checkout extends HttpClient implements Runnable {
         finally {
             if(urlConnection != null)
                 urlConnection.disconnect();
+
+            this.onFinnish.call(result);
         }
     }
 }

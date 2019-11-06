@@ -20,8 +20,6 @@ public class Customer implements Serializable {
         this.currentCart = new ShoppingCart();
     }
 
-    public Customer(String username, String password, )
-
     public CustomerMetadata getMetadata() {
         return this.metadata;
     }
