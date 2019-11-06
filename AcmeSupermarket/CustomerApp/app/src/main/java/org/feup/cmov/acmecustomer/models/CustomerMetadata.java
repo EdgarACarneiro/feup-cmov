@@ -2,9 +2,6 @@ package org.feup.cmov.acmecustomer.models;
 
 import android.content.Context;
 import android.security.KeyPairGeneratorSpec;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 
@@ -12,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -36,7 +32,7 @@ public class CustomerMetadata implements Serializable {
         this.username = username;
         this.password = password;
         // Needed for json serialization
-        //this.publicKey = this.keyPair.getPublic().getEncoded();
+        this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 
     public void generateKeyPair(Context context) {
