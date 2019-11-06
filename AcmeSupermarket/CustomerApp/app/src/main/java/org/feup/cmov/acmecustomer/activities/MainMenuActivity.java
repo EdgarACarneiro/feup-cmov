@@ -23,9 +23,6 @@ import java.util.ArrayList;
 
 public class MainMenuActivity extends AppCompatActivity {
     private Customer currentCustomer;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +32,12 @@ public class MainMenuActivity extends AppCompatActivity {
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
         this.currentCustomer.setShoppingCart(this.createProducts());
 
-        this.recyclerView = findViewById(R.id.product_list);
+        RecyclerView recyclerView = findViewById(R.id.product_list);
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart().getProducts());
+        ShoppingListAdapter mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart().getProducts());
         recyclerView.setAdapter(mAdapter);
 
         TextView customerName = findViewById(R.id.customer_name);
@@ -87,6 +84,7 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+    //only for testing
     public ArrayList<Product> createProducts() {
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
@@ -101,7 +99,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void checkout() {
-        Intent intent = new Intent(this, CheckoutActivity.class);
+        Intent intent = new Intent(this, TransactionConfirmationActivity.class);
         intent.putExtra("Customer", this.currentCustomer);
         startActivity(intent);
     }
