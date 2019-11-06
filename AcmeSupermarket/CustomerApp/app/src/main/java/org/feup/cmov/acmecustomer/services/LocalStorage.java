@@ -13,14 +13,24 @@ public class LocalStorage {
         );
     }
 
-    public static void read(Context context, String key, String value) {
+    public static void write(Context context, String key, String value) {
         SharedPreferences storage = LocalStorage.getLocalStorage(context);
         SharedPreferences.Editor editor = storage.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
-    public static String write(Context context, String key) {
+    public static String read(Context context, String key) {
         return LocalStorage.getLocalStorage(context).getString(key, null);
     }
+
+
+    public static void setAcmePublicKey(Context context, byte[] key) {
+        LocalStorage.write(context, String.valueOf(R.string.acme_key), new String(key));
+    }
+
+    public static byte[] getAcmePublicKey(Context context) {
+        return LocalStorage.read(context, String.valueOf(R.string.acme_key)).getBytes();
+    }
+
 }

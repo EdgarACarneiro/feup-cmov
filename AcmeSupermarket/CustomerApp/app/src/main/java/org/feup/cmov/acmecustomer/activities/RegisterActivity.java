@@ -2,6 +2,7 @@ package org.feup.cmov.acmecustomer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
+import org.feup.cmov.acmecustomer.services.LocalStorage;
 import org.feup.cmov.acmecustomer.services.Register;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -58,9 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
             // Making register request to API
             new Thread(new Register(newCustomer, (response) -> {
                 if (response != null) {
-                    // Success Registration
-                    System.out.println(response.getPublicKey());
-                    System.out.println(response.getUuid());
+                    storeCredentials(response);
 
                     Intent intent = new Intent(this, MainMenuActivity.class);
                     intent.putExtra("Customer", newCustomer);
@@ -101,6 +101,24 @@ public class RegisterActivity extends AppCompatActivity {
             return 0;
         else
             return Integer.parseInt(s);
+    }
+
+    /**
+     * Store the credentials in local storage
+     *
+     * @param response
+     */
+    private void storeCredentials(Register.RegisterResponse response) {
+        Context context = this.getApplicationContext();
+        String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
+
+
+        LocalStorage.setAcmePublicKey(context, response.getPublicKey());
+        // Setting User credentials
+        LocalStorage.write(context, username + "_uuid", response.getUuid());
+        LocalStorage.write(context, username + "_password",
+                ((EditText)findViewById(R.id.input_password)).getText().toString()
+        );
     }
 
 }
