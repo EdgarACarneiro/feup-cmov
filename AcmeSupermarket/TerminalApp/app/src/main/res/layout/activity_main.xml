@@ -7,6 +7,18 @@
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
+    <TextView
+        android:id="@+id/scan_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/scan_new_purchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickCheckout"
+        android:text="@string/scan_purchase" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"

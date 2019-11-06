@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TerminalApp</string>
     <string name="checkout">Checkout</string>
+    <string name="scan_purchase">Scan New Purchase</string>
 </resources>
