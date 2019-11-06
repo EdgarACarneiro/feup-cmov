@@ -32,7 +32,7 @@ public class CustomerMetadata implements Serializable {
         this.username = username;
         this.password = password;
         // Needed for json serialization
-        this.publicKey = this.keyPair.getPublic().getEncoded();
+        // this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 
     public void generateKeyPair(Context context) {
