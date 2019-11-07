@@ -5,6 +5,7 @@ import org.feup.cmov.terminalapp.interfaces.ResponseCallable;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 public class Checkout extends HttpClient implements Runnable {
 
@@ -35,6 +36,8 @@ public class Checkout extends HttpClient implements Runnable {
 
             System.out.println(urlConnection.getOutputStream());
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
+            byte[] msg = this.checkoutMsg.getBytes("UTF8");
+            System.out.println(Arrays.toString(msg));
             outputStream.writeBytes(this.checkoutMsg);
 
             outputStream.flush();

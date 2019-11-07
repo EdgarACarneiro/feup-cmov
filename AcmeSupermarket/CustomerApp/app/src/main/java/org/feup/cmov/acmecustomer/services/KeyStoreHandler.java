@@ -2,18 +2,20 @@ package org.feup.cmov.acmecustomer.services;
 
 import org.feup.cmov.acmecustomer.Constants;
 
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public class KeyStoreHandler {
 
-    private static KeyStore.Entry getKeyStoreEntry(String keyName) {
-        KeyStore.Entry entry = null;
+    // TODO- Check if not needed, if so clean
+    private static Key getKeyStoreEntry(String keyName) {
+        Key entry = null;
         try {
             KeyStore ks = KeyStore.getInstance(Constants.ANDROID_KEYSTORE);
             ks.load(null);
-            entry = ks.getEntry(keyName, null);
+            entry = ks.getKey(keyName, null);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -24,12 +26,31 @@ public class KeyStoreHandler {
     }
 
     public static PrivateKey getUserPrivateKey(String username) {
-        KeyStore.Entry entry = getKeyStoreEntry(username);
-        return entry != null? ((KeyStore.PrivateKeyEntry)entry).getPrivateKey() : null;
+        PrivateKey entry = null;
+        try {
+            KeyStore ks = KeyStore.getInstance(Constants.ANDROID_KEYSTORE);
+            ks.load(null);
+            entry = (PrivateKey) ks.getKey(username, null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            return entry;
+        }
     }
 
     public static PublicKey getUserPublicKey(String username) {
-        KeyStore.Entry entry = getKeyStoreEntry(username);
-        return entry != null? ((KeyStore.PrivateKeyEntry)entry).getCertificate().getPublicKey() : null;
+        PublicKey entry = null;
+        try {
+            KeyStore ks = KeyStore.getInstance(Constants.ANDROID_KEYSTORE);
+            ks.load(null);
+            entry = ks.getCertificate(username).getPublicKey();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return entry;
+        }
     }
 }

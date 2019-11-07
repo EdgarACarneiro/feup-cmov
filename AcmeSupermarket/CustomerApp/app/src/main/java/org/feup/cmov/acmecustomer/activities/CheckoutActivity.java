@@ -22,12 +22,14 @@ import org.feup.cmov.acmecustomer.models.ShoppingCart;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -60,7 +62,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void generateQRCode() {
         QRCodeWriter writer = new QRCodeWriter();
-        final String CHARACTER_SET = "ISO-8859-1";
+        // final String CHARACTER_SET = "UTF8";
+        final String CHARACTER_SET = "ISO_8859_1";
 
         try {
             Hashtable<EncodeHintType, String> hints = new Hashtable<>();
@@ -70,6 +73,7 @@ public class CheckoutActivity extends AppCompatActivity {
             byte[] uuid = Utils.decode(
                     LocalStorage.getCurrentUuid(this.getApplicationContext())
             );
+            System.out.println(uuid.length);
             byte[] items = this.currentCustomer.getShoppingCart().getAsBytes();
             byte[] msg = concaByteArrays(uuid, items);
 
@@ -82,9 +86,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
             // Signing everything
             byte[] content = concaByteArrays(msg, this.currentCustomer.signMsg(msg));
+            System.out.println(Arrays.toString(content));
 
             // As QRCode message
             String string = new String(content, StandardCharsets.ISO_8859_1);
+            // String string = Utils.encode(content);
             BitMatrix bitMatrix = writer.encode(string, BarcodeFormat.QR_CODE, 512, 512, hints);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();

@@ -36,35 +36,37 @@ def checkout():
 
     content = request.data
     print(content)
-    # content = request.data[: -64]
-    # signature = content[-64:]
-    # user = db.execute(
-    #     'SELECT userPublicKey FROM user WHERE id = ?',
-    #     (uuid, )
-    # ).fetchone()
-    # user['userPublicKey']
+
+    content = request.data[: -64]
+    uuid = bytes_to_string(content[36:])
+    signature = content[-64:]
+    user = db.execute(
+        'SELECT userPublicKey FROM user WHERE id = ?',
+        (uuid, )
+    ).fetchone()
+    print(user['userPublicKey'])
 
     # if verify()
 
-    checkout_info = bytes_to_string(content).split(';')
-    if len(checkout_info) != 4:
-        abort(400)
+    # checkout_info = bytes_to_string(content).split(';')
+    # if len(checkout_info) != 4:
+    #     abort(400)
 
-    uuid, shop_list, voucher, discount = checkout_info
+    # uuid, shop_list, voucher, discount = checkout_info
 
-    # Processing shop_list
-    products = {}
-    for prod in shop_list.split(','): 
-        prod, price = prod.split('-')
-        if prod not in products:
-            products[prod] = {
-                'price': price,
-                'quantity': 1
-            }
-        else:
-            products[prod]['quantity'] += 1
+    # # Processing shop_list
+    # products = {}
+    # for prod in shop_list.split(','): 
+    #     prod, price = prod.split('-')
+    #     if prod not in products:
+    #         products[prod] = {
+    #             'price': price,
+    #             'quantity': 1
+    #         }
+    #     else:
+    #         products[prod]['quantity'] += 1
 
-    print(products)
+    # print(products)
 
     return current_app.response_class(
         status=200,

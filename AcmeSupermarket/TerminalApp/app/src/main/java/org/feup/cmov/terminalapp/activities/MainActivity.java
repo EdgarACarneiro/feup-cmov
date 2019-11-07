@@ -15,7 +15,7 @@ import org.feup.cmov.terminalapp.services.Checkout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String CHECKOUT_ADDRESS = "3da5e10e.ngrok.io";
+    private static final String CHECKOUT_ADDRESS = "c90daf87.ngrok.io";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
