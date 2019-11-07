@@ -18,6 +18,7 @@ import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
+import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
+
         this.currentCustomer.setShoppingCart(this.createProducts());
 
         RecyclerView recyclerView = findViewById(R.id.product_list);

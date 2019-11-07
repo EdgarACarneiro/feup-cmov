@@ -3,8 +3,11 @@ package org.feup.cmov.acmecustomer.models;
 import com.google.gson.annotations.Expose;
 
 import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
+import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 
 import java.io.Serializable;
+import java.security.PrivateKey;
+import java.security.Signature;
 import java.util.ArrayList;
 
 public class Customer implements Serializable {
@@ -50,6 +53,25 @@ public class Customer implements Serializable {
 
     public void setShoppingCart(ArrayList<Product> products) {
         this.currentCart.setProducts(products);
+    }
+
+    public byte[] signMsg(byte[] msg) {
+        PrivateKey pk = KeyStoreHandler.getUserPrivateKey(this.metadata.getUsername());
+        if (pk == null) {
+            System.err.println("User does not have a private key!");
+            return null;
+        }
+
+        try {
+            Signature sig = Signature.getInstance("SHA256WithRSA");
+            sig.initSign(pk);
+            sig.update(msg);
+            return sig.sign();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

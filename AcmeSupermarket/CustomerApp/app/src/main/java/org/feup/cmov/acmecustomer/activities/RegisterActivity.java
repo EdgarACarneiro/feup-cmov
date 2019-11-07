@@ -37,6 +37,18 @@ public class RegisterActivity extends AppCompatActivity {
         );
     }
 
+    private void showError(String errorMsg) {
+        TextView errorMessage = findViewById(R.id.error_message);
+        errorMessage.setText(errorMsg);
+        errorMessage.setVisibility(View.VISIBLE);
+    }
+
+    private void clearError() {
+        TextView errorMessage = findViewById(R.id.error_message);
+        errorMessage.setText("");
+        errorMessage.setVisibility(View.GONE);
+    }
+
     protected void onFinishedRegistration() {
         String name = ((EditText)findViewById(R.id.input_name)).getText().toString();
         String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
@@ -49,9 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         int cvv = parseInt(((EditText)findViewById(R.id.input_cvv)).getText().toString());
 
         if(noErrorsOnRegistration()) {
-            TextView errorMessage = findViewById(R.id.error_message);
-            errorMessage.setText("");
-            errorMessage.setVisibility(View.GONE);
+            clearError();
 
             Customer newCustomer = new Customer(name,
                     username,
@@ -70,18 +80,13 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 } else {
-                    // Failed Registration
-                    // TODO - Detailed Error from Server
-                    errorMessage.setText("Failed Registration. Please try a different Username.");
-                    errorMessage.setVisibility(View.VISIBLE);
+                    // Failed Registration - TODO - Detailed Error from Server
+                    showError("Failed Registration. Please try a different Username.");
                 }
             })).start();
 
-        } else {
-            TextView errorMessage = findViewById(R.id.error_message);
-            errorMessage.setText("Please verify the data before submit!");
-            errorMessage.setVisibility(View.VISIBLE);
-        }
+        } else
+            showError("Please verify the data before submit!");
     }
 
     protected void changeToLoginScreen() {
@@ -123,6 +128,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Setting User credentials
         LocalStorage.write(context, username + "_uuid", response.getUuid());
+        LocalStorage.setCurrentUuid(this.getApplicationContext(), response.getUuid());
+
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         LocalStorage.write(context, response.getUuid(), gson.toJson(customer, Customer.class));
     }

@@ -34,7 +34,11 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         this.currentCustomer.setShoppingCart(this.createProducts());
 
         Spinner coupons = findViewById(R.id.coupon_dropdown);
-        ArrayAdapter<String> couponAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getCouponDescriptions(createCoupons()));
+        ArrayAdapter<String> couponAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                getCouponDescriptions(createCoupons())
+        );
         couponAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         coupons.setAdapter(couponAdapter);
 

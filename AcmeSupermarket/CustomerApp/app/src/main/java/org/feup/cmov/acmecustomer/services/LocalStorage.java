@@ -2,10 +2,10 @@ package org.feup.cmov.acmecustomer.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Base64;
 
 import org.feup.cmov.acmecustomer.Constants;
 import org.feup.cmov.acmecustomer.R;
+import org.feup.cmov.acmecustomer.Utils;
 
 public class LocalStorage {
 
@@ -30,15 +30,12 @@ public class LocalStorage {
     public static void setAcmePublicKey(Context context, byte[] key) {
         LocalStorage.write(context,
                 String.valueOf(Constants.ACME_KEY),
-                Base64.encodeToString(key, Base64.DEFAULT)
+                Utils.encode(key)
         );
     }
 
     public static byte[] getAcmePublicKey(Context context) {
-        return Base64.decode(
-                LocalStorage.read(context, Constants.ACME_KEY),
-                Base64.DEFAULT
-        );
+        return Utils.decode(LocalStorage.read(context, Constants.ACME_KEY));
     }
 
     public static void setCurrentUuid(Context context, String uuid) {

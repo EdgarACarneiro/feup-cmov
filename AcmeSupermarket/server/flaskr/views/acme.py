@@ -35,6 +35,7 @@ def checkout():
     db = get_db()
 
     content = request.data
+    print(content)
     # content = request.data[: -64]
     # signature = content[-64:]
     # user = db.execute(
