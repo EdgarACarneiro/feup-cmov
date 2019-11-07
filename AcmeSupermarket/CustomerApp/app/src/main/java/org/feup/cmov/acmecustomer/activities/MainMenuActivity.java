@@ -60,6 +60,19 @@ public class MainMenuActivity extends AppCompatActivity {
         /*TextView cardNumber = findViewById(R.id.current_payment_option);
         cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));*/
 
+        FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
+        if(this.currentCustomer.getShoppingCart().getProducts().size() > 0) {
+            checkoutButton.show();
+        } else {
+            checkoutButton.hide();
+        }
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkout();
+            }
+        });
+
         FloatingActionButton addProductButton = findViewById(R.id.add_new_item_button);
         addProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
