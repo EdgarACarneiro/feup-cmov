@@ -61,11 +61,11 @@ def register():
     )
 
     # Registering the new USer
-    user_uuid = gen_UUID()
+    user_uuid = str(gen_UUID())
     db.execute(
         'INSERT INTO user (id, username, nickname, cardNumber,\
                 userPublicKey) VALUES (?, ?, ?, ?, ?)',
-        (user_uuid.bytes,
+        (user_uuid,
          data['metadata']['name'],
          data['metadata']['username'],
          data['paymentInfo']['cardNumber'],
