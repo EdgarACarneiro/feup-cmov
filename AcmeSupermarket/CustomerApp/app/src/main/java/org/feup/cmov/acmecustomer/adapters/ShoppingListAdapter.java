@@ -1,6 +1,5 @@
 package org.feup.cmov.acmecustomer.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder> {
     private ArrayList<Product> products;
+    private Product recentlyDeletedProduct;
 
     public static class ShoppingListViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
@@ -46,6 +46,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    public void deleteProduct(int position) {
+        this.recentlyDeletedProduct = this.products.get(position);
+        this.products.remove(position);
+        notifyItemRemoved(position);
     }
 
 }

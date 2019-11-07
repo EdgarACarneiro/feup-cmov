@@ -1,6 +1,8 @@
 package org.feup.cmov.acmecustomer.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +43,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         ShoppingListAdapter mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart().getProducts());
         recyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         TextView customerName = findViewById(R.id.customer_name);
         customerName.setText("Hello, " + this.currentCustomer.getName());
@@ -118,5 +123,26 @@ public class MainMenuActivity extends AppCompatActivity {
             startActivity(intent);
         }
         //add product to products array logic here
+    }
+
+    public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
+        private ShoppingListAdapter adapter;
+
+        public SwipeToDeleteCallback(ShoppingListAdapter adapter) {
+            super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            this.adapter = adapter;
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            this.adapter.deleteProduct(position);
+        }
+
     }
 }
