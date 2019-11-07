@@ -34,6 +34,9 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
 
+        //depois tirar isto
+        this.currentCustomer.setShoppingCart(createProducts());
+
         ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
 
         Spinner coupons = findViewById(R.id.coupon_dropdown);
@@ -90,6 +93,19 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 checkout();
             }
         });
+    }
+
+    public ArrayList<Product> createProducts() {
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
+        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
+        return products;
     }
 
     public ArrayList<Coupon> createCoupons() {
