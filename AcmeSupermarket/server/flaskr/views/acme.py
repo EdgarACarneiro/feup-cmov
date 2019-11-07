@@ -34,16 +34,18 @@ def get_products():
 def checkout():
     db = get_db()
 
-    content = request.data
-    print(content)
-
     content = request.data[: -64]
-    uuid = bytes_to_string(content[36:])
     signature = content[-64:]
+
+    # Checking User
+    uuid = bytes_to_string(content[0:36])
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
     ).fetchone()
+    if user is None:
+        abort(401)
+
     print(user['userPublicKey'])
 
     # if verify()

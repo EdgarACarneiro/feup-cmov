@@ -21,9 +21,9 @@ def gen_UUID():
 
 def bytes_to_string(byte_string):
     '''Convert bytes to a string'''
-    return byte_string.decode('UTF-8')
+    return byte_string.decode('iso8859-1')
 
 
 def string_to_bytes(string):
     '''Convert a string to bytes'''
-    return string.encode('UTF-8')
+    return string.encode('iso8859-1')

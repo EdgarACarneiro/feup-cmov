@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -52,6 +53,33 @@ public class CheckoutActivity extends AppCompatActivity {
         generateQRCode();
     }
 
+    private Bitmap encodeAsBitmap(String str) throws WriterException {
+        final String CHARACTER_SET = "ISO_8859_1";
+        int DIMENSION = 1000;
+        BitMatrix result;
+
+        Hashtable<EncodeHintType, String> hints = new Hashtable<>();
+        hints.put(EncodeHintType.CHARACTER_SET, CHARACTER_SET);
+        try {
+            result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, DIMENSION, DIMENSION, hints);
+        }
+        catch (IllegalArgumentException iae) {
+            return null;
+        }
+        int w = result.getWidth();
+        int h = result.getHeight();
+        int[] pixels = new int[w * h];
+        for (int y = 0; y < h; y++) {
+            int offset = y * w;
+            for (int x = 0; x < w; x++) {
+                pixels[offset + x] = result.get(x, y) ? getResources().getColor(R.color.colorPrimary) : Color.WHITE;
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
+        return bitmap;
+    }
+
     private byte[] concaByteArrays(byte[] a, byte[] b) {
         byte[] res = new byte[a.length + b.length];
         System.arraycopy(a, 0, res, 0, a.length);
@@ -61,46 +89,32 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void generateQRCode() {
-        QRCodeWriter writer = new QRCodeWriter();
-        // final String CHARACTER_SET = "UTF8";
-        final String CHARACTER_SET = "ISO_8859_1";
+        // Constructing QRCode message
+        byte[] uuid = Utils.decode(
+                LocalStorage.getCurrentUuid(this.getApplicationContext())
+        );
+        byte[] items = this.currentCustomer.getShoppingCart().getAsBytes();
+        byte[] msg = concaByteArrays(uuid, items);
+
+        byte[] discountByte = new byte[1];
+        discountByte[0] = (byte) (discount? 1 : 0);
+        msg = concaByteArrays(msg, discountByte);
+
+        byte[] voucherBytes = ByteBuffer.allocate(4).putInt(voucherID).array();
+        msg = concaByteArrays(msg, voucherBytes);
+
+        // Signing everything
+        byte[] content = concaByteArrays(msg, this.currentCustomer.signMsg(msg));
+        System.out.println(Arrays.toString(content));
+
+        // As QRCode message
+        String string = new String(content, StandardCharsets.ISO_8859_1);
+        System.out.println(string);
 
         try {
-            Hashtable<EncodeHintType, String> hints = new Hashtable<>();
-            hints.put(EncodeHintType.CHARACTER_SET, CHARACTER_SET);
-
-            // Constructing QRCode message
-            byte[] uuid = Utils.decode(
-                    LocalStorage.getCurrentUuid(this.getApplicationContext())
+            ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(
+                    encodeAsBitmap(string)
             );
-            System.out.println(uuid.length);
-            byte[] items = this.currentCustomer.getShoppingCart().getAsBytes();
-            byte[] msg = concaByteArrays(uuid, items);
-
-            byte[] discountByte = new byte[1];
-            discountByte[0] = (byte) (discount? 1 : 0);
-            msg = concaByteArrays(msg, discountByte);
-
-            byte[] voucherBytes = ByteBuffer.allocate(4).putInt(voucherID).array();
-            msg = concaByteArrays(msg, voucherBytes);
-
-            // Signing everything
-            byte[] content = concaByteArrays(msg, this.currentCustomer.signMsg(msg));
-            System.out.println(Arrays.toString(content));
-
-            // As QRCode message
-            String string = new String(content, StandardCharsets.ISO_8859_1);
-            // String string = Utils.encode(content);
-            BitMatrix bitMatrix = writer.encode(string, BarcodeFormat.QR_CODE, 512, 512, hints);
-            int width = bitMatrix.getWidth();
-            int height = bitMatrix.getHeight();
-            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
-                }
-            }
-            ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
         } catch (WriterException e) {
             e.printStackTrace();
         }
