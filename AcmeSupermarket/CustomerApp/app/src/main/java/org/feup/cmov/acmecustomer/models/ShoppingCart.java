@@ -1,7 +1,5 @@
 package org.feup.cmov.acmecustomer.models;
 
-
-
 import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
 
 import java.io.Serializable;
@@ -11,6 +9,7 @@ import java.security.Signature;
 import java.util.ArrayList;
 
 public class ShoppingCart implements Serializable, QRCodeInterface {
+
     private ArrayList<Product> products;
 
     public ShoppingCart() {

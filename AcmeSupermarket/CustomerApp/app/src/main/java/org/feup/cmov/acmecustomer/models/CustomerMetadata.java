@@ -5,6 +5,8 @@ import android.security.KeyPairGeneratorSpec;
 
 import com.google.gson.annotations.Expose;
 
+import org.feup.cmov.acmecustomer.Constants;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.KeyPair;
@@ -34,23 +36,20 @@ public class CustomerMetadata implements Serializable {
     }
 
     public void generateKeyPair(Context context) {
-        final String ANDROID_KEYSTORE = "AndroidKeyStore";
-        final int KEY_SIZE = 512;
-        final String KEY_ALGO = "RSA";
-        final int CERT_SERIAL = 12121212;
-        String keyName = "AcmeKey";
-
+        // Generating KeyPair
         try {
             Calendar start = new GregorianCalendar();
             Calendar end = new GregorianCalendar();
             end.add(Calendar.YEAR, 20);
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGO, ANDROID_KEYSTORE);
+            // This will also store in KeyStore
+            KeyPairGenerator keyPairGenerator =
+                    KeyPairGenerator.getInstance(Constants.KEY_ALGO, Constants.ANDROID_KEYSTORE);
 
             AlgorithmParameterSpec spec = new KeyPairGeneratorSpec.Builder(context)
-                    .setKeySize(KEY_SIZE)
-                    .setAlias(keyName)
-                    .setSubject(new X500Principal("CN=" + keyName))
-                    .setSerialNumber(BigInteger.valueOf(CERT_SERIAL))
+                    .setKeySize(Constants.KEY_SIZE)
+                    .setAlias(this.username)
+                    .setSubject(new X500Principal("CN=" + this.username))
+                    .setSerialNumber(BigInteger.valueOf(Constants.CERT_SERIAL))
                     .setStartDate(start.getTime())
                     .setEndDate(end.getTime())
                     .build();
@@ -60,7 +59,7 @@ public class CustomerMetadata implements Serializable {
             e.printStackTrace();
         }
 
-        // Needed for json serialization
+        // Needed for json serialization on Registration
         this.publicKey = this.keyPair.getPublic().getEncoded();
     }
 

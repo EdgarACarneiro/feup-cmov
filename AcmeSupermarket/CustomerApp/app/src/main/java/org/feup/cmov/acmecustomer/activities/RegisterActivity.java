@@ -15,7 +15,6 @@ import com.google.gson.GsonBuilder;
 
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
-import org.feup.cmov.acmecustomer.models.CustomerMetadata;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 import org.feup.cmov.acmecustomer.services.Register;
@@ -72,6 +71,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else {
                     // Failed Registration
+                    // TODO - Detailed Error from Server
+                    errorMessage.setText("Failed Registration. Please try a different Username.");
+                    errorMessage.setVisibility(View.VISIBLE);
                 }
             })).start();
 
@@ -117,18 +119,12 @@ public class RegisterActivity extends AppCompatActivity {
         Context context = this.getApplicationContext();
         String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
 
-
         LocalStorage.setAcmePublicKey(context, response.getPublicKey());
 
         // Setting User credentials
         LocalStorage.write(context, username + "_uuid", response.getUuid());
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         LocalStorage.write(context, response.getUuid(), gson.toJson(customer, Customer.class));
-
-        // Setting User Private Key
-        LocalStorage.write(context, response.getUuid() + "_pk",
-                new String(customer.getMetadata().getKeyPair().getPrivate().getEncoded())
-        );
     }
 
 }

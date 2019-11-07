@@ -15,7 +15,7 @@ import org.feup.cmov.terminalapp.services.Checkout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String CHECKOUT_ADDRESS = "10.0.2.2:5000";
+    private static final String CHECKOUT_ADDRESS = "192.168.1.106.:5000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
