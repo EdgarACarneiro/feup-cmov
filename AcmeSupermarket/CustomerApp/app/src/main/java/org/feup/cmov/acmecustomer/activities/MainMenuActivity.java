@@ -52,8 +52,8 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView customerName = findViewById(R.id.customer_name);
         customerName.setText("Hello, " + this.currentCustomer.getName());
 
-        TextView cardNumber = findViewById(R.id.current_payment_option);
-        cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));
+        /*TextView cardNumber = findViewById(R.id.current_payment_option);
+        cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));*/
 
         FloatingActionButton addProductButton = findViewById(R.id.add_new_item_button);
         addProductButton.setOnClickListener(new View.OnClickListener() {

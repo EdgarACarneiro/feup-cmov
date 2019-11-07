@@ -32,4 +32,6 @@
     <string name="confirm_your_purchase">Confirm Your Purchase</string>
     <string name="discount">Do you wish to discount your current store credit to this purchase?</string>
     <string name="go_back">Go Back</string>
+    <string name="current_shopping_order">Current Shopping Order</string>
+    <string name="subtotal">Subtotal:</string>
 </resources>
