@@ -18,6 +18,10 @@ public class ShoppingCart implements Serializable {
         this.products.add(p);
     }
 
+    public void removeProduct(int position) {
+        this.products.remove(position);
+    }
+
     public ArrayList<Product> getProducts() {
         return this.products;
     }

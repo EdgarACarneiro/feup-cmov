@@ -31,7 +31,6 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_confirmation);
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
-        this.currentCustomer.setShoppingCart(this.createProducts());
 
         Spinner coupons = findViewById(R.id.coupon_dropdown);
         ArrayAdapter<String> couponAdapter = new ArrayAdapter<String>(
@@ -47,7 +46,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        ShoppingListAdapter mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart().getProducts());
+        ShoppingListAdapter mAdapter = new ShoppingListAdapter(this, currentCustomer);
         recyclerView.setAdapter(mAdapter);
 
         ImageView cancelButton = findViewById(R.id.cancel);
@@ -65,20 +64,6 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 checkout();
             }
         });
-    }
-
-    //only for testing
-    public ArrayList<Product> createProducts() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
-        return products;
     }
 
     public ArrayList<Coupon> createCoupons() {

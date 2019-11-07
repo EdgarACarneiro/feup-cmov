@@ -22,10 +22,14 @@ import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class MainMenuActivity extends AppCompatActivity {
     private Customer currentCustomer;
+    private ShoppingListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +38,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
 
-        this.currentCustomer.setShoppingCart(this.createProducts());
-
         RecyclerView recyclerView = findViewById(R.id.product_list);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        ShoppingListAdapter mAdapter = new ShoppingListAdapter(currentCustomer.getShoppingCart().getProducts());
-        recyclerView.setAdapter(mAdapter);
+        adapter = new ShoppingListAdapter(this, currentCustomer);
+        recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         TextView customerName = findViewById(R.id.customer_name);
@@ -53,27 +55,11 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView cardNumber = findViewById(R.id.current_payment_option);
         cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));
 
-        TextView cartValue = findViewById(R.id.shopping_cart_value);
-        cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
-
         FloatingActionButton addProductButton = findViewById(R.id.add_new_item_button);
         addProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addProduct();
-            }
-        });
-
-        FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
-        if(recyclerView.getAdapter().getItemCount() > 0) {
-            checkoutButton.show();
-        } else {
-            checkoutButton.hide();
-        }
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkout();
+                scanProduct();
             }
         });
     }
@@ -85,24 +71,31 @@ public class MainMenuActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT");
                 if (contents != null){
-                    Toast.makeText(this, contents, Toast.LENGTH_LONG).show();
+                    addProduct(contents);
                 }
             }
         }
     }
 
-    //only for testing
-    public ArrayList<Product> createProducts() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
-        return products;
+    public void addProduct(String contents) {
+        byte[] result = contents.getBytes(StandardCharsets.ISO_8859_1);
+        ByteBuffer buffer = ByteBuffer.wrap(result);
+        int tagID = buffer.getInt();
+        UUID uuid = new UUID(buffer.getLong(), buffer.getLong());
+        int euros = buffer.getInt();
+        int cents = buffer.getInt();
+        byte[] pName = new byte[buffer.get()];
+        buffer.get(pName);
+        String productName = new String(pName, StandardCharsets.ISO_8859_1);
+
+        Product p = new Product(uuid.toString(), productName, euros, cents);
+
+        this.adapter.addProduct(p);
+    }
+
+    public void updateCartValue() {
+        TextView cartValue = findViewById(R.id.shopping_cart_value);
+        cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
     }
 
     public void checkout() {
@@ -111,7 +104,7 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addProduct() {
+    public void scanProduct() {
         try {
             Intent intent = new Intent("com.google.zxing.client.android.SCAN");
             intent.putExtra("SCAN_MODE",  "QR_CODE_MODE");
@@ -122,7 +115,6 @@ public class MainMenuActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }
-        //add product to products array logic here
     }
 
     public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
