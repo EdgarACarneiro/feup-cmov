@@ -15,7 +15,7 @@ import org.feup.cmov.terminalapp.services.Checkout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String CHECKOUT_ADDRESS = "192.168.1.106.:5000";
+    private static final String CHECKOUT_ADDRESS = "3da5e10e.ngrok.io";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("Not being called");
 
         if (requestCode == 0 && resultCode == RESULT_OK) {
             String contents = data.getStringExtra("SCAN_RESULT");
