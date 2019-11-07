@@ -24,7 +24,9 @@ import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -95,7 +97,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void updateCartValue() {
         TextView cartValue = findViewById(R.id.shopping_cart_value);
-        cartValue.setText(this.currentCustomer.getShoppingCartValue() + "€");
+        cartValue.setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
     }
 
     public void checkout() {

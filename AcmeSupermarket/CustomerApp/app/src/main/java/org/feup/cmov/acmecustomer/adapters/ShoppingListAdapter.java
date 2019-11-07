@@ -15,6 +15,8 @@ import org.feup.cmov.acmecustomer.activities.MainMenuActivity;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 
+import java.util.Locale;
+
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder> {
     private Customer customer;
     private Product recentlyDeletedProduct;
@@ -45,7 +47,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public void onBindViewHolder(ShoppingListViewHolder holder, int position) {
         holder.productName.setText(this.customer.getShoppingCart().getProducts().get(position).getName());
-        holder.productPrice.setText(this.customer.getShoppingCart().getProducts().get(position).getFullPrice() + "€");
+        holder.productPrice.setText(String.format(Locale.US, "%.2f €", this.customer.getShoppingCart().getProducts().get(position).getFullPrice()));
     }
 
     @Override

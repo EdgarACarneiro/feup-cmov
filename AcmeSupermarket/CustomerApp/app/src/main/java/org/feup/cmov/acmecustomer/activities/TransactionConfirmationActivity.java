@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
@@ -20,6 +21,7 @@ import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TransactionConfirmationActivity extends AppCompatActivity {
     private Customer currentCustomer;
@@ -32,6 +34,8 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
 
+        ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
+
         Spinner coupons = findViewById(R.id.coupon_dropdown);
         ArrayAdapter<String> couponAdapter = new ArrayAdapter<String>(
                 this,
@@ -40,6 +44,28 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         );
         couponAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         coupons.setAdapter(couponAdapter);
+        coupons.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i > 0) {
+                    double subtotal = currentCustomer.getShoppingCartValue();
+                    double discount = 0.15 * subtotal;
+                    ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", subtotal));
+                    ((TextView) findViewById(R.id.discount_value)).setText(String.format(Locale.US, "%.2f €", -discount));
+                    ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", subtotal - discount));
+                    findViewById(R.id.coupon_discount_info).setVisibility(View.VISIBLE);
+                } else {
+                    ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
+                    findViewById(R.id.coupon_discount_info).setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
+                findViewById(R.id.coupon_discount_info).setVisibility(View.GONE);
+            }
+        });
 
         RecyclerView recyclerView = findViewById(R.id.product_list);
 

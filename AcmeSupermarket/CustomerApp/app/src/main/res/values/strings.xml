@@ -25,7 +25,7 @@
     <string name="dont_have_account">Don\'t have an account? Register instead!</string>
     <string name="your_shopping_cart">Current Cart Value: </string>
     <string name="customer_name">Customer Name</string>
-    <string name="shopping_value">Value</string>
+    <string name="shopping_value">--.-- €</string>
     <string name="current_payment_option">Current Payment Option</string>
     <string name="confirm_purchase">Confirm Purchase</string>
     <string name="coupon">Coupon</string>
@@ -34,4 +34,6 @@
     <string name="go_back">Go Back</string>
     <string name="current_shopping_order">Current Shopping Order</string>
     <string name="subtotal">Subtotal:</string>
+    <string name="total">Total:</string>
+    <string name="discount_value">Discount Value:</string>
 </resources>
