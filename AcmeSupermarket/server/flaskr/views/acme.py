@@ -38,7 +38,9 @@ def checkout():
     print(content)
 
     content = request.data[: -64]
-    uuid = bytes_to_string(content[36:])
+    print(content[0:36])
+    uuid = bytes_to_string(content[0:36])
+    print(uuid)
     signature = content[-64:]
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',

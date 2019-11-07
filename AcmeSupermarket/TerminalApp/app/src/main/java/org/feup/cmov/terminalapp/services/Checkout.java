@@ -36,9 +36,10 @@ public class Checkout extends HttpClient implements Runnable {
 
             System.out.println(urlConnection.getOutputStream());
             DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
-            byte[] msg = this.checkoutMsg.getBytes("UTF8");
-            System.out.println(Arrays.toString(msg));
-            outputStream.writeBytes(this.checkoutMsg);
+
+            byte[] msg = this.checkoutMsg.getBytes("ISO_8859_1");
+            System.out.println(Arrays.toString(msg)); // TODO-Delete
+            outputStream.write(msg, 0, msg.length);
 
             outputStream.flush();
             outputStream.close();
