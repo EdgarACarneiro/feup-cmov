@@ -32,6 +32,7 @@ import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
+import android.util.Base64;
 import java.util.Hashtable;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
@@ -91,20 +92,20 @@ public class CheckoutActivity extends AppCompatActivity {
         );
         byte[] items = this.currentCustomer.getShoppingCart().getAsBytes();
         byte[] msg = concaByteArrays(uuid, items);
+        System.out.println(LocalStorage.getCurrentUuid(this.getApplicationContext()));
+        System.out.println(Base64.encodeToString(uuid, Base64.DEFAULT));
 
         byte[] discountByte = new byte[1];
         discountByte[0] = (byte) (discount? 1 : 0);
         msg = concaByteArrays(msg, discountByte);
 
         byte[] voucherBytes = ByteBuffer.allocate(4).putInt(voucherID).array();
-        msg = concaByteArrays(msg, voucherBytes);
+        msg = toBase64(concaByteArrays(msg, voucherBytes));
 
         // Signing everything
-        try {
-            Log.d("Assinatura", new String(this.currentCustomer.signMsg(msg), "ISO_8859_1"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        Log.d("String", Base64.encodeToString(this.currentCustomer.signMsg(msg), Base64.DEFAULT));
+        Log.d("Size", Integer.toString(Base64.encodeToString(this.currentCustomer.signMsg(msg), Base64.DEFAULT).length()));
+
         byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
         System.out.println(Arrays.toString(content));
 

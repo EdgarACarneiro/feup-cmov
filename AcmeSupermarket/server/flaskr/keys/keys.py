@@ -9,20 +9,20 @@ from cryptography.exceptions import InvalidSignature
 import click
 from flask import current_app
 from flask.cli import with_appcontext
-from ..utils import string_to_bytes
+from ..utils import encode
 
 
 def public_key_to_bytes(key):
-    """Convert the given private key into bytes"""
+    """Convert the given public key into bytes"""
     return key.public_bytes(
-        encoding=serialization.Encoding.PEM,
+        encoding=serialization.Encoding.DER,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
 
-def public_key_from_bytes(key_as_bytes):
-    """Read the public key from the given bytes"""
-    return serialization.load_pem_public_key(
+def user_key_from_bytes(key_as_bytes):
+    """Read the user public key from the given bytes"""
+    return serialization.load_der_public_key(
         key_as_bytes,
         backend=default_backend()
     )
@@ -31,11 +31,8 @@ def public_key_from_bytes(key_as_bytes):
 def sign(private_key, message):
     """Sign the given message using the given private key"""
     return private_key.sign(
-        string_to_bytes(message),
-        padding=padding.PSS(
-            mgf=padding.MGF1(hashes.SHA1()),
-            salt_length=20
-        ),
+        message,
+        padding=padding.PKCS1v15(),
         algorithm=hashes.SHA256()
     )
 
@@ -50,10 +47,6 @@ def verify(public_key, signature, data):
             signature=signature,
             data=data,
             padding=padding.PKCS1v15(),
-            # PSS(
-            #     mgf=padding.MGF1(hashes.SHA256()),
-            #     salt_length=padding.PSS.MAX_LENGTH
-            # ),
             algorithm=hashes.SHA256()
         )
     except InvalidSignature:
@@ -85,7 +78,10 @@ def init_keys(keys_folder: str):
     # Writing public key
     with open('%s/public_key.pem' % keys_folder, 'wb') as f:
         f.write(
-            public_key_to_bytes(public_key)
+            public_key.public_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PublicFormat.SubjectPublicKeyInfo
+            )
         )
 
 
