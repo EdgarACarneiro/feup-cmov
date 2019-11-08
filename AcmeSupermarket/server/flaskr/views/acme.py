@@ -1,14 +1,19 @@
-import base64
-
 from flask import (
     Blueprint, flash, g, request, session, current_app, request, abort, json
 )
-from flaskr.keys.keys import sign, verify, user_key_from_bytes, load_keys
+from flaskr.keys.keys import (
+    sign, verify, user_key_from_bytes, load_keys
+)
+from ..utils import (
+    generic_error_handler, gen_UUID, decode, encode, b64_decode, b64_encode
+)
+from flaskr.db.db import get_db
 
 acme = Blueprint('acme', __name__)
 
-from ..utils import generic_error_handler, gen_UUID, bytes_to_string
-from flaskr.db.db import get_db
+SIGNATURE_BASE64_SIZE = 90
+UUID_BASE64_SIZE = 48
+
 
 @acme.route('/get-products', methods=['GET'])
 def get_products():
@@ -17,31 +22,60 @@ def get_products():
     products = db.execute(
         'SELECT * FROM product'
     ).fetchall()
-    # Converting rows to dictionaries
-    products = [
-        dict(prod)
+
+    # Converting to tag format
+    encoded_prods = [
+        b64_encode(
+            encode('Acme' + prod['code'] + str(prod['price']) +
+                   str(len(prod['prodName'])) + prod['prodName'])
+        )
         for prod in products
     ]
 
+    # Appending signature
+    encoded_prods = list(map(
+        lambda prod:
+            decode(
+                prod + b64_encode(sign(
+                    current_app.config['PRIVATE_KEY'],
+                    prod
+                ))
+            ),
+        encoded_prods
+    ))
+
     return current_app.response_class(
-        response=sign(
-            current_app.config['PRIVATE_KEY'],
-            str(products)
-        ),
+        response=json.dumps(encoded_prods),
         status=200,
         mimetype='application/json'
     )
+
+
+@acme.route('/get-transactions', methods=['GET'])
+def get_transactions():
+    return current_app.response_class(
+        status=200,
+        mimetype='application/json'
+    )
+
+
+@acme.route('/get-vouchers', methods=['GET'])
+def get_vouchers():
+    return current_app.response_class(
+        status=200,
+        mimetype='application/json'
+    )
+
 
 @acme.route('/checkout', methods=['POST'])
 def checkout():
     db = get_db()
 
-    content = request.data[: -90]
-    signature = base64.b64decode(request.data[-90:])
+    content = request.data[: -SIGNATURE_BASE64_SIZE]
+    signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
     # Checking if User exists
-    uuid = bytes_to_string(base64.b64decode(content[0:48]))
-    print(uuid)
+    uuid = decode(b64_decode(content[0:UUID_BASE64_SIZE]))
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -49,19 +83,9 @@ def checkout():
     if user is None:
         abort(401)
 
-    print(request.data)
-    print("---")
-    print(user['userPublicKey'])
-    print("---")
-    print(signature)
-    print(len(signature))
-    print("---")
-    print(request.data[-90:])
-    print("---")
-    print(content)
     # Verifying User through signature
-    if not verify(user_key_from_bytes(user['userPublicKey']),\
-                  signature,\
+    if not verify(user_key_from_bytes(user['userPublicKey']),
+                  signature,
                   content):
         abort(401)
 
@@ -75,7 +99,7 @@ def checkout():
 
     # # Processing shop_list
     # products = {}
-    # for prod in shop_list.split(','): 
+    # for prod in shop_list.split(','):
     #     prod, price = prod.split('-')
     #     if prod not in products:
     #         products[prod] = {
@@ -98,6 +122,7 @@ def handle_unauthorized_request(e):
     return generic_error_handler(
         401, "Attempt of unauthorized access to information."
     )
+
 
 @acme.errorhandler(400)
 def handle_bad_request(e):

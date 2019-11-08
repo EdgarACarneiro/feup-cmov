@@ -1,5 +1,4 @@
 import functools
-import base64
 
 from array import array
 from flask import (
@@ -7,7 +6,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ..utils import generic_error_handler, gen_UUID, bytes_to_string
+from ..utils import generic_error_handler, gen_UUID, decode, b64_decode
 from flaskr.db.db import get_db
 from flaskr.keys.keys import public_key_to_bytes, user_key_from_bytes
 
@@ -17,7 +16,7 @@ auth = Blueprint('auth', __name__, url_prefix='/auth')
 @auth.route('/register', methods=['POST'])
 def register():
     # Extracting from request
-    data = json.loads(bytes_to_string(request.data))
+    data = json.loads(decode(request.data))
 
     db = get_db()
 
@@ -30,17 +29,6 @@ def register():
         not data['paymentInfo']['cardValidity']['month'] or\
         not data['paymentInfo']['cardValidity']['year']:
         abort(400)
-
-    print(public_key_to_bytes(current_app.config["PUBLIC_KEY"]))
-    # public_key = b"-----BEGIN PUBLIC KEY-----\n" +\
-    #              bytes(data['metadata']['publicKey'])[:-1] +\
-    #              b"\n-----END PUBLIC KEY-----\n"
-    public_key = base64.b64decode(data['metadata']['publicKey'][:-1])
-    # print(public_key)
-    # #print(bytes_to_string(public_key))
-    # print(base64.b64decode(public_key))
-    # print(user_key_from_bytes(base64.b64decode(public_key)))
-
 
     if db.execute(
         'SELECT id FROM user WHERE nickname = ?', (
@@ -60,6 +48,7 @@ def register():
 
     # Registering the new USer
     user_uuid = str(gen_UUID())
+    public_key = b64_decode(data['metadata']['publicKey'][:-1])
     db.execute(
         'INSERT INTO user (id, username, nickname, cardNumber,\
                 userPublicKey) VALUES (?, ?, ?, ?, ?)',
@@ -77,7 +66,7 @@ def register():
     return current_app.response_class(
         response=json.dumps({
             'uuid': user_uuid,
-            'public_key': bytes_to_string(
+            'public_key': decode(
                 public_key_to_bytes(current_app.config["PUBLIC_KEY"])
             )
         }),
