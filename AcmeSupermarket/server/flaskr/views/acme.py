@@ -1,7 +1,9 @@
+import base64
+
 from flask import (
     Blueprint, flash, g, request, session, current_app, request, abort, json
 )
-from flaskr.keys.keys import sign, verify, public_key_from_bytes, load_keys
+from flaskr.keys.keys import sign, verify, user_key_from_bytes, load_keys
 
 acme = Blueprint('acme', __name__)
 
@@ -34,11 +36,11 @@ def get_products():
 def checkout():
     db = get_db()
 
-    content = request.data[: -64]
-    signature = bytes(request.data)[-64:]
+    content = request.data[: -90]
+    signature = base64.b64decode(request.data[-90:])
 
     # Checking if User exists
-    uuid = bytes_to_string(content[0:36])
+    uuid = bytes_to_string(base64.b64decode(content[0:48]))
     print(uuid)
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
@@ -47,12 +49,18 @@ def checkout():
     if user is None:
         abort(401)
 
+    print(request.data)
+    print("---")
     print(user['userPublicKey'])
-    print(bytes_to_string(signature))
+    print("---")
+    print(signature)
     print(len(signature))
+    print("---")
+    print(request.data[-90:])
+    print("---")
     print(content)
     # Verifying User through signature
-    if not verify(public_key_from_bytes(user['userPublicKey']),\
+    if not verify(user_key_from_bytes(user['userPublicKey']),\
                   signature,\
                   content):
         abort(401)

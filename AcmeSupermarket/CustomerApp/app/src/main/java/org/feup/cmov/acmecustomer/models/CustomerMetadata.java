@@ -33,7 +33,7 @@ public class CustomerMetadata implements Serializable {
     private String password;
     private KeyPair keyPair;
     @Expose
-    private byte[] publicKey;
+    private String publicKey;
 
     protected CustomerMetadata(String name, String username, String password) {
         this.name = name;
@@ -66,14 +66,16 @@ public class CustomerMetadata implements Serializable {
         }
 
         // Needed for json serialization on Registration
-        publicKey =  new byte[0];
+        /*publicKey =  new byte[0];
         byte[] encodedKey = Base64.encode(this.keyPair.getPublic().getEncoded(), Base64.DEFAULT);
         for (int i = 0; i < encodedKey.length; i += 64) {
             if (i + 64 < encodedKey.length)
                 publicKey = concaByteArrays(publicKey, Arrays.copyOfRange(encodedKey, i, i + 64));
             else
                 publicKey = concaByteArrays(publicKey, Arrays.copyOfRange(encodedKey, i, encodedKey.length));
-        }
+        }*/
+        publicKey = Base64.encodeToString(this.keyPair.getPublic().getEncoded(), Base64.DEFAULT);
+        //publicKey = Base64.encode(this.keyPair.getPublic().getEncoded(), Base64.DEFAULT);
     }
 
     protected String getName() {

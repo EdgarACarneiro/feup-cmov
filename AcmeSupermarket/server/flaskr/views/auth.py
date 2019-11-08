@@ -1,4 +1,5 @@
 import functools
+import base64
 
 from array import array
 from flask import (
@@ -8,7 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..utils import generic_error_handler, gen_UUID, bytes_to_string
 from flaskr.db.db import get_db
-from flaskr.keys.keys import public_key_to_bytes
+from flaskr.keys.keys import public_key_to_bytes, user_key_from_bytes
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -30,9 +31,16 @@ def register():
         not data['paymentInfo']['cardValidity']['year']:
         abort(400)
 
-    public_key = b"-----BEGIN PUBLIC KEY-----\n" +\
-                 bytes(data['metadata']['publicKey'])[:-1] +\
-                 b"\n-----END PUBLIC KEY-----\n"
+    print(public_key_to_bytes(current_app.config["PUBLIC_KEY"]))
+    # public_key = b"-----BEGIN PUBLIC KEY-----\n" +\
+    #              bytes(data['metadata']['publicKey'])[:-1] +\
+    #              b"\n-----END PUBLIC KEY-----\n"
+    public_key = base64.b64decode(data['metadata']['publicKey'][:-1])
+    # print(public_key)
+    # #print(bytes_to_string(public_key))
+    # print(base64.b64decode(public_key))
+    # print(user_key_from_bytes(base64.b64decode(public_key)))
+
 
     if db.execute(
         'SELECT id FROM user WHERE nickname = ?', (

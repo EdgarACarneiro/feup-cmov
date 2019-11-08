@@ -13,16 +13,16 @@ from ..utils import string_to_bytes
 
 
 def public_key_to_bytes(key):
-    """Convert the given private key into bytes"""
+    """Convert the given public key into bytes"""
     return key.public_bytes(
-        encoding=serialization.Encoding.PEM,
+        encoding=serialization.Encoding.DER,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
 
-def public_key_from_bytes(key_as_bytes):
-    """Read the public key from the given bytes"""
-    return serialization.load_pem_public_key(
+def user_key_from_bytes(key_as_bytes):
+    """Read the user public key from the given bytes"""
+    return serialization.load_der_public_key(
         key_as_bytes,
         backend=default_backend()
     )
@@ -85,7 +85,10 @@ def init_keys(keys_folder: str):
     # Writing public key
     with open('%s/public_key.pem' % keys_folder, 'wb') as f:
         f.write(
-            public_key_to_bytes(public_key)
+            public_key.public_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PublicFormat.SubjectPublicKeyInfo
+            )
         )
 
 
