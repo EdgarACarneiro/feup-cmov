@@ -35,10 +35,11 @@ def checkout():
     db = get_db()
 
     content = request.data[: -64]
-    signature = content[-64:]
+    signature = bytes(request.data)[-64:]
 
     # Checking if User exists
     uuid = bytes_to_string(content[0:36])
+    print(uuid)
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -47,6 +48,9 @@ def checkout():
         abort(401)
 
     print(user['userPublicKey'])
+    print(bytes_to_string(signature))
+    print(len(signature))
+    print(content)
     # Verifying User through signature
     if not verify(public_key_from_bytes(user['userPublicKey']),\
                   signature,\

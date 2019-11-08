@@ -32,7 +32,7 @@ def register():
 
     public_key = b"-----BEGIN PUBLIC KEY-----\n" +\
                  bytes(data['metadata']['publicKey'])[:-1] +\
-                 b"\n-----END PUBLIC KEY-----"
+                 b"\n-----END PUBLIC KEY-----\n"
 
     if db.execute(
         'SELECT id FROM user WHERE nickname = ?', (

@@ -65,7 +65,8 @@ public class CustomerMetadata implements Serializable {
             e.printStackTrace();
         }
 
-        // Needed for json serialization on RegistrationpublicKey =  new byte[0];
+        // Needed for json serialization on Registration
+        publicKey =  new byte[0];
         byte[] encodedKey = Base64.encode(this.keyPair.getPublic().getEncoded(), Base64.DEFAULT);
         for (int i = 0; i < encodedKey.length; i += 64) {
             if (i + 64 < encodedKey.length)

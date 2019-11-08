@@ -33,8 +33,8 @@ def sign(private_key, message):
     return private_key.sign(
         string_to_bytes(message),
         padding=padding.PSS(
-            mgf=padding.MGF1(hashes.SHA256()),
-            salt_length=padding.PSS.MAX_LENGTH
+            mgf=padding.MGF1(hashes.SHA1()),
+            salt_length=20
         ),
         algorithm=hashes.SHA256()
     )
@@ -49,10 +49,11 @@ def verify(public_key, signature, data):
         public_key.verify(
             signature=signature,
             data=data,
-            padding=padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
+            padding=padding.PKCS1v15(),
+            # PSS(
+            #     mgf=padding.MGF1(hashes.SHA256()),
+            #     salt_length=padding.PSS.MAX_LENGTH
+            # ),
             algorithm=hashes.SHA256()
         )
     except InvalidSignature:

@@ -24,6 +24,10 @@ public class Utils {
         return null;
     }
 
+    public static byte[] toBase64(byte[] array) {
+        return Base64.encode(array, Base64.DEFAULT);
+    }
+
     public static byte[] concaByteArrays(byte[] a, byte[] b) {
         byte[] res = new byte[a.length + b.length];
         System.arraycopy(a, 0, res, 0, a.length);

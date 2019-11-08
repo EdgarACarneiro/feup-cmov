@@ -2,7 +2,6 @@ package org.feup.cmov.acmecustomer.models;
 
 import com.google.gson.annotations.Expose;
 
-import org.feup.cmov.acmecustomer.interfaces.QRCodeInterface;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 
 import java.io.Serializable;

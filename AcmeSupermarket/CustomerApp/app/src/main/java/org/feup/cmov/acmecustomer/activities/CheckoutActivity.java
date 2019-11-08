@@ -23,6 +23,7 @@ import org.feup.cmov.acmecustomer.models.ShoppingCart;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
+import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -98,7 +100,12 @@ public class CheckoutActivity extends AppCompatActivity {
         msg = concaByteArrays(msg, voucherBytes);
 
         // Signing everything
-        byte[] content = concaByteArrays(msg, this.currentCustomer.signMsg(msg));
+        try {
+            Log.d("Assinatura", new String(this.currentCustomer.signMsg(msg), "ISO_8859_1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
         System.out.println(Arrays.toString(content));
 
         // As QRCode message
