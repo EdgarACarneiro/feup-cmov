@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
+
 public class CheckoutActivity extends AppCompatActivity {
 
     private Customer currentCustomer;
@@ -78,14 +80,6 @@ public class CheckoutActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
         return bitmap;
-    }
-
-    private byte[] concaByteArrays(byte[] a, byte[] b) {
-        byte[] res = new byte[a.length + b.length];
-        System.arraycopy(a, 0, res, 0, a.length);
-        System.arraycopy(b, 0, res, a.length, b.length);
-
-        return res;
     }
 
     private void generateQRCode() {

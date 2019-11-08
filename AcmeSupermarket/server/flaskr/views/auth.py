@@ -13,18 +13,6 @@ from flaskr.keys.keys import public_key_to_bytes
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@auth.before_app_request
-def load_logged_in_user():
-    user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
-
-
 @auth.route('/register', methods=['POST'])
 def register():
     # Extracting from request
@@ -33,16 +21,18 @@ def register():
     db = get_db()
 
     if not data['metadata']['name'] or\
-            not data['metadata']['username'] or\
-            not data['metadata']['password'] or\
-            not data['metadata']['publicKey'] or\
-            not data['paymentInfo']['CVV'] or\
-            not data['paymentInfo']['cardNumber'] or\
-            not data['paymentInfo']['cardValidity']['month'] or\
-            not data['paymentInfo']['cardValidity']['year']:
+        not data['metadata']['username'] or\
+        not data['metadata']['password'] or\
+        not data['metadata']['publicKey'] or\
+        not data['paymentInfo']['CVV'] or\
+        not data['paymentInfo']['cardNumber'] or\
+        not data['paymentInfo']['cardValidity']['month'] or\
+        not data['paymentInfo']['cardValidity']['year']:
         abort(400)
 
-    public_key = array('b', data['metadata']['publicKey'])
+    public_key = b"-----BEGIN PUBLIC KEY-----\n" +\
+                 bytes(data['metadata']['publicKey'])[:-1] +\
+                 b"\n-----END PUBLIC KEY-----"
 
     if db.execute(
         'SELECT id FROM user WHERE nickname = ?', (
@@ -87,45 +77,6 @@ def register():
         mimetype='application/json'
     )
 
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return abort(415)
-
-        return view(**kwargs)
-
-    return wrapped_view
-
-
-@auth.route('/login', methods=['POST'])
-def login():
-    username = request.form['nick']
-    password = request.form['password']
-    db = get_db()
-    error = None
-    user = db.execute(
-        'SELECT * FROM user WHERE username = ?', (username)
-    ).fetchone()
-
-    if user is None:
-        error = 'Incorrect username.'
-    elif not check_password_hash(user['password'], password):
-        error = 'Incorrect password.'
-
-    if error is None:
-        session.clear()
-        session['user_id'] = user['id']
-        return current_app.response_class(
-            response={},
-            status=200,
-            mimetype='application/json'
-        )
-
-    flash(error)
-
-    return abort(500)
 
 # Customized Error handlers
 @auth.errorhandler(400)

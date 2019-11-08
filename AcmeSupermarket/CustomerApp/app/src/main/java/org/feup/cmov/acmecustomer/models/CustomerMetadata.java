@@ -2,20 +2,26 @@ package org.feup.cmov.acmecustomer.models;
 
 import android.content.Context;
 import android.security.KeyPairGeneratorSpec;
+import android.util.Base64;
 
 import com.google.gson.annotations.Expose;
 
 import org.feup.cmov.acmecustomer.Constants;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.security.auth.x500.X500Principal;
+
+import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 
 public class CustomerMetadata implements Serializable {
     private Context context;
@@ -59,8 +65,14 @@ public class CustomerMetadata implements Serializable {
             e.printStackTrace();
         }
 
-        // Needed for json serialization on Registration
-        this.publicKey = this.keyPair.getPublic().getEncoded();
+        // Needed for json serialization on RegistrationpublicKey =  new byte[0];
+        byte[] encodedKey = Base64.encode(this.keyPair.getPublic().getEncoded(), Base64.DEFAULT);
+        for (int i = 0; i < encodedKey.length; i += 64) {
+            if (i + 64 < encodedKey.length)
+                publicKey = concaByteArrays(publicKey, Arrays.copyOfRange(encodedKey, i, i + 64));
+            else
+                publicKey = concaByteArrays(publicKey, Arrays.copyOfRange(encodedKey, i, encodedKey.length));
+        }
     }
 
     protected String getName() {

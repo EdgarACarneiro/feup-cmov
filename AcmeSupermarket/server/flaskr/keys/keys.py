@@ -20,7 +20,16 @@ def public_key_to_bytes(key):
     )
 
 
+def public_key_from_bytes(key_as_bytes):
+    """Read the public key from the given bytes"""
+    return serialization.load_pem_public_key(
+        key_as_bytes,
+        backend=default_backend()
+    )
+
+
 def sign(private_key, message):
+    """Sign the given message using the given private key"""
     return private_key.sign(
         string_to_bytes(message),
         padding=padding.PSS(
@@ -91,6 +100,7 @@ def load_keys(keys_folder: str):
 
     # Reading public key
     with open('%s/public_key.pem' % keys_folder, "rb") as f:
+        #print(f.read())
         public_key = serialization.load_pem_public_key(
             f.read(),
             backend=default_backend()

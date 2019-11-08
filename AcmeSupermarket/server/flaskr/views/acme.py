@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, request, session, current_app, request, abort, json
 )
-from flaskr.keys.keys import sign, verify
+from flaskr.keys.keys import sign, verify, public_key_from_bytes, load_keys
 
 acme = Blueprint('acme', __name__)
 
@@ -37,7 +37,7 @@ def checkout():
     content = request.data[: -64]
     signature = content[-64:]
 
-    # Checking User
+    # Checking if User exists
     uuid = bytes_to_string(content[0:36])
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
@@ -47,8 +47,13 @@ def checkout():
         abort(401)
 
     print(user['userPublicKey'])
+    # Verifying User through signature
+    if not verify(public_key_from_bytes(user['userPublicKey']),\
+                  signature,\
+                  content):
+        abort(401)
 
-    # if verify()
+    # Analyzing content
 
     # checkout_info = bytes_to_string(content).split(';')
     # if len(checkout_info) != 4:
