@@ -1,13 +1,13 @@
 package org.feup.cmov.acmecustomer.models;
 
 public class Coupon {
-    private String description;
+    private Integer id;
 
-    public Coupon(String description) {
-        this.description = description;
+    public Coupon(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
-        return this.description;
+        return "Voucher "  + this.id.toString();
     }
 }

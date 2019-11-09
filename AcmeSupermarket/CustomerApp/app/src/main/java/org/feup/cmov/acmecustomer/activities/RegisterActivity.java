@@ -15,7 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.feup.cmov.acmecustomer.R;
-import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;

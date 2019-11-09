@@ -79,12 +79,7 @@ public class MainMenuActivity extends AppCompatActivity {
         customerName.setText("Hello, " + this.currentCustomer.getName());
 
         ImageView pastTransactions = findViewById(R.id.past_transactions);
-        pastTransactions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPastTransactionsDialog(view.getContext());
-            }
-        });
+        pastTransactions.setOnClickListener(view -> showPastTransactionsDialog(view.getContext()));
 
         FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
         if(this.currentCustomer.getShoppingCart().getProducts().size() > 0) {
@@ -92,20 +87,10 @@ public class MainMenuActivity extends AppCompatActivity {
         } else {
             checkoutButton.hide();
         }
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkout();
-            }
-        });
+        checkoutButton.setOnClickListener(view -> checkout());
 
         FloatingActionButton addProductButton = findViewById(R.id.add_new_item_button);
-        addProductButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scanProduct();
-            }
-        });
+        addProductButton.setOnClickListener(view -> scanProduct());
     }
 
     @Override
@@ -253,12 +238,7 @@ public class MainMenuActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         ImageButton closeButton = dialog.findViewById(R.id.close_button);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
+        closeButton.setOnClickListener(view -> dialog.cancel());
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dialogWidth = (int)(displayMetrics.widthPixels);
@@ -275,12 +255,12 @@ public class MainMenuActivity extends AppCompatActivity {
         cart.addProduct(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
 
         ArrayList<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), true, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), true, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(1), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(2), true, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(2), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(3), true, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(3), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(4), false, new Date()));
         return transactions;
     }
 }
