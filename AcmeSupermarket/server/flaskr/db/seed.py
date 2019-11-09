@@ -31,11 +31,11 @@ def seed_db():
 
     # Create Products
     prods = [
-        ('prod1', '099', 'Trident Fruit'),
-        ('prod2', '199', 'Ruffles'),
-        ('prod3', '199', 'Ketchup'),
-        ('prod4', '016', 'Water Luso 0.5L'),
-        ('prod5', '1420', 'Wine Tapada Das Lebres 1L')
+        ('4dadae03-06c6-4a18-9eed-18c8a34db686', 99, 'Trident Fruit'),
+        ('4dadae03-06c6-4a18-9eed-48c8a34db686', 199, 'Ruffles'),
+        ('4dadae03-06c6-4a18-9eed-38c8a34db686', 199, 'Ketchup'),
+        ('4dadae03-06c6-4a18-9eed-68c8a34db686', 16, 'Water Luso 0.5L'),
+        ('4dadae03-06c6-4a18-9eed-78c8a34db686', 1420, 'Wine Tapada Das Lebres 1L')
     ]
     for prod in prods:
         db.execute(

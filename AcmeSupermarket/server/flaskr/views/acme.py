@@ -9,6 +9,7 @@ from ..utils import (
 )
 from flaskr.db.db import get_db
 from struct import pack
+import uuid
 
 acme = Blueprint('acme', __name__)
 
@@ -25,33 +26,22 @@ def get_products():
     ).fetchall()
 
     # Converting to tag format
-    print(len(products[0]['prodName']))
-    print(int(products[0]['price']) // 100)
-    print(int(products[0]['price']) % 100)
-    encoded_prods = [
-        b64_encode(
-            pack('4s', encode('Acme')) +
-            pack('16s', encode(prod['code'])) +
-            pack('=i', int(prod['price']) // 100) +
-            pack('=i', int(prod['price']) % 100) +
-            pack('=h', len(prod['prodName'])) +
-            pack('34s', encode(prod['prodName']))
+    encoded_prods = []
+    for prod in products:
+        code = uuid.UUID('{' + prod['code'] + '}')
+        euros = int(prod['price'] // 100)
+        cents = int(prod['price'] % 100)
+
+        encoded_prods.append(
+            b64_encode(
+                pack('4s', encode('Acme')) +
+                pack('16s', code.bytes) +
+                pack('>i', euros) +
+                pack('>i', cents) +
+                pack('b', len(prod['prodName'])) +
+                pack('35s', encode(prod['prodName']))
+            )
         )
-        for prod in products
-    ]
-
-    for p in encoded_prods:
-        print(len(p))
-        print(p + b64_encode(sign(
-            current_app.config['PRIVATE_KEY'],
-            p
-        )))
-
-    for p in encoded_prods:
-        print(len(b64_encode(sign(
-            current_app.config['PRIVATE_KEY'],
-            p
-        ))))
 
     # Appending signature
     encoded_prods = list(map(
