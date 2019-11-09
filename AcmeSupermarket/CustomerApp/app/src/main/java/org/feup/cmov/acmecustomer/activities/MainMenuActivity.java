@@ -44,7 +44,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import static org.feup.cmov.acmecustomer.Utils.decode;
 import static org.feup.cmov.acmecustomer.Utils.encode;
 import static org.feup.cmov.acmecustomer.Utils.fromBase64;
 
@@ -143,15 +142,14 @@ public class MainMenuActivity extends AppCompatActivity {
         byte[] signature = Arrays.copyOfRange(
                 message, message.length - SIGNATURE_BASE64_SIZE, message.length
         );
-        byte[] content = fromBase64(Arrays.copyOfRange(
+        byte[] content = Arrays.copyOfRange(
                 message, 0, message.length - SIGNATURE_BASE64_SIZE
-        ));
+        );
 
         // Todo - Refactor
         // Signature Validation
         boolean verified = false;
         try {
-                // TODO - Pode ser que no registo falte pessoar a chave em Base64
                 Signature sign = Signature.getInstance("SHA256withRSA");
                 sign.initVerify(
                         KeyStoreHandler.getKeyFromBytes(
@@ -166,8 +164,10 @@ public class MainMenuActivity extends AppCompatActivity {
         if (!verified) {
             System.out.println("NOT working");
             // Todo - Handle error
-            // return;
+            return;
         }
+
+        content = fromBase64(content);
 
         // Extracting Acme signature
         String acmeSig = encode(Arrays.copyOfRange(content, 0, 4));

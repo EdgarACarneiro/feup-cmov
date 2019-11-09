@@ -72,7 +72,35 @@ def get_transactions():
 
 @acme.route('/get-vouchers', methods=['GET'])
 def get_vouchers():
+    db = get_db()
+
+    content = request.data[: -SIGNATURE_BASE64_SIZE]
+    signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
+
+    # Checking if User exists
+    uuid = decode(b64_decode(content))
+    user = db.execute(
+        'SELECT userPublicKey FROM user WHERE id = ?',
+        (uuid, )
+    ).fetchone()
+    if user is None:
+        abort(401)
+
+    # Verifying User through signature
+    if not verify(user_key_from_bytes(user['userPublicKey']),
+                  signature,
+                  content):
+        abort(401)
+
+    # Getting vouchers
+    vouchers = db.execute(
+        'SELECT id FROM voucher WHERE id = ? AND used = 0',
+        (uuid, )
+    ).fetchall()
+
+    print(vouchers)
     return current_app.response_class(
+        response=json.dumps(vouchers),
         status=200,
         mimetype='application/json'
     )
