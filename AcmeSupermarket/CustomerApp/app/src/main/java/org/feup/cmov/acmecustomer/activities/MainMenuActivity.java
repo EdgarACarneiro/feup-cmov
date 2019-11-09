@@ -144,15 +144,10 @@ public class MainMenuActivity extends AppCompatActivity {
         byte[] content = fromBase64(Arrays.copyOfRange(
                 message, 0, message.length - SIGNATURE_BASE64_SIZE
         ));
-        System.out.println(content.length);
-        System.out.println(encode(content));
-
-        System.out.println("----");
 
         // Extracting Acme signature
         String acmeSig = encode(Arrays.copyOfRange(content, 0, 4));
         content = Arrays.copyOfRange(content, 4, content.length);
-        System.out.println(acmeSig);
 
         // Extracting Product Code
         ByteBuffer buffer = ByteBuffer.wrap(content);
@@ -160,40 +155,21 @@ public class MainMenuActivity extends AppCompatActivity {
                 buffer.getLong(),
                 buffer.getLong()
         )).toString();
-        System.out.println(productCode);
 
         // Extracting Euros Price
         Integer euros = buffer.getInt();
-        System.out.println(euros);
 
         // Extracting Cents Price
         Integer cents = buffer.getInt();
-        System.out.println(cents);
 
         // Extracting Product Name
         byte[] prodNameBytes = new byte[buffer.get()];
         buffer.get(prodNameBytes);
         String prodName = encode(prodNameBytes);
-        System.out.println(prodName);
-        /*
-        ByteBuffer buffer = ByteBuffer.wrap(content);
-        int tagID = buffer.getInt();
-        System.out.println(tagID);
-        buffer.get
-        UUID uuid = new UUID(buffer.getLong(), buffer.getLong());
-        System.out.println(uuid);
-        int euros = buffer.getInt();
-        System.out.println(euros);
-        int cents = buffer.getInt();
-        System.out.println(cents);
-        byte[] pName = new byte[buffer.get()];
-        buffer.get(pName);
-        String productName = new String(pName, StandardCharsets.ISO_8859_1);
-        System.out.println(productName);*/
 
-        Product p = new Product(productCode, prodName, euros, cents);
-
-        this.adapter.addProduct(p);
+        this.adapter.addProduct(
+                new Product(productCode, prodName, euros, cents)
+        );
     }
 
     public void updateCartValue() {
