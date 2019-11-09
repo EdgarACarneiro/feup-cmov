@@ -24,12 +24,18 @@ import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 
+import static org.feup.cmov.acmecustomer.Utils.encode;
+import static org.feup.cmov.acmecustomer.Utils.fromBase64;
+
 public class MainMenuActivity extends AppCompatActivity {
+
+    private static final int SIGNATURE_BASE64_SIZE = 88;
+
     private Customer currentCustomer;
     private ShoppingListAdapter adapter;
 
@@ -109,8 +115,18 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void addProduct(String contents) {
-        byte[] result = contents.getBytes(StandardCharsets.ISO_8859_1);
-        ByteBuffer buffer = ByteBuffer.wrap(result);
+        byte[] message = contents.getBytes(StandardCharsets.ISO_8859_1);
+        byte[] signature = Arrays.copyOfRange(
+                message, message.length - SIGNATURE_BASE64_SIZE, message.length
+        );
+        byte[] content = Arrays.copyOfRange(
+                message, 0, message.length - SIGNATURE_BASE64_SIZE
+        );
+        System.out.println(content.length);
+        System.out.println(encode(content));
+
+        System.out.println(encode(fromBase64(content)));
+        ByteBuffer buffer = ByteBuffer.wrap(content);
         int tagID = buffer.getInt();
         UUID uuid = new UUID(buffer.getLong(), buffer.getLong());
         int euros = buffer.getInt();

@@ -8,6 +8,7 @@ from ..utils import (
     generic_error_handler, gen_UUID, decode, encode, b64_decode, b64_encode
 )
 from flaskr.db.db import get_db
+from struct import pack
 
 acme = Blueprint('acme', __name__)
 
@@ -24,13 +25,33 @@ def get_products():
     ).fetchall()
 
     # Converting to tag format
+    print(len(products[0]['prodName']))
+    print(int(products[0]['price']) // 100)
+    print(int(products[0]['price']) % 100)
     encoded_prods = [
         b64_encode(
-            encode('Acme' + prod['code'] + str(prod['price']) +
-                   str(len(prod['prodName'])) + prod['prodName'])
+            pack('4s', encode('Acme')) +
+            pack('16s', encode(prod['code'])) +
+            pack('=i', int(prod['price']) // 100) +
+            pack('=i', int(prod['price']) % 100) +
+            pack('=h', len(prod['prodName'])) +
+            pack('34s', encode(prod['prodName']))
         )
         for prod in products
     ]
+
+    for p in encoded_prods:
+        print(len(p))
+        print(p + b64_encode(sign(
+            current_app.config['PRIVATE_KEY'],
+            p
+        )))
+
+    for p in encoded_prods:
+        print(len(b64_encode(sign(
+            current_app.config['PRIVATE_KEY'],
+            p
+        ))))
 
     # Appending signature
     encoded_prods = list(map(
@@ -39,7 +60,7 @@ def get_products():
                 prod + b64_encode(sign(
                     current_app.config['PRIVATE_KEY'],
                     prod
-                ))
+                )),
             ),
         encoded_prods
     ))

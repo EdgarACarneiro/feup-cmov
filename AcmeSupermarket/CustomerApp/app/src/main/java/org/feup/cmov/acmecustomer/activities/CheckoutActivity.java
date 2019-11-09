@@ -7,13 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.util.Base64;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.Utils;
@@ -23,16 +23,9 @@ import org.feup.cmov.acmecustomer.models.ShoppingCart;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.interfaces.RSAPrivateKey;
-import java.util.ArrayList;
 import java.util.Arrays;
-import android.util.Base64;
 import java.util.Hashtable;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;

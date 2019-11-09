@@ -28,6 +28,10 @@ public class Utils {
         return Base64.encode(array, Base64.DEFAULT);
     }
 
+    public static byte[] fromBase64(byte[] array) {
+        return Base64.decode(array, Base64.DEFAULT);
+    }
+
     public static byte[] concaByteArrays(byte[] a, byte[] b) {
         byte[] res = new byte[a.length + b.length];
         System.arraycopy(a, 0, res, 0, a.length);
