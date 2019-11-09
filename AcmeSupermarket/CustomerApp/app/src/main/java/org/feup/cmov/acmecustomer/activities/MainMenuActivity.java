@@ -6,11 +6,18 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +25,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
+import org.feup.cmov.acmecustomer.adapters.TransactionListAdapter;
+import org.feup.cmov.acmecustomer.models.Coupon;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
+import org.feup.cmov.acmecustomer.models.ShoppingCart;
+import org.feup.cmov.acmecustomer.models.Transaction;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -59,6 +72,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
         /*TextView cardNumber = findViewById(R.id.current_payment_option);
         cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));*/
+
+        ImageView pastTransactions = findViewById(R.id.past_transactions);
+        pastTransactions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPastTransactionsDialog(view.getContext());
+            }
+        });
 
         FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
         if(this.currentCustomer.getShoppingCart().getProducts().size() > 0) {
@@ -167,5 +188,44 @@ public class MainMenuActivity extends AppCompatActivity {
             this.adapter.deleteProduct(position);
         }
 
+    }
+
+    private void showPastTransactionsDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_past_transactions);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+
+        RecyclerView recyclerView = dialog.findViewById(R.id.transaction_list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(dialog.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        TransactionListAdapter adapter = new TransactionListAdapter(this, createTransactions());
+        recyclerView.setAdapter(adapter);
+
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dialogWidth = (int)(displayMetrics.widthPixels);
+        int dialogHeight = (int)(displayMetrics.heightPixels * 0.85);
+        dialog.getWindow().setLayout(dialogWidth, dialogHeight);
+
+        dialog.show();
+    }
+
+    //precisa de desaparecer depois
+    private ArrayList<Transaction> createTransactions() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.addProduct(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
+        cart.addProduct(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
+
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        return transactions;
     }
 }
