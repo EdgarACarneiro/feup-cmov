@@ -36,4 +36,5 @@
     <string name="subtotal">Subtotal:</string>
     <string name="total">Total:</string>
     <string name="discount_value">Discount Value:</string>
+    <string name="past_transactions">Past Transactions</string>
 </resources>
