@@ -70,7 +70,7 @@ def get_transactions():
     )
 
 
-@acme.route('/get-vouchers', methods=['GET'])
+@acme.route('/get-vouchers', methods=['POST'])
 def get_vouchers():
     db = get_db()
 
@@ -98,9 +98,10 @@ def get_vouchers():
         (uuid, )
     ).fetchall()
 
-    print(vouchers)
     return current_app.response_class(
-        response=json.dumps(vouchers),
+        response=json.dumps({
+            'vouchers': [row['id'] for row in vouchers]
+        }),
         status=200,
         mimetype='application/json'
     )
