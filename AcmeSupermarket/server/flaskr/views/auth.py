@@ -6,7 +6,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ..utils import generic_error_handler, gen_UUID, decode, b64_decode
+from ..utils import generic_error_handler, gen_UUID, decode, b64_decode, b64_encode
 from flaskr.db.db import get_db
 from flaskr.keys.keys import public_key_to_bytes, user_key_from_bytes
 
@@ -21,13 +21,13 @@ def register():
     db = get_db()
 
     if not data['metadata']['name'] or\
-        not data['metadata']['username'] or\
-        not data['metadata']['password'] or\
-        not data['metadata']['publicKey'] or\
-        not data['paymentInfo']['CVV'] or\
-        not data['paymentInfo']['cardNumber'] or\
-        not data['paymentInfo']['cardValidity']['month'] or\
-        not data['paymentInfo']['cardValidity']['year']:
+            not data['metadata']['username'] or\
+            not data['metadata']['password'] or\
+            not data['metadata']['publicKey'] or\
+            not data['paymentInfo']['CVV'] or\
+            not data['paymentInfo']['cardNumber'] or\
+            not data['paymentInfo']['cardValidity']['month'] or\
+            not data['paymentInfo']['cardValidity']['year']:
         abort(400)
 
     if db.execute(
@@ -66,9 +66,9 @@ def register():
     return current_app.response_class(
         response=json.dumps({
             'uuid': user_uuid,
-            'public_key': decode(
+            'public_key': decode(b64_encode(
                 public_key_to_bytes(current_app.config["PUBLIC_KEY"])
-            )
+            ))
         }),
         status=201,
         mimetype='application/json'

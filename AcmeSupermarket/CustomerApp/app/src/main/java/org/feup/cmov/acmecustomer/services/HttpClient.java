@@ -1,6 +1,8 @@
 package org.feup.cmov.acmecustomer.services;
 
 
+import org.feup.cmov.acmecustomer.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +16,7 @@ public class HttpClient {
     }
 
     HttpClient() {
-        this.address = "10.0.2.2:5000";
+        this.address = Constants.SERVER_ENDPOINT;
     }
 
     protected String readStream(InputStream in) {

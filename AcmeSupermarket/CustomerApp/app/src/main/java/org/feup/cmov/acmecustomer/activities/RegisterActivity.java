@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.feup.cmov.acmecustomer.R;
+import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
@@ -123,7 +125,8 @@ public class RegisterActivity extends AppCompatActivity {
         Context context = this.getApplicationContext();
         String username = ((EditText)findViewById(R.id.input_username)).getText().toString();
 
-        LocalStorage.setAcmePublicKey(context, response.getPublicKey());
+        Log.d("Acme public key", response.public_key);
+        LocalStorage.setAcmePublicKey(context, response.public_key);
 
         // Setting User credentials
         LocalStorage.write(context, username + "_uuid", response.getUuid());

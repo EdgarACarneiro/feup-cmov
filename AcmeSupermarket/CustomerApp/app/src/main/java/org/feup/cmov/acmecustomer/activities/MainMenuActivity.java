@@ -153,18 +153,20 @@ public class MainMenuActivity extends AppCompatActivity {
         try {
                 // TODO - Pode ser que no registo falte pessoar a chave em Base64
                 Signature sign = Signature.getInstance("SHA256withRSA");
-                sign.update(content);
                 sign.initVerify(
                         KeyStoreHandler.getKeyFromBytes(
                                 LocalStorage.getAcmePublicKey(
                                         this.getApplicationContext())));
+                sign.update(content);
                 verified = sign.verify(signature);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         if (!verified) {
+            System.out.println("NOT working");
             // Todo - Handle error
+            // return;
         }
 
         // Extracting Acme signature

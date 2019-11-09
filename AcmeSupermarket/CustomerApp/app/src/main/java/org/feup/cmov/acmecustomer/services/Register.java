@@ -3,6 +3,7 @@ package org.feup.cmov.acmecustomer.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.interfaces.ResponseCallable;
 import org.feup.cmov.acmecustomer.models.Customer;
 
@@ -16,10 +17,12 @@ public class Register extends HttpClient implements Runnable {
 
         private String uuid;
 
-        private String public_key;
+        public String public_key;
 
         public byte[] getPublicKey() {
-            return this.public_key.substring(27, this.public_key.length() - 26).getBytes();
+            System.out.println("Print public key");
+            System.out.println(public_key);
+            return Utils.decode(public_key);
         }
 
         public String getUuid() {

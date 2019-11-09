@@ -27,15 +27,14 @@ public class LocalStorage {
     }
 
 
-    public static void setAcmePublicKey(Context context, byte[] key) {
-        LocalStorage.write(context,
-                String.valueOf(Constants.ACME_KEY),
-                Utils.encode(key)
-        );
+    public static void setAcmePublicKey(Context context, String key) {
+        LocalStorage.write(context, String.valueOf(Constants.ACME_KEY), key);
     }
 
     public static byte[] getAcmePublicKey(Context context) {
-        return Utils.decode(LocalStorage.read(context, Constants.ACME_KEY));
+        return Utils.fromBase64(
+                Utils.decode(LocalStorage.read(context, Constants.ACME_KEY))
+        );
     }
 
     public static void setCurrentUuid(Context context, String uuid) {
