@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -204,10 +205,17 @@ public class MainMenuActivity extends AppCompatActivity {
         TransactionListAdapter adapter = new TransactionListAdapter(this, createTransactions());
         recyclerView.setAdapter(adapter);
 
+        ImageButton closeButton = dialog.findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dialogWidth = (int)(displayMetrics.widthPixels);
-        int dialogHeight = (int)(displayMetrics.heightPixels * 0.85);
+        int dialogHeight = (int)(displayMetrics.heightPixels * 0.90);
         dialog.getWindow().setLayout(dialogWidth, dialogHeight);
 
         dialog.show();
