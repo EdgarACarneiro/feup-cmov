@@ -32,10 +32,12 @@ import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.models.ShoppingCart;
 import org.feup.cmov.acmecustomer.models.Transaction;
+import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -144,6 +146,26 @@ public class MainMenuActivity extends AppCompatActivity {
         byte[] content = fromBase64(Arrays.copyOfRange(
                 message, 0, message.length - SIGNATURE_BASE64_SIZE
         ));
+
+        // Todo - Refactor
+        // Signature Validation
+        boolean verified = false;
+        try {
+                // TODO - Pode ser que no registo falte pessoar a chave em Base64
+                Signature sign = Signature.getInstance("SHA256withRSA");
+                sign.update(content);
+                sign.initVerify(
+                        KeyStoreHandler.getKeyFromBytes(
+                                LocalStorage.getAcmePublicKey(
+                                        this.getApplicationContext())));
+                verified = sign.verify(signature);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!verified) {
+            // Todo - Handle error
+        }
 
         // Extracting Acme signature
         String acmeSig = encode(Arrays.copyOfRange(content, 0, 4));
