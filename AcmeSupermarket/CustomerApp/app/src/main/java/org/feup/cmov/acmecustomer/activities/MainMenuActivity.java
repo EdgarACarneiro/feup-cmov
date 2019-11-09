@@ -78,9 +78,6 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView customerName = findViewById(R.id.customer_name);
         customerName.setText("Hello, " + this.currentCustomer.getName());
 
-        /*TextView cardNumber = findViewById(R.id.current_payment_option);
-        cardNumber.setText(this.currentCustomer.getPaymentInfo().getMaskedCardNumber("####xxxxxxxxxxxx"));*/
-
         ImageView pastTransactions = findViewById(R.id.past_transactions);
         pastTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,9 +276,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         ArrayList<Transaction> transactions = new ArrayList<>();
         transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), true, new Date()));
         transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
+        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), true, new Date()));
         transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
         transactions.add(new Transaction(this.currentCustomer, cart, new Coupon("Coupon 1"), false, new Date()));
         return transactions;
