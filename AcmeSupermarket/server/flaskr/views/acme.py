@@ -10,11 +10,11 @@ from ..utils import (
 from flaskr.db.db import get_db
 from struct import pack
 import uuid
+import sys
 
 acme = Blueprint('acme', __name__)
 
 SIGNATURE_BASE64_SIZE = 90
-UUID_BASE64_SIZE = 48
 UUID_ENCODED_SIZE = 36
 INTEGER_SIZE = 4
 PRODUCT_SIZE = 4 + 36 + 4 + 4
@@ -138,7 +138,39 @@ def checkout():
                   content):
         abort(401)
 
-    # Analyzing products
+    # Extract voucher and discont - TODO check
+    discont = int.from_bytes(decoded_content[-1:], sys.byteorder) == 1
+    decoded_content = decoded_content[:-1]
+
+    voucher_id = int.from_bytes(decoded_content[-INTEGER_SIZE:], sys.byteorder)
+    decoded_content = decoded_content[:-INTEGER_SIZE]
+
+    print(discont)
+    print(voucher_id)
+
+    # Extractinf products
+    products = {}
+
+    for i in range(0, len(decoded_content) // PRODUCT_SIZE):
+        base = i * PRODUCT_SIZE
+        prod = decoded_content[base: base + PRODUCT_SIZE]
+
+        # Acme tag
+        _ = prod[0: INTEGER_SIZE]
+        prod = prod[INTEGER_SIZE:]
+
+        # Product Code
+        code = decode(prod[:UUID_ENCODED_SIZE])
+        prod = prod[UUID_ENCODED_SIZE:]
+        if code in products:
+            products[code] += 1
+        else:
+            products[code] = 1
+
+        # Prices, maybe do validation
+        prod = prod[2 * INTEGER_SIZE:]
+
+    print(products)
 
 
     return current_app.response_class(
