@@ -80,6 +80,7 @@
         android:backgroundTint="#DD0000"
         android:cropToPadding="false"
         android:tint="@android:color/secondary_text_light_nodisable"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
 </LinearLayout>

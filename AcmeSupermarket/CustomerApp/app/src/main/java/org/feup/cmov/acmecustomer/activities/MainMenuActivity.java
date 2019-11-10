@@ -72,6 +72,9 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView customerName = findViewById(R.id.customer_name);
         customerName.setText("Hello, " + this.currentCustomer.getName());
 
+        TextView couponMessage = findViewById(R.id.new_coupon);
+        couponMessage.setVisibility(View.GONE);
+
         ImageView pastTransactions = findViewById(R.id.past_transactions);
         pastTransactions.setOnClickListener(view -> showPastTransactionsDialog(view.getContext()));
 
