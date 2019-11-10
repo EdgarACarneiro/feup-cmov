@@ -51,7 +51,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
     @Override
     public void onBindViewHolder(TransactionListAdapter.TransactionListViewHolder holder, int position) {
         holder.date.setText(new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(this.transactions.get(position).getDate()));
-        holder.cardNumber.setText(this.transactions.get(position).getCustomer().getPaymentInfo().getMaskedCardNumber("xxxxxxxxxxxx####"));
+        holder.cardNumber.setText(this.transactions.get(position).getCustomer().getPaymentInfo().getMaskedCardNumber("xxxx xxxx xxxx ####"));
 
         if(this.transactions.get(position).getCoupon() != null) {
             holder.usedCoupon.setVisibility(View.VISIBLE);
