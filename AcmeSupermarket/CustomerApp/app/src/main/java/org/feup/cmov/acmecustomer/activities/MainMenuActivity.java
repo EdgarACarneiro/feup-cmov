@@ -85,6 +85,26 @@ public class MainMenuActivity extends AppCompatActivity {
 
         FloatingActionButton addProductButton = findViewById(R.id.add_new_item_button);
         addProductButton.setOnClickListener(view -> scanProduct());
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                int productAmount = currentCustomer.getShoppingCart().getProducts().size();
+                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if(productAmount > 0) checkoutButton.show();
+                    if(productAmount >= 0 && productAmount < 10) addProductButton.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(dy != 0 || recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+                    checkoutButton.hide();
+                    addProductButton.hide();
+                }
+            }
+        });
     }
 
     @Override
