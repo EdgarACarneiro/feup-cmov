@@ -24,24 +24,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         TextView login = findViewById(R.id.dont_have_account);
-        login.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        changeToRegisterScreen();
-                    }
-                }
-        );
+        login.setOnClickListener(view -> changeToRegisterScreen());
 
         Button loginButton = findViewById(R.id.login_button);
-        loginButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onLogin();
-                    }
-                }
-        );
+        loginButton.setOnClickListener(view -> onLogin());
     }
 
     protected void changeToRegisterScreen() {

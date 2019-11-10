@@ -10,4 +10,8 @@ public class Coupon {
     public String getDescription() {
         return "Voucher "  + this.id.toString();
     }
+
+    public Integer getId() {
+        return id;
+    }
 }

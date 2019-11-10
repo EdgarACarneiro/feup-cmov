@@ -28,14 +28,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         TextView login = findViewById(R.id.have_an_account);
-        login.setOnClickListener(
-                view -> changeToLoginScreen()
-        );
+        login.setOnClickListener(view -> changeToLoginScreen());
 
         Button submitButton = findViewById(R.id.submit_button);
-        submitButton.setOnClickListener(
-                view -> onFinishedRegistration()
-        );
+        submitButton.setOnClickListener(view -> onFinishedRegistration());
     }
 
     private void showError(String errorMsg) {

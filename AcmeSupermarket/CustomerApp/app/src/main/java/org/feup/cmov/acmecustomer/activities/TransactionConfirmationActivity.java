@@ -148,15 +148,14 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
     public void checkout() {
         CheckBox customerWantsDiscount = findViewById(R.id.discount);
-        Spinner coupons = findViewById(R.id.coupon_dropdown);
+        selectedCoupon = ((Spinner) findViewById(R.id.coupon_dropdown)).getSelectedItemPosition();
 
         Intent intent = new Intent(this, CheckoutActivity.class);
         intent.putExtra("Customer", this.currentCustomer);
         intent.putExtra("Discount", customerWantsDiscount.isChecked());
         intent.putExtra("Coupon",
-                (couponsList.size() == 0 || selectedCoupon == 0?
-                        null: couponsList.get(selectedCoupon - 1)
-                ).toString()
+                (selectedCoupon == 0? null: couponsList.get(selectedCoupon - 1))
+                        .getId().toString()
         );
 
         startActivity(intent);
