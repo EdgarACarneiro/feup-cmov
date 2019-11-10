@@ -35,16 +35,13 @@ import org.feup.cmov.acmecustomer.models.Transaction;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
-import java.util.UUID;
 
-import static org.feup.cmov.acmecustomer.Utils.encode;
 import static org.feup.cmov.acmecustomer.Utils.fromBase64;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -127,38 +124,15 @@ public class MainMenuActivity extends AppCompatActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+
         if (!verified) {
             System.out.println("NOT working");
             // Todo - Handle error
-            return;
+            // return;
         }
 
-        content = fromBase64(content);
-
-        // Extracting Acme signature
-        String acmeSig = encode(Arrays.copyOfRange(content, 0, 4));
-        content = Arrays.copyOfRange(content, 4, content.length);
-
-        // Extracting Product Code
-        ByteBuffer buffer = ByteBuffer.wrap(content);
-        String productCode = (new UUID(
-                buffer.getLong(),
-                buffer.getLong()
-        )).toString();
-
-        // Extracting Euros Price
-        Integer euros = buffer.getInt();
-
-        // Extracting Cents Price
-        Integer cents = buffer.getInt();
-
-        // Extracting Product Name
-        byte[] prodNameBytes = new byte[buffer.get()];
-        buffer.get(prodNameBytes);
-        String prodName = encode(prodNameBytes);
-
         this.adapter.addProduct(
-                new Product(productCode, prodName, euros, cents)
+                new Product(fromBase64(content))
         );
     }
 

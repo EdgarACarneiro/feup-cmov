@@ -1,7 +1,11 @@
 package org.feup.cmov.acmecustomer.models;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.UUID;
+
+import static org.feup.cmov.acmecustomer.Utils.encode;
 
 public class Product implements Serializable {
 
@@ -35,6 +39,28 @@ public class Product implements Serializable {
         this.UUID = UUID.fromString(uuid);
         this.name = name;
         this.price = new ItemPrice(euros, cents);
+    }
+
+    public Product(byte[] content) {
+        String acmeSig = encode(Arrays.copyOfRange(content, 0, 4));
+        content = Arrays.copyOfRange(content, 4, content.length);
+
+        // Extracting Product Code
+        ByteBuffer buffer = ByteBuffer.wrap(content);
+        this.UUID = new UUID(
+                buffer.getLong(),
+                buffer.getLong()
+        );
+
+        // Extracting Price
+        Integer euros = buffer.getInt();
+        Integer cents = buffer.getInt();
+        this.price = new ItemPrice(euros, cents);
+
+        // Extracting Product Name
+        byte[] prodNameBytes = new byte[buffer.get()];
+        buffer.get(prodNameBytes);
+        this.name = encode(prodNameBytes);
     }
 
     public UUID getUUID() {
