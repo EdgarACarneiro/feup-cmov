@@ -10,11 +10,14 @@ from ..utils import (
 from flaskr.db.db import get_db
 from struct import pack
 import uuid
+import sys
 
 acme = Blueprint('acme', __name__)
 
 SIGNATURE_BASE64_SIZE = 90
-UUID_BASE64_SIZE = 48
+UUID_ENCODED_SIZE = 36
+INTEGER_SIZE = 4
+PRODUCT_SIZE = 4 + 36 + 4 + 4
 
 
 @acme.route('/get-products', methods=['GET'])
@@ -112,10 +115,16 @@ def checkout():
     db = get_db()
 
     content = request.data[: -SIGNATURE_BASE64_SIZE]
+    decoded_content = b64_decode(content)
     signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
+    # Acme tag
+    _ = decoded_content[0: INTEGER_SIZE]
+    decoded_content = decoded_content[INTEGER_SIZE:]
+
     # Checking if User exists
-    uuid = decode(b64_decode(content[0:UUID_BASE64_SIZE]))
+    uuid = decode(decoded_content[:UUID_ENCODED_SIZE])
+    decoded_content = decoded_content[UUID_ENCODED_SIZE:]
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -129,27 +138,40 @@ def checkout():
                   content):
         abort(401)
 
-    # Analyzing content
+    # Extract voucher and discont - TODO check
+    discont = int.from_bytes(decoded_content[-1:], sys.byteorder) == 1
+    decoded_content = decoded_content[:-1]
 
-    # checkout_info = bytes_to_string(content).split(';')
-    # if len(checkout_info) != 4:
-    #     abort(400)
+    voucher_id = int.from_bytes(decoded_content[-INTEGER_SIZE:], sys.byteorder)
+    decoded_content = decoded_content[:-INTEGER_SIZE]
 
-    # uuid, shop_list, voucher, discount = checkout_info
+    print(discont)
+    print(voucher_id)
 
-    # # Processing shop_list
-    # products = {}
-    # for prod in shop_list.split(','):
-    #     prod, price = prod.split('-')
-    #     if prod not in products:
-    #         products[prod] = {
-    #             'price': price,
-    #             'quantity': 1
-    #         }
-    #     else:
-    #         products[prod]['quantity'] += 1
+    # Extractinf products
+    products = {}
 
-    # print(products)
+    for i in range(0, len(decoded_content) // PRODUCT_SIZE):
+        base = i * PRODUCT_SIZE
+        prod = decoded_content[base: base + PRODUCT_SIZE]
+
+        # Acme tag
+        _ = prod[0: INTEGER_SIZE]
+        prod = prod[INTEGER_SIZE:]
+
+        # Product Code
+        code = decode(prod[:UUID_ENCODED_SIZE])
+        prod = prod[UUID_ENCODED_SIZE:]
+        if code in products:
+            products[code] += 1
+        else:
+            products[code] = 1
+
+        # Prices, maybe do validation
+        prod = prod[2 * INTEGER_SIZE:]
+
+    print(products)
+
 
     return current_app.response_class(
         status=200,

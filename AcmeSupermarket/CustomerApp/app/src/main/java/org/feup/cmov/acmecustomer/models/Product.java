@@ -1,5 +1,8 @@
 package org.feup.cmov.acmecustomer.models;
 
+import org.feup.cmov.acmecustomer.Constants;
+import org.feup.cmov.acmecustomer.Utils;
+
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -9,7 +12,9 @@ import static org.feup.cmov.acmecustomer.Utils.encode;
 
 public class Product implements Serializable {
 
-    private UUID UUID;
+    public static final int CHECKOUT_MSG_SIZE = 4 + 36 + 4 + 4;
+
+    private UUID code;
     private String name;
     private ItemPrice price;
 
@@ -36,7 +41,7 @@ public class Product implements Serializable {
     }
 
     public Product(String uuid, String name, int euros, int cents) {
-        this.UUID = UUID.fromString(uuid);
+        this.code = code.fromString(uuid);
         this.name = name;
         this.price = new ItemPrice(euros, cents);
     }
@@ -47,7 +52,7 @@ public class Product implements Serializable {
 
         // Extracting Product Code
         ByteBuffer buffer = ByteBuffer.wrap(content);
-        this.UUID = new UUID(
+        this.code = new UUID(
                 buffer.getLong(),
                 buffer.getLong()
         );
@@ -63,8 +68,8 @@ public class Product implements Serializable {
         this.name = encode(prodNameBytes);
     }
 
-    public UUID getUUID() {
-        return this.UUID;
+    public UUID getCode() {
+        return this.code;
     }
 
     public String getName() {
@@ -79,7 +84,14 @@ public class Product implements Serializable {
         return this.price.getFullPrice();
     }
 
-    public byte[] getProductAsByes() {
-        return null;
+    public byte[] getProductAsBytes() {
+        ByteBuffer buffer = ByteBuffer.allocate(CHECKOUT_MSG_SIZE);
+        buffer.putInt(Constants.ACME_TAG_ID);
+        // buffer.putLong(this.code.getMostSignificantBits());
+        // buffer.putLong(this.code.getLeastSignificantBits());
+        buffer.put(Utils.decode(this.code.toString()));
+        buffer.putInt(this.price.euros);
+        buffer.putInt(this.price.euros);
+        return buffer.array();
     }
 }
