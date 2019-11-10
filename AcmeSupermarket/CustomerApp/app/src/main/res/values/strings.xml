@@ -28,7 +28,7 @@
     <string name="shopping_value">--.-- €</string>
     <string name="current_payment_option">Current Payment Option</string>
     <string name="confirm_purchase">Confirm Purchase</string>
-    <string name="coupon">Coupon</string>
+    <string name="coupon">Voucher</string>
     <string name="confirm_your_purchase">Confirm Your Purchase</string>
     <string name="discount">Do you wish to discount your current store credit to this purchase?</string>
     <string name="go_back">Go Back</string>

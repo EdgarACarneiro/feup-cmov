@@ -32,7 +32,12 @@ import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class TransactionConfirmationActivity extends AppCompatActivity {
 
+    public static final String NO_COUPON_AVAILABLE = "No vouchers available";
+    public static final String NO_COUPON_SELECTED = "No voucher selected";
+
     private Customer currentCustomer;
+
+    private ArrayList<Coupon> couponsList;
 
     int selectedCoupon;
 
@@ -43,11 +48,9 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
 
-        // Depois tirar isto
-        this.currentCustomer.setShoppingCart(createProducts());
-
         // Initializing the coupons as empty for now & make request
-        initializeCouponsDropdown(new ArrayList<>());
+        couponsList = new ArrayList<>();
+        initializeCouponsDropdown();
         requestCoupons();
 
         ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
@@ -67,12 +70,12 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(view -> checkout());
     }
 
-    private void initializeCouponsDropdown(ArrayList<Coupon> couponsList) {
+    private void initializeCouponsDropdown() {
         Spinner coupons = findViewById(R.id.coupon_dropdown);
         ArrayAdapter<String> couponAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
-                getCouponDescriptions(couponsList)
+                getCouponDescriptions()
         );
         couponAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         coupons.setAdapter(couponAdapter);
@@ -111,12 +114,12 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         // Triggering vouchers request to server
         new Thread(new GetVouchers(content, (response) -> {
             if (response != null) {
-                ArrayList<Coupon> coupons = new ArrayList<>();
+                this.couponsList = new ArrayList<>();
 
                 for (int voucherId: response.getVouchers()) {
-                    coupons.add(new Coupon(voucherId));
+                    couponsList.add(new Coupon(voucherId));
                 }
-                initializeCouponsDropdown(coupons);
+                initializeCouponsDropdown();
 
             } else {
                 // Failed Registration - TODO - Detailed Error from Server
@@ -125,36 +128,16 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         })).start();
     }
 
-    public ArrayList<Product> createProducts() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz2", 12, 50));
-        products.add(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz3", 13, 50));
-        return products;
-    }
 
-    public ArrayList<Coupon> createCoupons() {
-        ArrayList<Coupon> coupons = new ArrayList<>();
-        coupons.add(new Coupon( 1));
-        coupons.add(new Coupon(2));
-        coupons.add(new Coupon(3));
-        return coupons;
-    }
-
-    public String[] getCouponDescriptions(ArrayList<Coupon> coupons) {
-        String[] descriptions = new String[coupons.size() + 1];
-        if(coupons.size() == 0) {
-            descriptions[0] = "No coupons available";
+    public String[] getCouponDescriptions() {
+        String[] descriptions = new String[couponsList.size() + 1];
+        if(couponsList.size() == 0) {
+            descriptions[0] = NO_COUPON_AVAILABLE;
         } else {
-            descriptions[0] = "No coupon selected";
+            descriptions[0] = NO_COUPON_SELECTED;
         }
-        for(int i = 0; i < coupons.size(); i++) {
-            descriptions[i+1] = coupons.get(i).getDescription();
+        for(int i = 0; i < couponsList.size(); i++) {
+            descriptions[i+1] = couponsList.get(i).getDescription();
         }
         return descriptions;
     }
@@ -170,7 +153,11 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CheckoutActivity.class);
         intent.putExtra("Customer", this.currentCustomer);
         intent.putExtra("Discount", customerWantsDiscount.isChecked());
-        intent.putExtra("Coupon", getCouponDescriptions(createCoupons())[coupons.getSelectedItemPosition()]);
+        intent.putExtra("Coupon",
+                (couponsList.size() == 0 || selectedCoupon == 0?
+                        null: couponsList.get(selectedCoupon - 1)
+                ).toString()
+        );
 
         startActivity(intent);
     }

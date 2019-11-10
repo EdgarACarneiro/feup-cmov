@@ -53,4 +53,7 @@ public class Product implements Serializable {
         return this.price.getFullPrice();
     }
 
+    public byte[] getProductAsByes() {
+        return null;
+    }
 }
