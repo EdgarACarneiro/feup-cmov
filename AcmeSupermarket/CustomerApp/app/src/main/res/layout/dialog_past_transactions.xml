@@ -10,6 +10,7 @@
         android:id="@+id/past_transactions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
         android:fontFamily="@font/open_sans_bold"
@@ -21,16 +22,59 @@
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8">
+        android:layout_weight="9">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/used_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:tint="#0091EA"
+            app:srcCompat="@drawable/ic_circle_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/used_coupon"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/used_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:tint="#FFAB00"
+            app:srcCompat="@drawable/ic_circle_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/apply_discount"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/close_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="30dp"
         android:adjustViewBounds="false"
         android:background="@null"
         android:backgroundTint="#DD0000"
