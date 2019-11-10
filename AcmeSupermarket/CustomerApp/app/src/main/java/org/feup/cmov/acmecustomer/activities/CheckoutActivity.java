@@ -15,6 +15,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import org.feup.cmov.acmecustomer.Constants;
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
@@ -25,19 +26,23 @@ import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.UUID;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class CheckoutActivity extends AppCompatActivity {
 
+    private static final int CHECKOUT_MSG_BASE_SIZE = 4 + 36 + 1 + 4;
+
     private Customer currentCustomer;
 
     private Boolean discount;
 
-    private Integer voucherID = 1;
+    private Integer voucherID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
         this.discount = (Boolean) getIntent().getSerializableExtra("Discount");
-        // this.voucherID = (Integer) getIntent().getSerializableExtra("Coupon");
+        this.voucherID = (Integer) getIntent().getSerializableExtra("Coupon");
 
         generateQRCode();
     }
@@ -79,8 +84,36 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void generateQRCode() {
-        // Constructing QRCode message
-        byte[] uuid = Utils.decode(
+        ArrayList<Product> products = this.currentCustomer.getShoppingCart().getProducts();
+        ByteBuffer buffer = ByteBuffer.allocate(
+                CHECKOUT_MSG_BASE_SIZE + products.size() * Product.CHECKOUT_MSG_SIZE
+        );
+
+        // Loading Acme Tag and UUID
+        buffer.putInt(Constants.ACME_TAG_ID);
+        System.out.println("Acme Tag: " + toBase64(Arrays.copyOfRange(buffer.array(), 0, 4)).length);
+        UUID uuid = UUID.fromString(LocalStorage.getCurrentUuid(this.getApplicationContext()));
+        System.out.println(LocalStorage.getCurrentUuid(this.getApplicationContext()));
+        // buffer.putLong(uuid.getMostSignificantBits());
+        // buffer.putLong(uuid.getLeastSignificantBits());
+        buffer.put(Utils.decode(
+                LocalStorage.getCurrentUuid(this.getApplicationContext())
+        ));
+
+        // Loading Products
+        for (Product prod: products)
+            buffer.put(prod.getProductAsBytes());
+
+        // Loading Voucher choice and discount choice
+        buffer.putInt(voucherID);
+        buffer.put((byte) (discount? 1: 0));
+
+        // Signing everything
+        byte[] msg = toBase64(buffer.array());
+        System.out.println("Acme Tag: " + toBase64(this.currentCustomer.signMsg(msg)).length);
+        byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
+
+        /*byte[] uuid = Utils.decode(
                 LocalStorage.getCurrentUuid(this.getApplicationContext())
         );
         byte[] items = this.currentCustomer.getShoppingCart().getAsBytes();
@@ -100,7 +133,7 @@ public class CheckoutActivity extends AppCompatActivity {
         Log.d("Size", Integer.toString(Base64.encodeToString(this.currentCustomer.signMsg(msg), Base64.DEFAULT).length()));
 
         byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
-        System.out.println(Arrays.toString(content));
+        System.out.println(Arrays.toString(content));*/
 
         // As QRCode message
         String string = new String(content, StandardCharsets.ISO_8859_1);

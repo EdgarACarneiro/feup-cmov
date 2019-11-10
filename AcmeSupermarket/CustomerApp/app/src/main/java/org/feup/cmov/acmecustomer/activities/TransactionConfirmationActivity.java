@@ -19,13 +19,11 @@ import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
 import org.feup.cmov.acmecustomer.models.Coupon;
 import org.feup.cmov.acmecustomer.models.Customer;
-import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.services.GetVouchers;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 import static org.feup.cmov.acmecustomer.Utils.toBase64;
@@ -119,7 +117,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 for (int voucherId: response.getVouchers()) {
                     couponsList.add(new Coupon(voucherId));
                 }
-                initializeCouponsDropdown();
+                runOnUiThread(() -> initializeCouponsDropdown());
 
             } else {
                 // Failed Registration - TODO - Detailed Error from Server
@@ -149,13 +147,13 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
     public void checkout() {
         CheckBox customerWantsDiscount = findViewById(R.id.discount);
         selectedCoupon = ((Spinner) findViewById(R.id.coupon_dropdown)).getSelectedItemPosition();
+        System.out.println(":::::: " + selectedCoupon);
 
         Intent intent = new Intent(this, CheckoutActivity.class);
         intent.putExtra("Customer", this.currentCustomer);
         intent.putExtra("Discount", customerWantsDiscount.isChecked());
         intent.putExtra("Coupon",
-                (selectedCoupon == 0? null: couponsList.get(selectedCoupon - 1))
-                        .getId().toString()
+                (selectedCoupon == 0? -1: couponsList.get(selectedCoupon - 1).getId())
         );
 
         startActivity(intent);

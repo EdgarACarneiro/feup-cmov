@@ -15,6 +15,9 @@ acme = Blueprint('acme', __name__)
 
 SIGNATURE_BASE64_SIZE = 90
 UUID_BASE64_SIZE = 48
+UUID_ENCODED_SIZE = 36
+INTEGER_SIZE = 4
+PRODUCT_SIZE = 4 + 36 + 4 + 4
 
 
 @acme.route('/get-products', methods=['GET'])
@@ -112,10 +115,16 @@ def checkout():
     db = get_db()
 
     content = request.data[: -SIGNATURE_BASE64_SIZE]
+    decoded_content = b64_decode(content)
     signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
+    # Acme tag
+    _ = decoded_content[0: INTEGER_SIZE]
+    decoded_content = decoded_content[INTEGER_SIZE:]
+
     # Checking if User exists
-    uuid = decode(b64_decode(content[0:UUID_BASE64_SIZE]))
+    uuid = decode(decoded_content[:UUID_ENCODED_SIZE])
+    decoded_content = decoded_content[UUID_ENCODED_SIZE:]
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -129,27 +138,8 @@ def checkout():
                   content):
         abort(401)
 
-    # Analyzing content
+    # Analyzing products
 
-    # checkout_info = bytes_to_string(content).split(';')
-    # if len(checkout_info) != 4:
-    #     abort(400)
-
-    # uuid, shop_list, voucher, discount = checkout_info
-
-    # # Processing shop_list
-    # products = {}
-    # for prod in shop_list.split(','):
-    #     prod, price = prod.split('-')
-    #     if prod not in products:
-    #         products[prod] = {
-    #             'price': price,
-    #             'quantity': 1
-    #         }
-    #     else:
-    #         products[prod]['quantity'] += 1
-
-    # print(products)
 
     return current_app.response_class(
         status=200,

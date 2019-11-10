@@ -54,9 +54,9 @@ public class ShoppingCart implements Serializable {
         tags = ByteBuffer.allocate(tagsLength);
 
         for(int i = 0; i < this.products.size(); i++) {
-            tags.putInt(Constants.tagId);
-            tags.putLong(this.products.get(i).getUUID().getMostSignificantBits());
-            tags.putLong(this.products.get(i).getUUID().getLeastSignificantBits());
+            tags.putInt(Constants.ACME_TAG_ID);
+            tags.putLong(this.products.get(i).getCode().getMostSignificantBits());
+            tags.putLong(this.products.get(i).getCode().getLeastSignificantBits());
             tags.putInt(this.products.get(i).getPrice().getEuros());
             tags.putInt(this.products.get(i).getPrice().getCents());
         }
