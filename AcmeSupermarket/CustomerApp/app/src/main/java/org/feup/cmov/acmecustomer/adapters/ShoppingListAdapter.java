@@ -76,6 +76,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     public void updateButtons() {
         FloatingActionButton checkoutButton = ((MainMenuActivity) context).findViewById(R.id.checkout_button);
+        FloatingActionButton addProductButton = ((MainMenuActivity) context).findViewById(R.id.add_new_item_button);
         if(checkoutButton != null) {
             if(this.getItemCount() > 0) {
                 checkoutButton.show();
@@ -83,6 +84,15 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
                 checkoutButton.hide();
             }
             checkoutButton.setOnClickListener(view -> ((MainMenuActivity) context).checkout());
+        }
+
+        if(addProductButton != null) {
+            if(this.getItemCount() >= 0 && this.getItemCount() < 10) {
+                addProductButton.show();
+            } else {
+                addProductButton.hide();
+            }
+            addProductButton.setOnClickListener(view -> ((MainMenuActivity) context).scanProduct());
         }
     }
 
