@@ -94,6 +94,31 @@ def get_transactions():
         (uuid, )
     ).fetchall()
 
+    # # Signing content
+    # content = b64_encode(encode(
+    #     json.dumps({
+    #         'transactions': [
+    #             {
+    #                 'date': t['created'],
+    #                 'total': t['total'],
+    #                 'discounted': t['discounted'],
+    #                 'voucher': t['voucherID'] is None,
+    #             }
+    #             for t in transactions
+    #         ]
+    #     })
+    # ))
+    # final_content = content + sign(
+    #     content,
+    #     current_app.config['PRIVATE_KEY']
+    # )
+
+    # return current_app.response_class(
+    #     response=final_content,
+    #     status=200,
+    #     mimetype='application/json'
+    # )
+
     return current_app.response_class(
         response=json.dumps({
             'transactions': [
@@ -138,6 +163,23 @@ def get_vouchers():
         'SELECT id FROM voucher WHERE ownerID = ? AND used = 0',
         (uuid, )
     ).fetchall()
+
+    # # Signing content
+    # content = b64_encode(encode(
+    #     json.dumps({
+    #         'vouchers': [row['id'] for row in vouchers]
+    #     })
+    # ))
+    # final_content = content + sign(
+    #     content,
+    #     current_app.config['PRIVATE_KEY']
+    # )
+
+    # return current_app.response_class(
+    #     response=final_content,
+    #     status=200,
+    #     mimetype='application/json'
+    # )
 
     return current_app.response_class(
         response=json.dumps({

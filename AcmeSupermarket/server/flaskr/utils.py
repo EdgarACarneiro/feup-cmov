@@ -30,10 +30,10 @@ def encode(string):
 
 
 def b64_decode(byte_array):
-    '''Convert bytes BASE64 format'''
+    '''Convert from bytes BASE64 format'''
     return base64.b64decode(byte_array)
 
 
 def b64_encode(byte_array):
-    '''Convert bytes BASE64 format'''
+    '''Convert to bytes BASE64 format'''
     return base64.b64encode(byte_array)
