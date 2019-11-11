@@ -17,6 +17,7 @@ SIGNATURE_BASE64_SIZE = 90
 UUID_ENCODED_SIZE = 36
 INTEGER_SIZE = 4
 PRODUCT_SIZE = 4 + 36 + 4 + 4
+ONE_HUNDRED_EUROS_IN_CENTS = 10000
 
 
 @acme.route('/get-products', methods=['GET'])
@@ -66,7 +67,45 @@ def get_products():
 
 @acme.route('/get-transactions', methods=['GET'])
 def get_transactions():
+    db = get_db()
+
+    content = request.data[: -SIGNATURE_BASE64_SIZE]
+    signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
+
+    # Checking if User exists
+    uuid = decode(b64_decode(content))
+    user = db.execute(
+        'SELECT userPublicKey FROM user WHERE id = ?',
+        (uuid, )
+    ).fetchone()
+    if user is None:
+        abort(401)
+
+    # Verifying User through signature
+    if not verify(user_key_from_bytes(user['userPublicKey']),
+                  signature,
+                  content):
+        abort(401)
+
+    # Getting Transactions
+    transactions = db.execute(
+        'SELECT total, discounted, voucherID, created\
+            FROM acmeTransaction WHERE ownerID = ?',
+        (uuid, )
+    ).fetchall()
+
     return current_app.response_class(
+        response=json.dumps({
+            'transactions': [
+                {
+                    'date': t['created'],
+                    'total': t['total'],
+                    'discounted': t['discounted'],
+                    'voucher': t['voucherID'] is None,
+                }
+                for t in transactions
+            ]
+        }),
         status=200,
         mimetype='application/json'
     )
@@ -96,7 +135,7 @@ def get_vouchers():
 
     # Getting vouchers
     vouchers = db.execute(
-        'SELECT id FROM voucher WHERE id = ? AND used = 0',
+        'SELECT id FROM voucher WHERE ownerID = ? AND used = 0',
         (uuid, )
     ).fetchall()
 
@@ -178,7 +217,7 @@ def checkout():
             total += dbProd['price']
 
     # Creating new Vouchers
-    for _ in range(0, total // 100):
+    for _ in range(0, total // ONE_HUNDRED_EUROS_IN_CENTS):
         db.execute(
             'INSERT INTO voucher (ownerID) VALUES (?)',
             (uuid, )
