@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.feup.cmov.acmecustomer.R;
+import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
 import org.feup.cmov.acmecustomer.adapters.TransactionListAdapter;
 import org.feup.cmov.acmecustomer.models.Coupon;
@@ -42,7 +43,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 import static org.feup.cmov.acmecustomer.Utils.fromBase64;
+import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -250,4 +253,30 @@ public class MainMenuActivity extends AppCompatActivity {
         transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(4), false, new Date()));
         return transactions;
     }
+
+    private void requestCoupons() {
+        // Building up message
+        byte[] uuid = toBase64(Utils.decode(
+                LocalStorage.getCurrentUuid(this.getApplicationContext())
+        ));
+        System.out.println(toBase64(this.currentCustomer.signMsg(uuid)).length);
+        byte[] content = concaByteArrays(uuid, toBase64(this.currentCustomer.signMsg(uuid)));
+
+        // Triggering vouchers request to server
+        new Thread(new GetTransactions(content, (response) -> {
+            if (response != null) {
+                this.couponsList = new ArrayList<>();
+
+                for (int voucherId: response.getVouchers()) {
+                    couponsList.add(new Coupon(voucherId));
+                }
+                runOnUiThread(() -> initializeCouponsDropdown());
+
+            } else {
+                // Failed Registration - TODO - Detailed Error from Server
+                System.out.println(":::::: FAILED GETTING COUPONS :::::::");
+            }
+        })).start();
+    }
+
 }
