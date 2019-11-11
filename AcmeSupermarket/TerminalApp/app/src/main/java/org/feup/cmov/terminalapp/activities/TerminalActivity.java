@@ -13,9 +13,7 @@ import android.widget.TextView;
 import org.feup.cmov.terminalapp.R;
 import org.feup.cmov.terminalapp.services.Checkout;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String CHECKOUT_ADDRESS = "bcecd4a3.ngrok.io";
+public class TerminalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 scanResult.setText(contents);
 
                 // Checkout request
-                new Thread(new Checkout(this.CHECKOUT_ADDRESS, contents,
+                new Thread(new Checkout(contents,
                         response -> this.handleCheckoutResponse(response))
                 ).start();
 

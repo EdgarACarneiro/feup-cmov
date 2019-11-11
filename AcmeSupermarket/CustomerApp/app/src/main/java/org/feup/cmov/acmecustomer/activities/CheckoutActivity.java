@@ -91,11 +91,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // Loading Acme Tag and UUID
         buffer.putInt(Constants.ACME_TAG_ID);
-        System.out.println("Acme Tag: " + toBase64(Arrays.copyOfRange(buffer.array(), 0, 4)).length);
-        UUID uuid = UUID.fromString(LocalStorage.getCurrentUuid(this.getApplicationContext()));
-        System.out.println(LocalStorage.getCurrentUuid(this.getApplicationContext()));
-        // buffer.putLong(uuid.getMostSignificantBits());
-        // buffer.putLong(uuid.getLeastSignificantBits());
         buffer.put(Utils.decode(
                 LocalStorage.getCurrentUuid(this.getApplicationContext())
         ));
@@ -105,12 +100,12 @@ public class CheckoutActivity extends AppCompatActivity {
             buffer.put(prod.getProductAsBytes());
 
         // Loading Voucher choice and discount choice
+        System.out.println(voucherID);
         buffer.putInt(voucherID);
         buffer.put((byte) (discount? 1: 0));
 
         // Signing everything
         byte[] msg = toBase64(buffer.array());
-        System.out.println("Acme Tag: " + toBase64(this.currentCustomer.signMsg(msg)).length);
         byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
 
         /*byte[] uuid = Utils.decode(

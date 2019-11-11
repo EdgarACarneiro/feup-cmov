@@ -8,9 +8,8 @@ from ..utils import (
     generic_error_handler, gen_UUID, decode, encode, b64_decode, b64_encode
 )
 from flaskr.db.db import get_db
-from struct import pack
+from struct import pack, unpack
 import uuid
-import sys
 
 acme = Blueprint('acme', __name__)
 
@@ -126,7 +125,7 @@ def checkout():
     uuid = decode(decoded_content[:UUID_ENCODED_SIZE])
     decoded_content = decoded_content[UUID_ENCODED_SIZE:]
     user = db.execute(
-        'SELECT userPublicKey FROM user WHERE id = ?',
+        'SELECT userPublicKey, accumulatedDiscount FROM user WHERE id = ?',
         (uuid, )
     ).fetchone()
     if user is None:
@@ -138,19 +137,16 @@ def checkout():
                   content):
         abort(401)
 
-    # Extract voucher and discont - TODO check
-    discont = int.from_bytes(decoded_content[-1:], sys.byteorder) == 1
+    # Extract voucher and discont
+    discont = unpack('b', decoded_content[-1:])[0]
     decoded_content = decoded_content[:-1]
 
-    voucher_id = int.from_bytes(decoded_content[-INTEGER_SIZE:], sys.byteorder)
+    voucher_id = unpack('>i', decoded_content[-INTEGER_SIZE:])[0]
     decoded_content = decoded_content[:-INTEGER_SIZE]
 
-    print(discont)
-    print(voucher_id)
-
-    # Extractinf products
+    # Extracting products and total
     products = {}
-
+    total = 0
     for i in range(0, len(decoded_content) // PRODUCT_SIZE):
         base = i * PRODUCT_SIZE
         prod = decoded_content[base: base + PRODUCT_SIZE]
@@ -168,10 +164,85 @@ def checkout():
             products[code] = 1
 
         # Prices, maybe do validation
-        prod = prod[2 * INTEGER_SIZE:]
+        price = prod[2 * INTEGER_SIZE:]
 
-    print(products)
+        # Validating product and getting total
+        dbProd = db.execute(
+            'SELECT price FROM product WHERE code = ?',
+            (code, )
+        ).fetchone()
 
+        if dbProd is None:
+            abort(400)
+        else:
+            total += dbProd['price']
+
+    # Creating new Vouchers
+    for _ in range(0, total // 100):
+        db.execute(
+            'INSERT INTO voucher (ownerID) VALUES (?)',
+            (uuid, )
+        )
+
+    # Processing voucher
+    discont_accumulator = 0
+    if voucher_id is not -1:
+        discont_accumulator = 0.15
+
+        # Checking if voucher is valid
+        if db.execute(
+            'SELECT * FROM voucher WHERE id = ? ',
+            (voucher_id, )
+        ) is None:
+            abort(400)
+
+        # Updating voucher
+        db.execute(
+            'UPDATE voucher SET used = 1 WHERE id = ?',
+            (voucher_id, )
+        )
+
+    # Updating discont
+    discounted = 0
+    acc_discont = user['accumulatedDiscount'] + total * discont_accumulator
+
+    if discont:
+        if acc_discont > total:
+            acc_discont = acc_discont - total
+            discounted = total
+        else:
+            discounted = acc_discont
+            acc_discont = 0
+
+        db.execute(
+            'UPDATE user SET accumulatedDiscount = ? WHERE id = ?',
+            (acc_discont, uuid,)
+        )
+    else:
+        db.execute(
+            'UPDATE user SET accumulatedDiscount = ? WHERE id = ?',
+            (acc_discont, uuid)
+        )
+
+    # Creating transaction
+    trans_exec = db.cursor()
+    trans_exec.execute(
+        'INSERT INTO acmeTransaction (ownerID, total,\
+            discounted, voucherID) VALUES (?, ?, ?, ?)',
+        (uuid, total, discounted, voucher_id if voucher_id is not -1 else None)
+    )
+    transaction_id = trans_exec.lastrowid
+
+    # Creating Transaction - Products association
+    for prod in products:
+        db.execute(
+            'INSERT INTO transactionProdcuts (transactionID,\
+                productID, quantity) VALUES (?, ?, ?)',
+            (transaction_id, prod, products[prod])
+        )
+
+    # Commiting everything!
+    db.commit()
 
     return current_app.response_class(
         status=200,

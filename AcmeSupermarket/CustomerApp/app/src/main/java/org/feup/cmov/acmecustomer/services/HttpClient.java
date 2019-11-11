@@ -11,10 +11,6 @@ import java.io.InputStreamReader;
 public class HttpClient {
     String address;
 
-    HttpClient(String address) {
-        this.address = address;
-    }
-
     HttpClient() {
         this.address = Constants.SERVER_ENDPOINT;
     }

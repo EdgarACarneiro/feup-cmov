@@ -87,8 +87,6 @@ public class Product implements Serializable {
     public byte[] getProductAsBytes() {
         ByteBuffer buffer = ByteBuffer.allocate(CHECKOUT_MSG_SIZE);
         buffer.putInt(Constants.ACME_TAG_ID);
-        // buffer.putLong(this.code.getMostSignificantBits());
-        // buffer.putLong(this.code.getLeastSignificantBits());
         buffer.put(Utils.decode(this.code.toString()));
         buffer.putInt(this.price.euros);
         buffer.putInt(this.price.euros);

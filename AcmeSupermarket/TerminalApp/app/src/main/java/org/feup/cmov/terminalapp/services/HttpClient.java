@@ -1,6 +1,8 @@
 package org.feup.cmov.terminalapp.services;
 
 
+import org.feup.cmov.terminalapp.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +11,8 @@ import java.io.InputStreamReader;
 public class HttpClient {
     String address;
 
-    HttpClient(String address) {
-        this.address = address;
+    HttpClient() {
+        this.address = Constants.SERVER_ENDPOINT;
     }
 
     protected String readStream(InputStream in) {

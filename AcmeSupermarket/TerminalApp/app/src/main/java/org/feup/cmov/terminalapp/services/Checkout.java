@@ -5,7 +5,6 @@ import org.feup.cmov.terminalapp.interfaces.ResponseCallable;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
 public class Checkout extends HttpClient implements Runnable {
 
@@ -13,8 +12,8 @@ public class Checkout extends HttpClient implements Runnable {
 
     private ResponseCallable<Boolean> onFinnish;
 
-    public Checkout(String baseAddress, String checkoutMsg, ResponseCallable<Boolean> onFinnish) {
-        super(baseAddress);
+    public Checkout(String checkoutMsg, ResponseCallable<Boolean> onFinnish) {
+        super();
         this.checkoutMsg = checkoutMsg;
         this.onFinnish = onFinnish;
     }
