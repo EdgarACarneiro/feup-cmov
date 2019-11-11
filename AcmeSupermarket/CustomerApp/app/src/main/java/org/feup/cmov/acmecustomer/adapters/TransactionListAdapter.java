@@ -10,14 +10,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.feup.cmov.acmecustomer.R;
-import org.feup.cmov.acmecustomer.models.Transaction;
+import org.feup.cmov.acmecustomer.models.TransactionRecord;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class TransactionListAdapter extends RecyclerView.Adapter<TransactionListAdapter.TransactionListViewHolder> {
-    private ArrayList<Transaction> transactions;
+    private ArrayList<TransactionRecord> transactions;
     private Context context;
 
     public static class TransactionListViewHolder extends RecyclerView.ViewHolder {
@@ -37,9 +37,13 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         }
     }
 
-    public TransactionListAdapter(Context context, ArrayList<Transaction> transactions) {
+    public TransactionListAdapter(Context context) {
         this.context = context;
-        this.transactions = transactions;
+        this.transactions = new ArrayList<>();
+    }
+
+    public void setTransactions(ArrayList<TransactionRecord> newTransactions) {
+        this.transactions = newTransactions;
     }
 
     @Override
@@ -53,18 +57,20 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         holder.date.setText(new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(this.transactions.get(position).getDate()));
         holder.cardNumber.setText(this.transactions.get(position).getCustomer().getPaymentInfo().getMaskedCardNumber("xxxx xxxx xxxx ####"));
 
-        if(this.transactions.get(position).getCoupon() != null) {
+        if(this.transactions.get(position).usedVoucher()) {
             holder.usedCoupon.setVisibility(View.VISIBLE);
         } else {
             holder.usedCoupon.setVisibility(View.INVISIBLE);
         }
 
-        if(this.transactions.get(position).isDiscounted()) {
+        if(this.transactions.get(position).getDiscount() > 0) {
             holder.usedDiscount.setVisibility(View.VISIBLE);
-            holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getCart().getValue() * 0.85));
+            holder.transactionValue.setText(String.format(Locale.US, "%.2f € ",
+                    this.transactions.get(position).getTotal() - this.transactions.get(position).getDiscount())
+            );
         } else {
             holder.usedDiscount.setVisibility(View.INVISIBLE);
-            holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getCart().getValue()));
+            holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getTotal()));
         }
     }
 

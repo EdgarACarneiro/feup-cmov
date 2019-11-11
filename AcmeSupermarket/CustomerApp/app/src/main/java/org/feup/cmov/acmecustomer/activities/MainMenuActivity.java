@@ -15,12 +15,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,11 +25,10 @@ import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
 import org.feup.cmov.acmecustomer.adapters.TransactionListAdapter;
-import org.feup.cmov.acmecustomer.models.Coupon;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
-import org.feup.cmov.acmecustomer.models.ShoppingCart;
-import org.feup.cmov.acmecustomer.models.Transaction;
+import org.feup.cmov.acmecustomer.models.TransactionRecord;
+import org.feup.cmov.acmecustomer.services.GetTransactions;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
@@ -40,7 +36,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Locale;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
@@ -53,6 +48,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private Customer currentCustomer;
     private ShoppingListAdapter adapter;
+    private TransactionListAdapter transAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,7 +220,7 @@ public class MainMenuActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(dialog.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        TransactionListAdapter adapter = new TransactionListAdapter(this, createTransactions());
+        transAdapter = new TransactionListAdapter(this);
         recyclerView.setAdapter(adapter);
 
         ImageButton closeButton = dialog.findViewById(R.id.close_button);
@@ -238,23 +234,7 @@ public class MainMenuActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    //precisa de desaparecer depois
-    private ArrayList<Transaction> createTransactions() {
-        ShoppingCart cart = new ShoppingCart();
-        cart.addProduct(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz", 12, 50));
-        cart.addProduct(new Product("4dadae03-06c6-4a18-9eed-38c8a34db686", "Arroz1", 15, 50));
-
-        ArrayList<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(1), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(2), true, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(2), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(3), true, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(3), false, new Date()));
-        transactions.add(new Transaction(this.currentCustomer, cart, new Coupon(4), false, new Date()));
-        return transactions;
-    }
-
-    private void requestCoupons() {
+    private void requestTransactions() {
         // Building up message
         byte[] uuid = toBase64(Utils.decode(
                 LocalStorage.getCurrentUuid(this.getApplicationContext())
@@ -265,16 +245,16 @@ public class MainMenuActivity extends AppCompatActivity {
         // Triggering vouchers request to server
         new Thread(new GetTransactions(content, (response) -> {
             if (response != null) {
-                this.couponsList = new ArrayList<>();
+                ArrayList<TransactionRecord> transactions = new ArrayList<>();
 
-                for (int voucherId: response.getVouchers()) {
-                    couponsList.add(new Coupon(voucherId));
+                for (GetTransactions.ServerTransaction trans: response.getTransactions()) {
+                    transactions.add(new TransactionRecord(this.currentCustomer, trans));
                 }
-                runOnUiThread(() -> initializeCouponsDropdown());
+                runOnUiThread(() -> transAdapter.setTransactions(transactions));
 
             } else {
                 // Failed Registration - TODO - Detailed Error from Server
-                System.out.println(":::::: FAILED GETTING COUPONS :::::::");
+                System.out.println(":::::: FAILED GETTING TRANSACTIONS :::::::");
             }
         })).start();
     }

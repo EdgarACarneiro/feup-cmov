@@ -3,20 +3,43 @@ package org.feup.cmov.acmecustomer.services;
 import com.google.gson.Gson;
 
 import org.feup.cmov.acmecustomer.interfaces.ResponseCallable;
-import org.feup.cmov.acmecustomer.models.Transaction;
 
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GetTransactions extends HttpClient implements Runnable {
 
+    public class ServerTransaction {
+        private Date date;
+        private Integer total;
+        private Integer discounted;
+        private boolean voucher;
+
+        public Date getDate() {
+            return date;
+        }
+
+        public Integer getDiscounted() {
+            return discounted;
+        }
+
+        public Integer getTotal() {
+            return total;
+        }
+
+        public boolean usedVoucher() {
+            return voucher;
+        }
+    }
+
     public class GetTransactionResponse {
 
-        private ArrayList<Transaction> transactions;
+        private ArrayList<ServerTransaction> transactions;
 
-        public ArrayList<Transaction> getTransactions() {
+        public ArrayList<ServerTransaction> getTransactions() {
             return this.transactions;
         }
     }
