@@ -52,6 +52,8 @@ public class PaymentInfo implements Serializable {
             } else if (c == 'x') {
                 maskedNumber.append(c);
                 index++;
+            } else if (c == ' ') {
+                maskedNumber.append(' ');
             } else {
                 maskedNumber.append(c);
             }

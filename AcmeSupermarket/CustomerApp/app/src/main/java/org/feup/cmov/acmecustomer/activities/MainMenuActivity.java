@@ -72,6 +72,9 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView customerName = findViewById(R.id.customer_name);
         customerName.setText("Hello, " + this.currentCustomer.getName());
 
+        TextView couponMessage = findViewById(R.id.new_coupon);
+        couponMessage.setVisibility(View.GONE);
+
         ImageView pastTransactions = findViewById(R.id.past_transactions);
         pastTransactions.setOnClickListener(view -> showPastTransactionsDialog(view.getContext()));
 
@@ -158,7 +161,13 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void updateCartValue() {
         TextView cartValue = findViewById(R.id.shopping_cart_value);
+        TextView couponMessage = findViewById(R.id.new_coupon);
         cartValue.setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
+        if(currentCustomer.getShoppingCartValue() >= 100.0) {
+            couponMessage.setVisibility(View.VISIBLE);
+        } else {
+            couponMessage.setVisibility(View.GONE);
+        }
     }
 
     public void checkout() {
