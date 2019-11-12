@@ -66,11 +66,11 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         if(this.transactions.get(position).getDiscount() > 0) {
             holder.usedDiscount.setVisibility(View.VISIBLE);
             holder.transactionValue.setText(String.format(Locale.US, "%.2f € ",
-                    this.transactions.get(position).getTotal() - this.transactions.get(position).getDiscount())
+                    (this.transactions.get(position).getTotal() - this.transactions.get(position).getDiscount()) / 100.0)
             );
         } else {
             holder.usedDiscount.setVisibility(View.INVISIBLE);
-            holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getTotal()));
+            holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getTotal() / 100.0));
         }
     }
 

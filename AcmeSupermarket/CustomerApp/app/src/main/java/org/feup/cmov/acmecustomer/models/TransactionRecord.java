@@ -2,6 +2,8 @@ package org.feup.cmov.acmecustomer.models;
 
 import org.feup.cmov.acmecustomer.services.GetTransactions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TransactionRecord {
@@ -24,7 +26,14 @@ public class TransactionRecord {
         this.total = transaction.getTotal();
         this.discont = transaction.getDiscounted();
         this.usedVoucher = transaction.usedVoucher();
-        this.date = transaction.getDate();
+        try {
+            String dateStr = transaction.getDate();
+            System.out.println(dateStr.substring(0, dateStr.length() - 4));
+            this.date = new SimpleDateFormat("EEE, dd MMM YYYY HH:mm:ss")
+                            .parse(dateStr.substring(0, dateStr.length() - 4));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public Customer getCustomer() {

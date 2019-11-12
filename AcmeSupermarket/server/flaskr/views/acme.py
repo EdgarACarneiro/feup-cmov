@@ -123,7 +123,7 @@ def get_transactions():
         response=json.dumps({
             'transactions': [
                 {
-                    'date': t['created'],
+                    'date': t['created'].strftime("%d/%m/%Y"),
                     'total': t['total'],
                     'discounted': t['discounted'],
                     'voucher': t['voucherID'] is None,

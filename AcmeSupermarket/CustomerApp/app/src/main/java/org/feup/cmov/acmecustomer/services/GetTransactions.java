@@ -13,12 +13,12 @@ import java.util.Date;
 public class GetTransactions extends HttpClient implements Runnable {
 
     public class ServerTransaction {
-        private Date date;
+        private String date;
         private Integer total;
         private Integer discounted;
         private boolean voucher;
 
-        public Date getDate() {
+        public String getDate() {
             return date;
         }
 
@@ -78,8 +78,9 @@ public class GetTransactions extends HttpClient implements Runnable {
             // Get response
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == 200) {
+                String t = readStream(urlConnection.getInputStream());
                 response = (new Gson()).fromJson(
-                        readStream(urlConnection.getInputStream()),
+                        t,
                         GetTransactionResponse.class
                 );
             }

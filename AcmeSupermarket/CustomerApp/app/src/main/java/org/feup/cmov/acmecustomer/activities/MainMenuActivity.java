@@ -63,6 +63,7 @@ public class MainMenuActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ShoppingListAdapter(this, currentCustomer);
+        transAdapter = new TransactionListAdapter(this);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
@@ -222,8 +223,7 @@ public class MainMenuActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(dialog.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        transAdapter = new TransactionListAdapter(this);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(transAdapter);
 
         ImageButton closeButton = dialog.findViewById(R.id.close_button);
         closeButton.setOnClickListener(view -> dialog.cancel());

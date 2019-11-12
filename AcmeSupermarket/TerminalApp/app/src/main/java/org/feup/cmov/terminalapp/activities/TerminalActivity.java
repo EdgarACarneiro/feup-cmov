@@ -26,15 +26,17 @@ public class TerminalActivity extends AppCompatActivity {
 
     private void handleCheckoutResponse(Boolean status) {
         if (status) {
-            // TODO
-            findViewById(R.id.server_response_failure).setVisibility(View.GONE);
-            findViewById(R.id.server_response_success).setVisibility(View.VISIBLE);
-            System.out.println("Success on Transaction, opened Terminal.");
+            runOnUiThread(() -> {
+                findViewById(R.id.server_response_failure).setVisibility(View.GONE);
+                findViewById(R.id.server_response_success).setVisibility(View.VISIBLE);
+                System.out.println("Success on Transaction, opened Terminal.");
+            });
         } else {
-            // TODO
-            findViewById(R.id.server_response_success).setVisibility(View.GONE);
-            findViewById(R.id.server_response_failure).setVisibility(View.VISIBLE);
-            System.out.println("Error on Transaction, not opening Terminal.");
+            runOnUiThread(() -> {
+                findViewById(R.id.server_response_success).setVisibility(View.GONE);
+                findViewById(R.id.server_response_failure).setVisibility(View.VISIBLE);
+                System.out.println("Error on Transaction, not opening Terminal.");
+            });
         }
     }
 
