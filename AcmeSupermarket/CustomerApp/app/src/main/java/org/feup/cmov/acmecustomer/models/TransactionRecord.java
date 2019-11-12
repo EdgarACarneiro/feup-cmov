@@ -27,10 +27,8 @@ public class TransactionRecord {
         this.discont = transaction.getDiscounted();
         this.usedVoucher = transaction.usedVoucher();
         try {
-            String dateStr = transaction.getDate();
-            System.out.println(dateStr.substring(0, dateStr.length() - 4));
-            this.date = new SimpleDateFormat("EEE, dd MMM YYYY HH:mm:ss")
-                            .parse(dateStr.substring(0, dateStr.length() - 4));
+            this.date = new SimpleDateFormat("dd-MM-yyyy")
+                            .parse(transaction.getDate());
         } catch (ParseException e) {
             e.printStackTrace();
         }

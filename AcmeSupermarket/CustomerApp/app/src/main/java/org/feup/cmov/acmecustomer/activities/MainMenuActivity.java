@@ -63,8 +63,10 @@ public class MainMenuActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ShoppingListAdapter(this, currentCustomer);
-        transAdapter = new TransactionListAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        transAdapter = new TransactionListAdapter(this);
+        this.requestTransactions();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -211,8 +213,6 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void showPastTransactionsDialog(Context context) {
-        this.requestTransactions();
-
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_past_transactions);
