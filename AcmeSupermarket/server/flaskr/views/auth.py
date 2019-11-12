@@ -31,8 +31,14 @@ def register():
         abort(400)
 
     if db.execute(
-        'SELECT id FROM user WHERE nickname = ?', (
-            data['metadata']['username'],)
+        'SELECT id FROM user WHERE nickname = ?',
+        (data['metadata']['username'],)
+    ).fetchone() is not None:
+        abort(409)
+
+    if db.execute(
+        'SELECT * FROM paymentCard WHERE cardNumber = ?',
+        (data['paymentInfo']['cardNumber'],)
     ).fetchone() is not None:
         abort(409)
 

@@ -210,6 +210,8 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void showPastTransactionsDialog(Context context) {
+        this.requestTransactions();
+
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_past_transactions);

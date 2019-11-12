@@ -65,7 +65,7 @@ def get_products():
     )
 
 
-@acme.route('/get-transactions', methods=['GET'])
+@acme.route('/get-transactions', methods=['POST'])
 def get_transactions():
     db = get_db()
 
