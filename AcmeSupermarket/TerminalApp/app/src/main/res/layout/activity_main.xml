@@ -4,19 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_margin="15dp"
     android:orientation="vertical"
     tools:context=".activities.TerminalActivity">
+
+    <LinearLayout
+        android:id="@+id/server_response_success"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        tools:visibility="gone">
+
+        <ImageView
+            android:id="@+id/response_icon_success"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:tint="#007428"
+            app:srcCompat="@drawable/ic_check_box_black_24dp" />
+
+        <TextView
+            android:id="@+id/response_text_success"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="@string/transaction_success"
+            android:textAlignment="center"
+            android:textColor="#007428"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/server_response_failure"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        tools:visibility="gone">
+
+        <ImageView
+            android:id="@+id/response_icon_failure"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:tint="#860000"
+            app:srcCompat="@drawable/ic_cancel_black_24dp" />
+
+        <TextView
+            android:id="@+id/response_text_failure"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="@string/transaction_failed"
+            android:textAlignment="center"
+            android:textColor="#860000"
+            android:textSize="24sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/scan_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/scan_new_purchase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickCheckout"
         android:text="@string/scan_purchase" />
 
 </LinearLayout>
