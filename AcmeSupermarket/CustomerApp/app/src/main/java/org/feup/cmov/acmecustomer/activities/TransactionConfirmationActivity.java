@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
     private ArrayList<Coupon> couponsList;
 
+    private int availableDiscont;
+
     int selectedCoupon;
 
     @Override
@@ -49,6 +52,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         // Initializing the coupons as empty for now & make request
         couponsList = new ArrayList<>();
         initializeCouponsDropdown();
+        initializeDiscont();
         requestCoupons();
 
         ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
@@ -80,25 +84,40 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         coupons.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i > 0) {
-                    double subtotal = currentCustomer.getShoppingCartValue();
-                    double discount = 0.15 * subtotal;
-                    ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", subtotal));
-                    ((TextView) findViewById(R.id.discount_value)).setText(String.format(Locale.US, "%.2f €", -discount));
-                    ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", subtotal - discount));
-                    findViewById(R.id.coupon_discount_info).setVisibility(View.VISIBLE);
-                } else {
-                    ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
-                    findViewById(R.id.coupon_discount_info).setVisibility(View.GONE);
-                }
+                selectedCoupon = i;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
+                selectedCoupon = 0;
+            }
+        });
+
+        initializeDiscont();
+    }
+
+    private void initializeDiscont() {
+        CheckBox customerWantsDiscount = findViewById(R.id.discount);
+        customerWantsDiscount.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+            if (isChecked) {
+                double subtotal = currentCustomer.getShoppingCartValue();
+                double discount = this.availableDiscont;
+                if (selectedCoupon > 0)
+                    discount += subtotal * 0.15;
+                discount *= 0.01;
+
+                if (discount > 0) {
+                    ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", subtotal));
+                    ((TextView) findViewById(R.id.discount_value)).setText(String.format(Locale.US, "%.2f €", -discount));
+                    ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", subtotal - discount));
+                    findViewById(R.id.coupon_discount_info).setVisibility(View.VISIBLE);
+                }
+            } else {
+                ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
                 findViewById(R.id.coupon_discount_info).setVisibility(View.GONE);
             }
         });
+
     }
 
     private void requestCoupons() {
@@ -117,6 +136,9 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 for (int voucherId: response.getVouchers()) {
                     couponsList.add(new Coupon(voucherId));
                 }
+                couponsList.add(new Coupon(0)); // TODO DELETE
+                availableDiscont = response.getDiscounted();
+                availableDiscont = 372; // TODO DELETE
                 runOnUiThread(() -> initializeCouponsDropdown());
 
             } else {
@@ -146,8 +168,6 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
     public void checkout() {
         CheckBox customerWantsDiscount = findViewById(R.id.discount);
-        selectedCoupon = ((Spinner) findViewById(R.id.coupon_dropdown)).getSelectedItemPosition();
-        System.out.println(":::::: " + selectedCoupon);
 
         Intent intent = new Intent(this, CheckoutActivity.class);
         intent.putExtra("Customer", this.currentCustomer);

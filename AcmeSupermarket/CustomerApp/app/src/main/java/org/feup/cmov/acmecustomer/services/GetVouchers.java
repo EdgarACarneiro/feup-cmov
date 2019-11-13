@@ -15,8 +15,14 @@ public class GetVouchers extends HttpClient implements Runnable {
 
         private ArrayList<Integer> vouchers;
 
+        private int discounted;
+
         public ArrayList<Integer> getVouchers() {
             return this.vouchers;
+        }
+
+        public int getDiscounted() {
+            return discounted;
         }
     }
 

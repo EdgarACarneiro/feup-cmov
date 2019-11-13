@@ -78,9 +78,8 @@ public class GetTransactions extends HttpClient implements Runnable {
             // Get response
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == 200) {
-                String t = readStream(urlConnection.getInputStream());
                 response = (new Gson()).fromJson(
-                        t,
+                        readStream(urlConnection.getInputStream()),
                         GetTransactionResponse.class
                 );
             }

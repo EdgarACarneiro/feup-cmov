@@ -146,7 +146,7 @@ def get_vouchers():
     # Checking if User exists
     uuid = decode(b64_decode(content))
     user = db.execute(
-        'SELECT userPublicKey FROM user WHERE id = ?',
+        'SELECT userPublicKey, accumulatedDiscount FROM user WHERE id = ?',
         (uuid, )
     ).fetchone()
     if user is None:
@@ -167,7 +167,8 @@ def get_vouchers():
     # # Signing content
     # content = b64_encode(encode(
     #     json.dumps({
-    #         'vouchers': [row['id'] for row in vouchers]
+    #         'vouchers': [row['id'] for row in vouchers],
+    #         'discount': user['accumulatedDiscount']
     #     })
     # ))
     # final_content = content + sign(
@@ -183,7 +184,8 @@ def get_vouchers():
 
     return current_app.response_class(
         response=json.dumps({
-            'vouchers': [row['id'] for row in vouchers]
+            'vouchers': [row['id'] for row in vouchers],
+            'discount': user['accumulatedDiscount']
         }),
         status=200,
         mimetype='application/json'
