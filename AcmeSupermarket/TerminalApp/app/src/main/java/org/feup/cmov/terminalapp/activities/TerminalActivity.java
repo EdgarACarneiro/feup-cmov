@@ -32,13 +32,11 @@ public class TerminalActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 findViewById(R.id.server_response_failure).setVisibility(View.GONE);
                 findViewById(R.id.server_response_success).setVisibility(View.VISIBLE);
-                System.out.println("Success on Transaction, opened Terminal.");
             });
         } else {
             runOnUiThread(() -> {
                 findViewById(R.id.server_response_success).setVisibility(View.GONE);
                 findViewById(R.id.server_response_failure).setVisibility(View.VISIBLE);
-                System.out.println("Error on Transaction, not opening Terminal.");
             });
         }
     }
@@ -49,14 +47,9 @@ public class TerminalActivity extends AppCompatActivity {
 
         if (requestCode == 0 && resultCode == RESULT_OK) {
             String contents = data.getStringExtra("SCAN_RESULT");
-            System.out.println(contents);
 
+            // Checkout request
             if (contents != null) {
-                // Handle results of scan
-                TextView scanResult = findViewById(R.id.scan_result);
-                scanResult.setText(contents);
-
-                // Checkout request
                 new Thread(new Checkout(contents,
                         response -> this.handleCheckoutResponse(response))
                 ).start();

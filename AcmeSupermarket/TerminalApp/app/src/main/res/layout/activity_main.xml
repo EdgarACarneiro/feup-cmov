@@ -9,6 +9,12 @@
     android:orientation="vertical"
     tools:context=".activities.TerminalActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:srcCompat="@mipmap/logo" />
+
     <LinearLayout
         android:id="@+id/server_response_success"
         android:layout_width="match_parent"
@@ -22,18 +28,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
-            android:tint="#007428"
+            android:tint="@color/white"
             app:srcCompat="@drawable/ic_check_box_black_24dp" />
 
         <TextView
             android:id="@+id/response_text_success"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="sans-serif"
             android:text="@string/transaction_success"
             android:textAlignment="center"
-            android:textColor="#007428"
+            android:textColor="@color/white"
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -50,31 +56,34 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
-            android:tint="#860000"
+            android:tint="@color/darkRed"
             app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
         <TextView
             android:id="@+id/response_text_failure"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="15dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif"
             android:text="@string/transaction_failed"
             android:textAlignment="center"
-            android:textColor="#860000"
+            android:textColor="@color/darkRed"
             android:textSize="24sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/scan_result"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/scan_new_purchase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/scan_purchase" />
+        <Button
+            android:id="@+id/scan_new_purchase"
+            android:layout_width="300px"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:background="?attr/colorButtonNormal"
+            android:gravity="center"
+            android:text="@string/scan_purchase" />
+    </RelativeLayout>
 
 </LinearLayout>

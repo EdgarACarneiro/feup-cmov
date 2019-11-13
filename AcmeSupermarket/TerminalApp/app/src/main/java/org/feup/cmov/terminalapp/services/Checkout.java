@@ -33,10 +33,8 @@ public class Checkout extends HttpClient implements Runnable {
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setUseCaches(false);
 
-            System.out.println(urlConnection.getOutputStream());
-            DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
-
             byte[] msg = this.checkoutMsg.getBytes("ISO_8859_1");
+            DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
             outputStream.write(msg, 0, msg.length);
 
             outputStream.flush();
@@ -48,6 +46,7 @@ public class Checkout extends HttpClient implements Runnable {
                 result = true;
         }
         catch (Exception e) {
+            // TODO - SHOW TERMINAL ERROR
             System.out.println(e.fillInStackTrace());
         }
         finally {
