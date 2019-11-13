@@ -22,6 +22,9 @@ public class TerminalActivity extends AppCompatActivity {
 
         Button scanButton = findViewById(R.id.scan_new_purchase);
         scanButton.setOnClickListener(view -> scanPurchase());
+
+        findViewById(R.id.server_response_failure).setVisibility(View.GONE);
+        findViewById(R.id.server_response_success).setVisibility(View.GONE);
     }
 
     private void handleCheckoutResponse(Boolean status) {
