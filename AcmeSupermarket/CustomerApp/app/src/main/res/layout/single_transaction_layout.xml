@@ -37,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:scaleX="0.5"
                 android:scaleY="0.5"
-                android:tint="#0091EA"
+                android:tint="@color/darkGrey"
                 app:srcCompat="@drawable/ic_circle_black_24dp" />
 
             <ImageView

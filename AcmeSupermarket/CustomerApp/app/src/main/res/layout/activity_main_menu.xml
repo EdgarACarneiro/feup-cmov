@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B7E7E7E7"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="15dp"
     tools:context=".activities.MainMenuActivity">
@@ -52,6 +52,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:tint="@color/darkRed"
                 app:srcCompat="@drawable/ic_youtube_searched_for_black_24dp" />
         </LinearLayout>
 
@@ -71,7 +72,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="116dp"
             android:background="@drawable/ripple_oval"
-            android:backgroundTint="#6200EA"
+            android:backgroundTint="@color/red"
             android:clickable="true"
             android:focusable="true"
             android:visibility="gone"
@@ -88,7 +89,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:background="@drawable/ripple_oval"
-            android:backgroundTint="#FFAA00"
+            android:backgroundTint="@color/red"
             android:clickable="true"
             android:focusable="true"
             app:backgroundTint="#00FFFFFF"

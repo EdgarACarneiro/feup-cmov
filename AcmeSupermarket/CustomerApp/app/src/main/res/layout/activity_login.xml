@@ -17,6 +17,16 @@
         app:srcCompat="@mipmap/logo_launcher" />
 
     <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_bold"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/acme_text"
+        android:textColor="@color/darkRed"
+        android:textSize="30sp" />
+
+    <TextView
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +36,7 @@
         android:gravity="center_horizontal"
         android:text="@string/login"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/darkGrey"
         android:textSize="35sp" />
 
     <LinearLayout

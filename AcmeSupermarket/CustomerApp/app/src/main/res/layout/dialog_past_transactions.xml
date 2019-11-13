@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:tint="#0091EA"
+            android:tint="@color/darkGrey"
             app:srcCompat="@drawable/ic_circle_black_24dp" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:tint="#FFAB00"
+            android:tint="@color/darkRed"
             app:srcCompat="@drawable/ic_circle_black_24dp" />
 
         <TextView
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/open_sans"
-            android:text="@string/apply_discount"
+            android:text="@string/applied_discount"
             android:textSize="14sp" />
     </LinearLayout>
 
