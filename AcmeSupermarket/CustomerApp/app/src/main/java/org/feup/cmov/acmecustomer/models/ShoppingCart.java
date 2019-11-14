@@ -30,6 +30,10 @@ public class ShoppingCart implements Serializable {
         this.products = products;
     }
 
+    public void clearProducts() {
+        this.products = new ArrayList<>();
+    }
+
     public double getValue() {
         double value = 0.0;
         for(int i = 0; i < this.products.size(); i++) {

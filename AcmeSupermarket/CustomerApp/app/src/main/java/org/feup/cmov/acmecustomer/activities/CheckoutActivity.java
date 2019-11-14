@@ -2,10 +2,12 @@ package org.feup.cmov.acmecustomer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.util.Base64;
 
@@ -53,7 +55,17 @@ public class CheckoutActivity extends AppCompatActivity {
         this.discount = (Boolean) getIntent().getSerializableExtra("Discount");
         this.voucherID = (Integer) getIntent().getSerializableExtra("Coupon");
 
+        Button newPurchase = findViewById(R.id.new_purchase_button);
+        newPurchase.setOnClickListener(view -> newPurchase());
+
         generateQRCode();
+    }
+
+    private void newPurchase() {
+        this.currentCustomer.clearShoppingCart();
+        Intent intent = new Intent(this, MainMenuActivity.class);
+        intent.putExtra("Customer", this.currentCustomer);
+        startActivity(intent);
     }
 
     private Bitmap encodeAsBitmap(String str) throws WriterException {

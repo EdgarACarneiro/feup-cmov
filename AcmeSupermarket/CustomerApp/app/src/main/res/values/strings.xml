@@ -41,4 +41,5 @@
     <string name="applied_discount">Discounted Amount</string>
     <string name="loyalty_coupon">A loyalty coupon will be granted on checkout! Use it on your next purchase to store 15% of the purchase\'s value in store credit!</string>
     <string name="acme_text">ACME SUPERMARKET</string>
+    <string name="new_purchase">New Purchase</string>
 </resources>

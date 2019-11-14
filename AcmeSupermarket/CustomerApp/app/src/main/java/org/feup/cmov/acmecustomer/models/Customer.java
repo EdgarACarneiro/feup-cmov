@@ -50,6 +50,10 @@ public class Customer implements Serializable {
         return this.currentCart;
     }
 
+    public void clearShoppingCart() {
+        this.currentCart.clearProducts();
+    }
+
     public void setShoppingCart(ArrayList<Product> products) {
         this.currentCart.setProducts(products);
     }
