@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     android:padding="15dp"
     tools:context=".activities.MainMenuActivity">
@@ -26,6 +25,7 @@
             android:gravity="center_vertical"
             android:text="@string/customer_name"
             android:textAlignment="viewStart"
+            android:textColor="@color/darkGrey"
             android:textSize="36sp" />
 
         <LinearLayout
@@ -127,14 +127,16 @@
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:text="@string/subtotal"
+                android:textColor="@color/darkGrey"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/shopping_cart_value"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/shopping_value"
+                android:textColor="@color/darkRed"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -144,7 +146,7 @@
             android:layout_height="wrap_content"
             android:text="@string/loyalty_coupon"
             android:textAlignment="viewStart"
-            android:textColor="#326B00"
+            android:textColor="@color/darkRed"
             android:textSize="12sp"
             tools:visibility="gone" />
 
