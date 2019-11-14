@@ -127,9 +127,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void addProduct(String contents) {
         byte[] message = contents.getBytes(StandardCharsets.ISO_8859_1);
-        byte[] signature = Arrays.copyOfRange(
+        byte[] signature = Utils.fromBase64(Arrays.copyOfRange(
                 message, message.length - SIGNATURE_BASE64_SIZE, message.length
-        );
+        ));
         byte[] content = Arrays.copyOfRange(
                 message, 0, message.length - SIGNATURE_BASE64_SIZE
         );
@@ -155,7 +155,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     findViewById(R.id.main_menu),
                     "Failed to add Product."
             ));
-            // return;
+            return;
         }
 
         this.adapter.addProduct(
