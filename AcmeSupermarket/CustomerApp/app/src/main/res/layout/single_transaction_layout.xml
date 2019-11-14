@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:background="@drawable/rounded_border"
-    android:backgroundTint="#B7E7E7E7"
     android:baselineAligned="false">
 
     <LinearLayout
@@ -28,7 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="Date"
+                android:text="@string/Date"
+                android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <ImageView
@@ -40,14 +40,6 @@
                 android:tint="@color/darkGrey"
                 app:srcCompat="@drawable/ic_circle_black_24dp" />
 
-            <ImageView
-                android:id="@+id/used_discount"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:tint="#FFAB00"
-                app:srcCompat="@drawable/ic_circle_black_24dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
-                android:tint="#000000"
+                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_credit_card_black_24dp" />
 
             <TextView
@@ -69,7 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="0000000000000000"
+                android:text="@string/example_card_number"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -90,8 +83,18 @@
             android:id="@+id/value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="@string/default_price"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/discounted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/open_sans"
-            android:text="--.-- €"
+            android:text="@string/negative_default_price"
+            android:textColor="@color/darkRed"
             android:textSize="18sp" />
     </LinearLayout>
 

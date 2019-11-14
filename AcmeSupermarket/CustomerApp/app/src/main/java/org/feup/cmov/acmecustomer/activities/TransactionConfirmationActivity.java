@@ -108,6 +108,8 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
             if (isChecked) {
                 double subtotal = currentCustomer.getShoppingCartValue();
                 double discount = this.availableDiscont * 0.01;
+                // Covering case where discount greater than subtotal
+                discount = discount > subtotal ? subtotal : discount;
 
                 if (discount > 0) {
                     ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", subtotal));

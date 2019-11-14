@@ -24,16 +24,16 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         public TextView date;
         public TextView cardNumber;
         public TextView transactionValue;
+        public TextView discountedValue;
         public ImageView usedCoupon;
-        public ImageView usedDiscount;
 
         public TransactionListViewHolder(View view) {
             super(view);
             this.date = view.findViewById(R.id.date);
             this.cardNumber = view.findViewById(R.id.card_number);
             this.transactionValue = view.findViewById(R.id.value);
+            this.discountedValue = view.findViewById(R.id.discounted);
             this.usedCoupon = view.findViewById(R.id.used_coupon);
-            this.usedDiscount = view.findViewById(R.id.used_discount);
         }
     }
 
@@ -63,14 +63,12 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             holder.usedCoupon.setVisibility(View.INVISIBLE);
         }
 
+        holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getTotal() / 100.0));
         if(this.transactions.get(position).getDiscount() > 0) {
-            holder.usedDiscount.setVisibility(View.VISIBLE);
-            holder.transactionValue.setText(String.format(Locale.US, "%.2f € ",
-                    (this.transactions.get(position).getTotal() - this.transactions.get(position).getDiscount()) / 100.0)
-            );
+            holder.discountedValue.setVisibility(View.VISIBLE);
+            holder.discountedValue.setText(String.format(Locale.US, "- %.2f € ", this.transactions.get(position).getDiscount() / 100.0));
         } else {
-            holder.usedDiscount.setVisibility(View.INVISIBLE);
-            holder.transactionValue.setText(String.format(Locale.US, "%.2f €", this.transactions.get(position).getTotal() / 100.0));
+            holder.discountedValue.setVisibility(View.INVISIBLE);
         }
     }
 

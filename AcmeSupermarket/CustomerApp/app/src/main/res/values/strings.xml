@@ -37,9 +37,13 @@
     <string name="total">Total:</string>
     <string name="discount_value">Discount Value:</string>
     <string name="past_transactions">Past Transactions</string>
-    <string name="used_coupon">Coupon Used</string>
+    <string name="used_coupon">Voucher Used</string>
     <string name="applied_discount">Discounted Amount</string>
     <string name="loyalty_coupon">A loyalty coupon will be granted on checkout! Use it on your next purchase to store 15% of the purchase\'s value in store credit!</string>
     <string name="acme_text">ACME SUPERMARKET</string>
     <string name="new_purchase">New Purchase</string>
+    <string name="default_price">--.-- €</string>
+    <string name="negative_default_price">- --.-- €</string>
+    <string name="Date">Date</string>
+    <string name="example_card_number">0000000000000000</string>
 </resources>
