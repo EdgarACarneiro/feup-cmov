@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.util.Base64;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -22,16 +20,12 @@ import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
-import org.feup.cmov.acmecustomer.models.ShoppingCart;
-import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.UUID;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 import static org.feup.cmov.acmecustomer.Utils.toBase64;

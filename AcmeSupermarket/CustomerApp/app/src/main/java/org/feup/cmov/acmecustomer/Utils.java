@@ -45,11 +45,14 @@ public class Utils {
         return res;
     }
 
-    public static void createSnackbar(View root, String snackTitle) {
-        Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_SHORT);
+    public static void showErrorUI(View root, String snackTitle) {
+        Snackbar snackbar = Snackbar.make(root, "ERROR: " + snackTitle, Snackbar.LENGTH_SHORT);
         snackbar.show();
         View view = snackbar.getView();
+        snackbar.getView().setBackgroundColor(view.getContext().getColor(R.color.darkRed));
         TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        ((TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text))
+                .setTextColor(view.getContext().getColor(R.color.white));
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 }

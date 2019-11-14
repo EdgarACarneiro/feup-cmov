@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             //showError("Please verify the data before submit!");
-            Utils.createSnackbar(findViewById(R.id.login_root), "Please verify the data before submit!");
+            Utils.showErrorUI(findViewById(R.id.login_root), "Please verify the data before submit!");
         }
     }
 

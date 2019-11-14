@@ -142,8 +142,10 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 runOnUiThread(() -> initializeCouponsDropdown());
 
             } else {
-                // Failed Registration - TODO - Detailed Error from Server
-                System.out.println(":::::: FAILED GETTING COUPONS :::::::");
+                runOnUiThread(() -> Utils.showErrorUI(
+                        findViewById(R.id.confirm_transaction),
+                        "Failed to get available Vouchers."
+                ));
             }
         })).start();
     }

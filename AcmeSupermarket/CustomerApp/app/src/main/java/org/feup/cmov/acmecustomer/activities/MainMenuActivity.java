@@ -151,8 +151,10 @@ public class MainMenuActivity extends AppCompatActivity {
         }
 
         if (!verified) {
-            System.out.println("NOT working");
-            // Todo - Handle error
+            runOnUiThread(() -> Utils.showErrorUI(
+                    findViewById(R.id.main_menu),
+                    "Failed to add Product."
+            ));
             // return;
         }
 
@@ -255,8 +257,10 @@ public class MainMenuActivity extends AppCompatActivity {
                 runOnUiThread(() -> transAdapter.setTransactions(transactions));
 
             } else {
-                // Failed Registration - TODO - Detailed Error from Server
-                System.out.println(":::::: FAILED GETTING TRANSACTIONS :::::::");
+                runOnUiThread(() -> Utils.showErrorUI(
+                        findViewById(R.id.main_menu),
+                        "Failed to load previous Transactions."
+                ));
             }
         })).start();
     }

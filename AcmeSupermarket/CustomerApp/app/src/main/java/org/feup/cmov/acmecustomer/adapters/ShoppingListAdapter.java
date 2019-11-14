@@ -73,6 +73,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         View view = ((MainMenuActivity) context).findViewById(R.id.coordinator_layout);
         CharSequence cs = this.recentlyDeletedProduct.getName() + " removed from the shopping cart";
         Snackbar snackbar = Snackbar.make(view, cs, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(this.context.getColor(R.color.darkGrey)); ;
+        ((TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_action))
+                .setTextColor(this.context.getColor(R.color.red));
         snackbar.setAction("Undo", v -> undoDeleteProduct());
         snackbar.show();
     }

@@ -88,16 +88,10 @@ def get_transactions():
         abort(401)
 
     # Getting Transactions
-    # transactions = db.execute(
-    #     'SELECT total, discounted, voucherID, created\
-    #         FROM acmeTransaction WHERE ownerID = ?',
-    #     (uuid, )
-    # ).fetchall()
-
-    # TODO DELETE
     transactions = db.execute(
         'SELECT total, discounted, voucherID, created\
-            FROM acmeTransaction'
+            FROM acmeTransaction WHERE ownerID = ?',
+        (uuid, )
     ).fetchall()
 
     # # Signing content

@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else {
                     // Failed Registration - TODO - Detailed Error from Server
-                    runOnUiThread(() -> showError("Failed Registration. Please try a different Username."));
+                    runOnUiThread(() -> showError("Failed Registration. Please try a different Username and/ or Credit Card ."));
                 }
             })).start();
 
