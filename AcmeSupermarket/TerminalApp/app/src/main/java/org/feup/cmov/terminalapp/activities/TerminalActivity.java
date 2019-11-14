@@ -1,6 +1,7 @@
 package org.feup.cmov.terminalapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -18,13 +19,14 @@ public class TerminalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
 
         Button scanButton = findViewById(R.id.scan_new_purchase);
         scanButton.setOnClickListener(view -> scanPurchase());
 
-        findViewById(R.id.server_response_failure).setVisibility(View.GONE);
-        findViewById(R.id.server_response_success).setVisibility(View.GONE);
+        //findViewById(R.id.server_response_failure).setVisibility(View.GONE);
+        //findViewById(R.id.server_response_success).setVisibility(View.GONE);
     }
 
     private void handleCheckoutResponse(Boolean status) {
