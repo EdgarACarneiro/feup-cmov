@@ -70,6 +70,14 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
 
         ImageView confirmButton = findViewById(R.id.confirm);
         confirmButton.setOnClickListener(view -> checkout());
+
+        showPriceWithoutDisconts();
+
+    }
+
+    private void showPriceWithoutDisconts() {
+        findViewById(R.id.coupon_discount_info).setVisibility(View.GONE);
+        ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
     }
 
     private void initializeCouponsDropdown() {
@@ -92,8 +100,6 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 selectedCoupon = 0;
             }
         });
-
-        initializeDiscont();
     }
 
     private void initializeDiscont() {
@@ -101,10 +107,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         customerWantsDiscount.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             if (isChecked) {
                 double subtotal = currentCustomer.getShoppingCartValue();
-                double discount = this.availableDiscont;
-                if (selectedCoupon > 0)
-                    discount += subtotal * 0.15;
-                discount *= 0.01;
+                double discount = this.availableDiscont * 0.01;
 
                 if (discount > 0) {
                     ((TextView) findViewById(R.id.subtotal_value)).setText(String.format(Locale.US, "%.2f €", subtotal));
@@ -112,10 +115,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                     ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", subtotal - discount));
                     findViewById(R.id.coupon_discount_info).setVisibility(View.VISIBLE);
                 }
-            } else {
-                ((TextView) findViewById(R.id.total_value)).setText(String.format(Locale.US, "%.2f €", currentCustomer.getShoppingCartValue()));
-                findViewById(R.id.coupon_discount_info).setVisibility(View.GONE);
-            }
+            } else showPriceWithoutDisconts();
         });
 
     }
@@ -131,14 +131,12 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         // Triggering vouchers request to server
         new Thread(new GetVouchers(content, (response) -> {
             if (response != null) {
+                this.availableDiscont = response.getDiscounted();
                 this.couponsList = new ArrayList<>();
 
                 for (int voucherId: response.getVouchers()) {
                     couponsList.add(new Coupon(voucherId));
                 }
-                couponsList.add(new Coupon(0)); // TODO DELETE
-                availableDiscont = response.getDiscounted();
-                availableDiscont = 372; // TODO DELETE
                 runOnUiThread(() -> initializeCouponsDropdown());
 
             } else {
