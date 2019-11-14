@@ -1,19 +1,27 @@
 package org.feup.cmov.acmecustomer.models;
 
+import android.content.Context;
+
 import com.google.gson.annotations.Expose;
 
+import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
+import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Customer implements Serializable {
+
+    private static final int SIGNATURE_BASE64_SIZE = 88;
     @Expose
     private CustomerMetadata metadata;
     @Expose
     private PaymentInfo paymentInfo;
+
     private ShoppingCart currentCart;
 
     public Customer(String name, String username, String password, PaymentInfo paymentInfo) {
@@ -75,6 +83,31 @@ public class Customer implements Serializable {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public byte[] getSignedServerMsgContent(byte[] message, Context context) {
+        byte[] signature = Utils.fromBase64(Arrays.copyOfRange(
+                message, message.length - SIGNATURE_BASE64_SIZE, message.length
+        ));
+        byte[] content = Arrays.copyOfRange(
+                message, 0, message.length - SIGNATURE_BASE64_SIZE
+        );
+
+        boolean verified = false;
+        try {
+            Signature sign = Signature.getInstance("SHA256withRSA");
+            sign.initVerify(
+                    KeyStoreHandler.getKeyFromBytes(
+                            LocalStorage.getAcmePublicKey(context)
+                    ));
+            sign.update(content);
+            verified = sign.verify(signature);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return verified? content: null;
     }
 
 }

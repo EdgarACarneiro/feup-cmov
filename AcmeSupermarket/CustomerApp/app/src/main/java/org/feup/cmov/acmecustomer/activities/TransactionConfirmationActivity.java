@@ -131,7 +131,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         byte[] content = concaByteArrays(uuid, toBase64(this.currentCustomer.signMsg(uuid)));
 
         // Triggering vouchers request to server
-        new Thread(new GetVouchers(content, (response) -> {
+        new Thread(new GetVouchers(content, currentCustomer, this.getApplicationContext(), (response) -> {
             if (response != null) {
                 this.availableDiscont = response.getDiscounted();
                 this.couponsList = new ArrayList<>();
@@ -149,7 +149,6 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
             }
         })).start();
     }
-
 
     public String[] getCouponDescriptions() {
         String[] descriptions = new String[couponsList.size() + 1];

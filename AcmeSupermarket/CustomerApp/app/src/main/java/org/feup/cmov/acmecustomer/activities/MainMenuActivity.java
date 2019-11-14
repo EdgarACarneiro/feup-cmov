@@ -29,11 +29,9 @@ import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.models.TransactionRecord;
 import org.feup.cmov.acmecustomer.services.GetTransactions;
-import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -44,10 +42,10 @@ import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    private static final int SIGNATURE_BASE64_SIZE = 88;
-
     private Customer currentCustomer;
+
     private ShoppingListAdapter adapter;
+
     private TransactionListAdapter transAdapter;
 
     @Override
@@ -96,8 +94,10 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 int productAmount = currentCustomer.getShoppingCart().getProducts().size();
                 if(newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if(productAmount > 0) checkoutButton.show();
-                    if(productAmount >= 0 && productAmount < 10) addProductButton.show();
+                    if(productAmount > 0)
+                        checkoutButton.show();
+                    if(productAmount >= 0 && productAmount < 10)
+                        addProductButton.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }
@@ -118,7 +118,7 @@ public class MainMenuActivity extends AppCompatActivity {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT");
-                if (contents != null){
+                if (contents != null) {
                     addProduct(contents);
                 }
             }
@@ -127,30 +127,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void addProduct(String contents) {
         byte[] message = contents.getBytes(StandardCharsets.ISO_8859_1);
-        byte[] signature = Utils.fromBase64(Arrays.copyOfRange(
-                message, message.length - SIGNATURE_BASE64_SIZE, message.length
-        ));
-        byte[] content = Arrays.copyOfRange(
-                message, 0, message.length - SIGNATURE_BASE64_SIZE
+        byte[] content = this.currentCustomer.getSignedServerMsgContent(
+                message, this.getApplicationContext()
         );
 
-        // Todo - Refactor
-        // Signature Validation
-        boolean verified = false;
-        try {
-                Signature sign = Signature.getInstance("SHA256withRSA");
-                sign.initVerify(
-                        KeyStoreHandler.getKeyFromBytes(
-                                LocalStorage.getAcmePublicKey(
-                                        this.getApplicationContext())));
-                sign.update(content);
-                verified = sign.verify(signature);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (!verified) {
+        if (content == null) {
             runOnUiThread(() -> Utils.showErrorUI(
                     findViewById(R.id.main_menu),
                     "Failed to add Product."
@@ -247,7 +228,7 @@ public class MainMenuActivity extends AppCompatActivity {
         byte[] content = concaByteArrays(uuid, toBase64(this.currentCustomer.signMsg(uuid)));
 
         // Triggering vouchers request to server
-        new Thread(new GetTransactions(content, (response) -> {
+        new Thread(new GetTransactions(content, currentCustomer, getApplicationContext(), (response) -> {
             if (response != null) {
                 ArrayList<TransactionRecord> transactions = new ArrayList<>();
 
