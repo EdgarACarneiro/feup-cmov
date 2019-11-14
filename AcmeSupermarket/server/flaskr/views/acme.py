@@ -290,12 +290,12 @@ def checkout():
     acc_discont = user['accumulatedDiscount'] + total * discont_accumulator
 
     if discont:
-        if acc_discont > total:
+        if user['accumulatedDiscount'] > total:
             acc_discont = acc_discont - total
             discounted = total
         else:
-            discounted = acc_discont
-            acc_discont = 0
+            discounted = user['accumulatedDiscount']
+            acc_discont = total * discont_accumulator
 
         db.execute(
             'UPDATE user SET accumulatedDiscount = ? WHERE id = ?',
