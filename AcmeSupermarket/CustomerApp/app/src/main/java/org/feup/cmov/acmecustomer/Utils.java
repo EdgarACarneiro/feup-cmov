@@ -1,6 +1,11 @@
 package org.feup.cmov.acmecustomer;
 
 import android.util.Base64;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.UnsupportedEncodingException;
 
@@ -38,5 +43,13 @@ public class Utils {
         System.arraycopy(b, 0, res, a.length, b.length);
 
         return res;
+    }
+
+    public static void createSnackbar(View root, String snackTitle) {
+        Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+        View view = snackbar.getView();
+        TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 }

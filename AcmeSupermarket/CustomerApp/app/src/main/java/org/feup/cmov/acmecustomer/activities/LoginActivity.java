@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import org.feup.cmov.acmecustomer.R;
+import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
@@ -99,7 +100,8 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("Customer", newCustomer);
             startActivity(intent);
         } else {
-            showError("Please verify the data before submit!");
+            //showError("Please verify the data before submit!");
+            Utils.createSnackbar(findViewById(R.id.login_root), "Please verify the data before submit!");
         }
     }
 
