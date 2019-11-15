@@ -14,6 +14,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
+
 public class GetVouchers extends HttpClient implements Runnable {
 
     public class GetVouchersResponse {
@@ -22,12 +24,36 @@ public class GetVouchers extends HttpClient implements Runnable {
 
         private int discounted;
 
+        GetVouchersResponse(int d) {
+            vouchers = new ArrayList<>();
+            discounted = d;
+        }
+
         public ArrayList<Integer> getVouchers() {
             return this.vouchers;
         }
 
         public int getDiscounted() {
             return discounted;
+        }
+
+        public void addVouchers(Integer v) {
+            this.vouchers.add(v);
+        }
+    }
+
+    private class EncodedResponse {
+
+        private ArrayList<String> vouchers;
+
+        private String discount;
+
+        public ArrayList<String> getVouchers() {
+            return vouchers;
+        }
+
+        public String getDiscount() {
+            return discount;
         }
     }
 
@@ -71,16 +97,37 @@ public class GetVouchers extends HttpClient implements Runnable {
             // Get response
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == 200) {
-                byte[] content = customer.getSignedServerMsgContent(
+                byte[] encodedContent = customer.getSignedServerMsgContent(
                         readStream(urlConnection.getInputStream()).getBytes(StandardCharsets.ISO_8859_1),
                         this.context
                 );
 
-                if (content != null) {
-                    response = (new Gson()).fromJson(
-                            Utils.encode(Utils.fromBase64(content)),
-                            GetVouchersResponse.class
+                // Signature Verified
+                if (encodedContent != null) {
+                    EncodedResponse encodedResponse = new Gson().fromJson(
+                            Utils.encode(Utils.fromBase64(encodedContent)),
+                            EncodedResponse.class
                     );
+                    // Handling encoded discont
+                    byte[] decryptedDiscount = customer.decryptMsg(
+                            Utils.fromBase64(Utils.decode(
+                                    encodedResponse.getDiscount()))
+                    );
+
+                    if (decryptedDiscount != null) {
+                        response = new GetVouchersResponse(parseInt(Utils.encode(decryptedDiscount)));
+
+                        // Handling encoded vouchers
+                        for (String voucher: encodedResponse.getVouchers()) {
+                            byte [] decryptedVoucher = customer.decryptMsg(
+                                    Utils.fromBase64(Utils.decode(voucher))
+                            );
+
+                            if (decryptedVoucher != null)
+                                response.addVouchers(parseInt(Utils.encode(decryptedVoucher)));
+                        }
+                    }
+
                 }
             }
         } catch (Exception e) {

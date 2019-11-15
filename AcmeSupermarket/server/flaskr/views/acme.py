@@ -155,13 +155,24 @@ def get_vouchers():
         (uuid, )
     ).fetchall()
 
-    # Signing content
+    # Encrypting every single voucher and the discount
     content = b64_encode(encode(
         json.dumps({
-            'vouchers': [row['id'] for row in vouchers],
-            'discount': user['accumulatedDiscount']
+            'vouchers': [
+                decode(b64_encode(encrypt(
+                    encode(str(row['id'])),
+                    user_key_from_bytes(user['userPublicKey'])
+                )))
+                for row in vouchers
+            ],
+            'discount': decode(b64_encode(encrypt(
+                encode(str(user['accumulatedDiscount'])),
+                user_key_from_bytes(user['userPublicKey'])
+            )))
         })
     ))
+
+    # Signing content
     final_content = decode(
         content + b64_encode(sign(
             current_app.config['PRIVATE_KEY'],
