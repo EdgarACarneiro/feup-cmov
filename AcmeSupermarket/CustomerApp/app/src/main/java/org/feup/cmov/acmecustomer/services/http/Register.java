@@ -1,4 +1,4 @@
-package org.feup.cmov.acmecustomer.services;
+package org.feup.cmov.acmecustomer.services.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

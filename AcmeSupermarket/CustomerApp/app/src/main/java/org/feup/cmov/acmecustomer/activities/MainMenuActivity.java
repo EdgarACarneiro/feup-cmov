@@ -28,12 +28,11 @@ import org.feup.cmov.acmecustomer.adapters.TransactionListAdapter;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.models.TransactionRecord;
-import org.feup.cmov.acmecustomer.services.GetTransactions;
+import org.feup.cmov.acmecustomer.services.http.GetTransactions;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;

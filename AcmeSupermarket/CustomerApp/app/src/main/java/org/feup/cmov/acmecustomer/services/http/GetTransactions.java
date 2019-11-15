@@ -1,4 +1,4 @@
-package org.feup.cmov.acmecustomer.services;
+package org.feup.cmov.acmecustomer.services.http;
 
 import android.content.Context;
 
@@ -14,46 +14,54 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import static java.lang.Integer.parseInt;
+public class GetTransactions extends HttpClient implements Runnable {
 
-public class GetVouchers extends HttpClient implements Runnable {
+    public class ServerTransaction {
+        private String d;
+        private Integer t;
+        private Integer di;
+        private boolean v;
 
-    public class GetVouchersResponse {
-
-        private ArrayList<Integer> vouchers;
-
-        private int discounted;
-
-        GetVouchersResponse(int d) {
-            vouchers = new ArrayList<>();
-            discounted = d;
+        public String getDate() {
+            return d;
         }
 
-        public ArrayList<Integer> getVouchers() {
-            return this.vouchers;
+        public Integer getDiscounted() {
+            return di;
         }
 
-        public int getDiscounted() {
-            return discounted;
+        public Integer getTotal() {
+            return t;
         }
 
-        public void addVouchers(Integer v) {
-            this.vouchers.add(v);
+        public boolean usedVoucher() {
+            return v;
+        }
+    }
+
+    public class GetTransactionResponse {
+
+        private ArrayList<ServerTransaction> transactions;
+
+        public GetTransactionResponse() {
+            transactions = new ArrayList<>();
+        }
+
+        public ArrayList<ServerTransaction> getTransactions() {
+            return this.transactions;
+        }
+
+        public void addTransaction(ServerTransaction transaction) {
+            this.transactions.add(transaction);
         }
     }
 
     private class EncodedResponse {
 
-        private ArrayList<String> vouchers;
+        private ArrayList<String> transactions;
 
-        private String discount;
-
-        public ArrayList<String> getVouchers() {
-            return vouchers;
-        }
-
-        public String getDiscount() {
-            return discount;
+        public ArrayList<String> getTransactions() {
+            return this.transactions;
         }
     }
 
@@ -63,9 +71,9 @@ public class GetVouchers extends HttpClient implements Runnable {
 
     private Context context;
 
-    private ResponseCallable<GetVouchersResponse> onFinish;
+    private ResponseCallable<GetTransactionResponse> onFinish;
 
-    public GetVouchers(byte[] content, Customer customer, Context context, ResponseCallable<GetVouchersResponse> onFinish) {
+    public GetTransactions(byte[] content, Customer customer, Context context, ResponseCallable<GetTransactionResponse> onFinish) {
         super();
         this.content = content;
         this.customer = customer;
@@ -77,10 +85,10 @@ public class GetVouchers extends HttpClient implements Runnable {
     public void run() {
         URL url;
         HttpURLConnection urlConnection = null;
-        GetVouchersResponse response = null;
+        GetTransactionResponse response = null;
 
         try {
-            url = new URL("http://" + address + "/get-vouchers");
+            url = new URL("http://" + address + "/get-transactions");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
@@ -108,26 +116,20 @@ public class GetVouchers extends HttpClient implements Runnable {
                             Utils.encode(Utils.fromBase64(encodedContent)),
                             EncodedResponse.class
                     );
-                    // Handling encoded discont
-                    byte[] decryptedDiscount = customer.decryptMsg(
-                            Utils.fromBase64(Utils.decode(
-                                    encodedResponse.getDiscount()))
-                    );
+                    response = new GetTransactionResponse();
 
-                    if (decryptedDiscount != null) {
-                        response = new GetVouchersResponse(parseInt(Utils.encode(decryptedDiscount)));
+                    // Handling array of encoded past transactions
+                    for (String transaction: encodedResponse.getTransactions()) {
+                        byte[] decryptedTransaction = customer.decryptMsg(
+                                Utils.fromBase64(Utils.decode(transaction))
+                        );
 
-                        // Handling encoded vouchers
-                        for (String voucher: encodedResponse.getVouchers()) {
-                            byte [] decryptedVoucher = customer.decryptMsg(
-                                    Utils.fromBase64(Utils.decode(voucher))
-                            );
-
-                            if (decryptedVoucher != null)
-                                response.addVouchers(parseInt(Utils.encode(decryptedVoucher)));
-                        }
+                        if (decryptedTransaction != null)
+                            response.addTransaction(new Gson().fromJson(
+                                    Utils.encode(decryptedTransaction),
+                                    ServerTransaction.class
+                            ));
                     }
-
                 }
             }
         } catch (Exception e) {
@@ -139,4 +141,5 @@ public class GetVouchers extends HttpClient implements Runnable {
             this.onFinish.call(response);
         }
     }
+
 }

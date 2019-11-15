@@ -1,6 +1,6 @@
 package org.feup.cmov.acmecustomer.models;
 
-import org.feup.cmov.acmecustomer.services.GetTransactions;
+import org.feup.cmov.acmecustomer.services.http.GetTransactions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

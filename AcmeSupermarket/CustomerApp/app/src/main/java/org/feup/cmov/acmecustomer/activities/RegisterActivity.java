@@ -18,7 +18,7 @@ import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
-import org.feup.cmov.acmecustomer.services.Register;
+import org.feup.cmov.acmecustomer.services.http.Register;
 
 public class RegisterActivity extends AppCompatActivity {
 

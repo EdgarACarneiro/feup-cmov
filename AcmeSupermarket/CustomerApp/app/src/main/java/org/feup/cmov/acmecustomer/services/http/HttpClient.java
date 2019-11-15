@@ -1,4 +1,4 @@
-package org.feup.cmov.acmecustomer.services;
+package org.feup.cmov.acmecustomer.services.http;
 
 
 import org.feup.cmov.acmecustomer.Constants;

@@ -20,7 +20,7 @@ import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
 import org.feup.cmov.acmecustomer.models.Coupon;
 import org.feup.cmov.acmecustomer.models.Customer;
-import org.feup.cmov.acmecustomer.services.GetVouchers;
+import org.feup.cmov.acmecustomer.services.http.GetVouchers;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 import java.util.ArrayList;
