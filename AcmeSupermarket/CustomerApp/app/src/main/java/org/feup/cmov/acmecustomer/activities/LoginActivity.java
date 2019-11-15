@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void onLogin() {
-        /*
         // Validating input errors
         if (!noErrorsOnLogin()) {
             showError("Please verify the data before submit!");
@@ -71,21 +70,21 @@ public class LoginActivity extends AppCompatActivity {
                 LocalStorage.read(this.getApplicationContext(), customerUuid),
                 Customer.class
         );
+        customer.initializeShoppingCart();
         if (!customer.verifyPassword(password))
             showError("Wrong password!");
         else {
             clearError();
 
             // Validated User
-            LocalStorage.setCurrentUuid(this.getApplicationContext, customerUuid);
+            LocalStorage.setCurrentUuid(this, customerUuid);
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra("Customer", customer);
             startActivity(intent);
         }
-        */
 
         // PREVIOUS CODE
-        if (noErrorsOnLogin()) {
+        /*if (noErrorsOnLogin()) {
             clearError();
 
             //TODO: Missing load of local info
@@ -102,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             //showError("Please verify the data before submit!");
             Utils.showErrorUI(findViewById(R.id.login_root), "Please verify the data before submit!");
-        }
+        }*/
     }
 
     protected boolean noErrorsOnLogin() {

@@ -46,7 +46,7 @@ public class Customer implements Serializable {
     }
 
     public boolean verifyPassword(String password) {
-        return this.metadata.getPassword() == password;
+        return this.metadata.getPassword().equals(password);
     }
 
     public PaymentInfo getPaymentInfo() {
@@ -63,6 +63,10 @@ public class Customer implements Serializable {
 
     public void clearShoppingCart() {
         this.currentCart.clearProducts();
+    }
+
+    public void initializeShoppingCart() {
+        currentCart = new ShoppingCart();
     }
 
     public void setShoppingCart(ArrayList<Product> products) {
