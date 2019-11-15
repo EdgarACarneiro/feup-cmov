@@ -2,7 +2,7 @@ from flask import (
     Blueprint, flash, g, request, session, current_app, request, abort, json
 )
 from flaskr.keys.keys import (
-    sign, verify, user_key_from_bytes, load_keys
+    sign, verify, user_key_from_bytes, load_keys, encrypt
 )
 from ..utils import (
     generic_error_handler, gen_UUID, decode, encode, b64_decode, b64_encode
@@ -94,20 +94,25 @@ def get_transactions():
         (uuid, )
     ).fetchall()
 
-    # Signing content
+    # Encrypting every single transaction
     content = b64_encode(encode(
         json.dumps({
             'transactions': [
-                {
-                    'date': t['created'].strftime("%d-%m-%Y"),
-                    'total': t['total'],
-                    'discounted': t['discounted'],
-                    'voucher': t['voucherID'] is None,
-                }
+                decode(b64_encode(encrypt(
+                    encode(json.dumps({
+                        'd': t['created'].strftime("%d-%m-%Y"),
+                        't': t['total'],
+                        'di': t['discounted'],
+                        'v': t['voucherID'] is None,
+                    })),
+                    user_key_from_bytes(user['userPublicKey'])
+                )))
                 for t in transactions
             ]
         })
     ))
+
+    # Signing content
     final_content = decode(
         content + b64_encode(sign(
             current_app.config['PRIVATE_KEY'],

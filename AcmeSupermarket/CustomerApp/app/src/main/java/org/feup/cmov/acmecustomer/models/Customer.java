@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.annotations.Expose;
 
+import org.feup.cmov.acmecustomer.Constants;
 import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
@@ -13,6 +14,8 @@ import java.security.PrivateKey;
 import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.crypto.Cipher;
 
 public class Customer implements Serializable {
 
@@ -108,6 +111,18 @@ public class Customer implements Serializable {
         }
 
         return verified? content: null;
+    }
+
+    public byte[] decryptMsg(byte[] message) {
+        try {
+            Cipher cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding");
+            cipher.init(Cipher.DECRYPT_MODE, KeyStoreHandler.getUserPrivateKey(this.getUsername()));
+            return cipher.doFinal(message);
+        }
+        catch (Exception e) {
+            System.err.println("Failed to decrypt message");
+            return null;
+        }
     }
 
 }

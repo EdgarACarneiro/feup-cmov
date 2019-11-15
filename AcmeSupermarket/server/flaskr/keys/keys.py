@@ -55,6 +55,13 @@ def verify(public_key, signature, data):
     return is_signature_correct
 
 
+def encrypt(content, public_key):
+    return public_key.encrypt(
+        content,
+        padding.PKCS1v15()
+    )
+
+
 def init_keys(keys_folder: str):
     """Generate and store both public and private keys in
     the given folder in file 'keys.cfg'"""

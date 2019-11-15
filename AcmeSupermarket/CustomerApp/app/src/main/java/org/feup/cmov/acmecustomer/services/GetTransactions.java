@@ -18,25 +18,25 @@ import java.util.Date;
 public class GetTransactions extends HttpClient implements Runnable {
 
     public class ServerTransaction {
-        private String date;
-        private Integer total;
-        private Integer discounted;
-        private boolean voucher;
+        private String d;
+        private Integer t;
+        private Integer di;
+        private boolean v;
 
         public String getDate() {
-            return date;
+            return d;
         }
 
         public Integer getDiscounted() {
-            return discounted;
+            return di;
         }
 
         public Integer getTotal() {
-            return total;
+            return t;
         }
 
         public boolean usedVoucher() {
-            return voucher;
+            return v;
         }
     }
 
@@ -44,7 +44,24 @@ public class GetTransactions extends HttpClient implements Runnable {
 
         private ArrayList<ServerTransaction> transactions;
 
+        public GetTransactionResponse() {
+            transactions = new ArrayList<>();
+        }
+
         public ArrayList<ServerTransaction> getTransactions() {
+            return this.transactions;
+        }
+
+        public void addTransaction(ServerTransaction transaction) {
+            this.transactions.add(transaction);
+        }
+    }
+
+    private class EncodedResponse {
+
+        private ArrayList<String> transactions;
+
+        public ArrayList<String> getTransactions() {
             return this.transactions;
         }
     }
@@ -89,16 +106,31 @@ public class GetTransactions extends HttpClient implements Runnable {
             // Get response
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == 200) {
-                byte[] content = customer.getSignedServerMsgContent(
+                byte[] encodedContent = customer.getSignedServerMsgContent(
                         readStream(urlConnection.getInputStream()).getBytes(StandardCharsets.ISO_8859_1),
                         this.context
                 );
 
-                if (content != null) {
-                    response = (new Gson()).fromJson(
-                            Utils.encode(Utils.fromBase64(content)),
-                            GetTransactionResponse.class
+                // Signature Verified
+                if (encodedContent != null) {
+                    EncodedResponse encodedResponse = new Gson().fromJson(
+                            Utils.encode(Utils.fromBase64(encodedContent)),
+                            EncodedResponse.class
                     );
+                    response = new GetTransactionResponse();
+
+                    // Handling array of encoded past transactions
+                    for (String transaction: encodedResponse.getTransactions()) {
+                        byte[] decryptedTransaction = customer.decryptMsg(
+                                Utils.fromBase64(Utils.decode(transaction))
+                        );
+
+                        if (decryptedTransaction != null)
+                            response.addTransaction(new Gson().fromJson(
+                                    Utils.encode(decryptedTransaction),
+                                    ServerTransaction.class
+                            ));
+                    }
                 }
             }
         } catch (Exception e) {
