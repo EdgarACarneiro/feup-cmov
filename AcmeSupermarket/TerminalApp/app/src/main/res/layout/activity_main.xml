@@ -12,25 +12,21 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginTop="50dp"
+        android:layout_weight="1"
         app:srcCompat="@mipmap/logo" />
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/scan_new_purchase"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/scan_new_purchase"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/transaparent"
-            android:gravity="center"
-            android:text="@string/scan_purchase"
-            android:textSize="30sp" />
-    </RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:background="@color/transaparent"
+        android:gravity="center"
+        android:text="@string/scan_purchase"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:id="@+id/server_response_success"
@@ -38,16 +34,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        tools:visibility="gone">
+        tools:visibility="invisible">
 
         <ImageView
             android:id="@+id/response_icon_success"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_check_box_black_24dp"
-            tools:visibility="visible" />
+            android:layout_height="wrap_content"
+            android:tint="@color/green"
+            app:srcCompat="@drawable/ic_check_box_black_24dp" />
 
         <TextView
             android:id="@+id/response_text_success"
@@ -57,7 +51,7 @@
             android:fontFamily="sans-serif"
             android:text="@string/transaction_success"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/green"
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -72,8 +66,7 @@
         <ImageView
             android:id="@+id/response_icon_failure"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_height="wrap_content"
             android:tint="@color/darkRed"
             app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
