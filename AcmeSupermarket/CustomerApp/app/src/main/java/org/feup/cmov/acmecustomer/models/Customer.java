@@ -119,7 +119,7 @@ public class Customer implements Serializable {
 
     public byte[] decryptMsg(byte[] message) {
         try {
-            Cipher cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding");
+            Cipher cipher = Cipher.getInstance(Constants.DECRYPT_ALGO);
             cipher.init(Cipher.DECRYPT_MODE, KeyStoreHandler.getUserPrivateKey(this.getUsername()));
             return cipher.doFinal(message);
         }
