@@ -90,7 +90,7 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void generateQRCode() {
-        ArrayList<Product> products = this.currentCustomer.getShoppingCart().getProducts();
+        ArrayList<Product> products = this.currentCustomer.getShoppingCart().toArrayList();
         ByteBuffer buffer = ByteBuffer.allocate(
                 CHECKOUT_MSG_BASE_SIZE + products.size() * Product.CHECKOUT_MSG_SIZE
         );

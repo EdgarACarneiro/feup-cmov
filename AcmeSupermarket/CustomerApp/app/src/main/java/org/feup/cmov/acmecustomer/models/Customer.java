@@ -69,7 +69,7 @@ public class Customer implements Serializable {
         currentCart = new ShoppingCart();
     }
 
-    public void setShoppingCart(ArrayList<Product> products) {
+    public void setShoppingCart(ArrayList<ShoppingCart.Pair<Product, Integer>> products) {
         this.currentCart.setProducts(products);
     }
 
