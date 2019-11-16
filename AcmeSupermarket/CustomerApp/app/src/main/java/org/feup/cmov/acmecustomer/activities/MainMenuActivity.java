@@ -77,6 +77,9 @@ public class MainMenuActivity extends AppCompatActivity {
         ImageView pastTransactions = findViewById(R.id.past_transactions);
         pastTransactions.setOnClickListener(view -> showPastTransactionsDialog(view.getContext()));
 
+        ImageView logOut = findViewById(R.id.log_out);
+        logOut.setOnClickListener(view -> logOut());
+
         FloatingActionButton checkoutButton = findViewById(R.id.checkout_button);
         if(this.currentCustomer.getShoppingCart().getProducts().size() > 0) {
             checkoutButton.show();
@@ -152,6 +155,11 @@ public class MainMenuActivity extends AppCompatActivity {
         } else {
             couponMessage.setVisibility(View.GONE);
         }
+    }
+
+    public void logOut() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     public void checkout() {
