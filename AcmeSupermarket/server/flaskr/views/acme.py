@@ -323,6 +323,7 @@ def checkout():
     db.commit()
 
     return current_app.response_class(
+        response=str(total-discounted),
         status=200,
         mimetype='application/json'
     )

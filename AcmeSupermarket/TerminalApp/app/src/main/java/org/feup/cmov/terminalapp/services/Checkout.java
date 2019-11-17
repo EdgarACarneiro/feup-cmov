@@ -10,9 +10,9 @@ public class Checkout extends HttpClient implements Runnable {
 
     private String checkoutMsg;
 
-    private ResponseCallable<Boolean> onFinnish;
+    private ResponseCallable<Integer> onFinnish;
 
-    public Checkout(String checkoutMsg, ResponseCallable<Boolean> onFinnish) {
+    public Checkout(String checkoutMsg, ResponseCallable<Integer> onFinnish) {
         super();
         this.checkoutMsg = checkoutMsg;
         this.onFinnish = onFinnish;
@@ -22,7 +22,7 @@ public class Checkout extends HttpClient implements Runnable {
     public void run() {
         URL url;
         HttpURLConnection urlConnection = null;
-        boolean result = false;
+        int result = -1;
 
         try {
             url = new URL("http://" + address + "/checkout");
@@ -43,16 +43,15 @@ public class Checkout extends HttpClient implements Runnable {
             // Handle response
             int responseCode = urlConnection.getResponseCode();
             if(responseCode == 200)
-                result = true;
+                result = Integer.parseInt(readStream(urlConnection.getInputStream()));
         }
         catch (Exception e) {
-            // TODO - SHOW TERMINAL ERROR
             System.out.println(e.fillInStackTrace());
         }
         finally {
             if(urlConnection != null)
                 urlConnection.disconnect();
-
+            
             this.onFinnish.call(result);
         }
     }

@@ -14,12 +14,13 @@ import android.widget.TextView;
 import org.feup.cmov.terminalapp.R;
 import org.feup.cmov.terminalapp.services.Checkout;
 
+import java.util.Locale;
+
 public class TerminalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
 
         Button scanButton = findViewById(R.id.scan_new_purchase);
@@ -27,17 +28,24 @@ public class TerminalActivity extends AppCompatActivity {
 
         findViewById(R.id.server_response_failure).setVisibility(View.INVISIBLE); //allocate space on view
         findViewById(R.id.server_response_success).setVisibility(View.GONE);
+        findViewById(R.id.miniLogo).setVisibility(View.GONE);
 
     }
 
-    private void handleCheckoutResponse(Boolean status) {
-        if (status) {
+    private void handleCheckoutResponse(Integer status) {
+        if (status >= 0) {
             runOnUiThread(() -> {
+                findViewById(R.id.logo).setVisibility(View.GONE);
+                findViewById(R.id.miniLogo).setVisibility(View.VISIBLE);
                 findViewById(R.id.server_response_failure).setVisibility(View.GONE);
                 findViewById(R.id.server_response_success).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.total_amount)).setText(
+                        String.format(Locale.US, "Total amount paid: %.2f €", status * 0.01));
             });
         } else {
             runOnUiThread(() -> {
+                findViewById(R.id.logo).setVisibility(View.GONE);
+                findViewById(R.id.miniLogo).setVisibility(View.VISIBLE);
                 findViewById(R.id.server_response_success).setVisibility(View.GONE);
                 findViewById(R.id.server_response_failure).setVisibility(View.VISIBLE);
             });

@@ -4,4 +4,5 @@
     <string name="scan_purchase">Scan New Purchase</string>
     <string name="transaction_success">The transaction was successful!</string>
     <string name="transaction_failed">The transaction failed!</string>
+    <string name="amount_paid">Total Amount paid: --.-- €</string>
 </resources>
