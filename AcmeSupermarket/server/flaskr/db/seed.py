@@ -31,11 +31,16 @@ def seed_db():
 
     # Create Products
     prods = [
-        ('4dadae03-06c6-4a18-9eed-18c8a34db686', 99, 'Trident Fruit'),
-        ('4dadae03-06c6-4a18-9eed-48c8a34db686', 199, 'Ruffles'),
-        ('4dadae03-06c6-4a18-9eed-38c8a34db686', 199, 'Ketchup'),
-        ('4dadae03-06c6-4a18-9eed-68c8a34db686', 16, 'Water Luso 0.5L'),
-        ('4dadae03-06c6-4a18-9eed-78c8a34db686', 1420, 'Wine Tapada Das Lebres 1L')
+        ('4dadae03-06c6-4a18-9eed-68c8a34db686', 18, 'Water ACME 0.5L'),
+        ('6ceeee10-06c6-4a18-9ccc-78c8a34db686', 55, 'Carrots /kg'),
+        ('5eeeee10-06c6-4a18-9ccc-78c8a34db686', 79, 'Onions /kg'),
+        ('5eadae10-06c6-4a18-9ccc-78c8a34db686', 99, 'Fusilloni pasta 500g'),
+        ('1fadae10-06c6-4a18-9eed-78c8a34db686', 149, 'Orange /kg'),
+        ('3badae10-06c6-4a18-9ccc-78c8a34db686', 379, 'Shrimp tempura 200g'),
+        ('9dadae03-06c6-4a18-9eed-78c8a34db686', 820, 'Wine Tapada Das Lebres 1L'),
+        ('2fadae10-06c6-4a18-9ddd-78c8a34db686', 899, 'Lamb leg /kg'),
+        ('9aadae10-06c6-4a18-9eee-78c8a34db686', 1499, 'Cod Loins 600g'),
+        ('8ceeee10-06c6-4a18-9ccc-78c8a34db686', 5082, 'Vintage Whisky 0.7L'),
     ]
     for prod in prods:
         db.execute(
@@ -59,21 +64,21 @@ def seed_db():
     # Create Transactions
     transactions = [
         (1, '0001', 397, 200, '5dadae03-06c6-4a18-9eed-18c8a34db686', [
-            ('prod1', 2),
-            ('prod2', 1)
+            ('4dadae03-06c6-4a18-9eed-68c8a34db686', 2),
+            ('1fadae10-06c6-4a18-9eed-78c8a34db686', 1)
         ]),
         (2, '0001', 513, 0, None, [
-            ('prod1', 1),
-            ('prod2', 1),
-            ('prod3', 1),
-            ('prod4', 1)
+            ('4dadae03-06c6-4a18-9eed-68c8a34db686', 1),
+            ('1fadae10-06c6-4a18-9eed-78c8a34db686', 1),
+            ('8ceeee10-06c6-4a18-9ccc-78c8a34db686', 1),
+            ('9aadae10-06c6-4a18-9eee-78c8a34db686', 1)
         ]),
         (3, '0002', 7100, 0, None, [
-            ('prod5', 5)
+            ('8ceeee10-06c6-4a18-9ccc-78c8a34db686', 5)
         ]),
         (4, '0003', 397, 0, '9dadae03-06c6-4a18-9eed-18c8a34db686', [
-            ('prod4', 10),
-            ('prod2', 10)
+            ('9aadae10-06c6-4a18-9eee-78c8a34db686', 10),
+            ('1fadae10-06c6-4a18-9eed-78c8a34db686', 10)
         ]),
     ]
     for *t, tps in transactions:
