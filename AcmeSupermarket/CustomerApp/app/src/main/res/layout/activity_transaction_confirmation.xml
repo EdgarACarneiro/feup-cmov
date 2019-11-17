@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:fontFamily="@font/open_sans_bold"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/confirm_your_purchase"
         android:textAlignment="center"
         android:textColor="@color/darkGrey"
@@ -34,8 +34,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:fontFamily="@font/open_sans_semibold"
+            android:fontFamily="@font/montserrat_regular"
             android:text="@string/coupon"
+            android:textColor="@color/darkGrey"
             android:textSize="18sp" />
 
         <Spinner
@@ -62,9 +63,10 @@
             android:button="@null"
             android:checked="false"
             android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/montserrat_regular"
             android:text="@string/discount"
-            android:textSize="18sp" />
+            android:textColor="@color/darkGrey"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -97,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
-                android:fontFamily="@font/open_sans_semibold"
+                android:fontFamily="@font/montserrat_regular"
                 android:gravity="center_vertical"
                 android:text="@string/subtotal"
                 android:textSize="18sp" />
@@ -106,6 +108,7 @@
                 android:id="@+id/subtotal_value"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/montserrat_regular"
                 android:gravity="center_vertical"
                 android:text="@string/shopping_value"
                 android:textSize="18sp" />
@@ -123,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
-                android:fontFamily="@font/open_sans_semibold"
+                android:fontFamily="@font/montserrat_regular"
                 android:gravity="center_vertical"
                 android:text="@string/discount_value"
                 android:textSize="18sp" />
@@ -132,6 +135,7 @@
                 android:id="@+id/discount_value"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/montserrat_regular"
                 android:gravity="center_vertical"
                 android:text="@string/shopping_value"
                 android:textColor="@color/darkRed"
@@ -152,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
-            android:fontFamily="@font/open_sans_semibold"
+            android:fontFamily="@font/montserrat_regular"
             android:gravity="center_vertical"
             android:text="@string/total"
             android:textSize="18sp" />
@@ -161,7 +165,7 @@
             android:id="@+id/total_value"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/montserrat_semibold"
             android:gravity="center_vertical"
             android:text="@string/shopping_value"
             android:textSize="18sp" />

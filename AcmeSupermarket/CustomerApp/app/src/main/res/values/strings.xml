@@ -10,7 +10,7 @@
     <string name="password">Password</string>
     <string name="enter_password">Enter a password...</string>
     <string name="payment_info">Payment Info</string>
-    <string name="card_number">Card Number</string>
+    <string name="card_number">Card Num</string>
     <string name="enter_card_number">Enter your card number...</string>
     <string name="enter_card_holder">Enter the card holder...</string>
     <string name="card_holder">Card Holder</string>

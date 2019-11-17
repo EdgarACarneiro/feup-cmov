@@ -128,7 +128,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // As QRCode message
         String string = new String(content, StandardCharsets.ISO_8859_1);
-        System.out.println(string);
 
         try {
             ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(
