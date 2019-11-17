@@ -103,7 +103,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 if(newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if(productAmount > 0)
                         checkoutButton.show();
-                    if(productAmount >= 0 && productAmount < 10)
+                    if(!currentCustomer.getShoppingCart().isFull())
                         addProductButton.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
