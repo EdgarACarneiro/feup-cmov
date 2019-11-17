@@ -25,6 +25,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     private Pair<Product, Integer> recentlyDeletedProduct;
     private int recentlyDeletedProductIndex;
     private Context context;
+    private Snackbar currentSnackbar;
 
     public ShoppingListAdapter(Context context, Customer customer) {
         this.customer = customer;
@@ -43,6 +44,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
                     updateButtons();
                     ((MainMenuActivity) context).updateCartValue();
                 }
+                if(currentSnackbar != null) {
+                    currentSnackbar.dismiss();
+                }
             }
 
             @Override
@@ -52,6 +56,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
                 if(context instanceof MainMenuActivity) {
                     updateButtons();
                     ((MainMenuActivity) context).updateCartValue();
+                }
+                if(currentSnackbar != null) {
+                    currentSnackbar.dismiss();
                 }
             }
         });
@@ -91,6 +98,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         this.recentlyDeletedProductIndex = position;
         this.customer.getShoppingCart().removeProduct(position);
         notifyItemRemoved(position);
+        notifyDataSetChanged();
         if(context instanceof MainMenuActivity) {
             updateButtons();
             ((MainMenuActivity) context).updateCartValue();
@@ -101,17 +109,18 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public void showUndoSnackbar() {
         View view = ((MainMenuActivity) context).findViewById(R.id.coordinator_layout);
         CharSequence cs = this.recentlyDeletedProduct.getFirst().getName() + " removed from the shopping cart";
-        Snackbar snackbar = Snackbar.make(view, cs, Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(this.context.getColor(R.color.darkGrey));
-        ((TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_action))
+        this.currentSnackbar = Snackbar.make(view, cs, Snackbar.LENGTH_LONG);
+        currentSnackbar.getView().setBackgroundColor(this.context.getColor(R.color.darkGrey));
+        ((TextView) currentSnackbar.getView().findViewById(com.google.android.material.R.id.snackbar_action))
                 .setTextColor(this.context.getColor(R.color.red));
-        snackbar.setAction("Undo", v -> undoDeleteProduct());
-        snackbar.show();
+        currentSnackbar.setAction("Undo", v -> undoDeleteProduct());
+        currentSnackbar.show();
     }
 
     public void undoDeleteProduct() {
         this.customer.getShoppingCart().getProducts().add(this.recentlyDeletedProductIndex, this.recentlyDeletedProduct);
         notifyItemInserted(this.recentlyDeletedProductIndex);
+        notifyDataSetChanged();
         if(context instanceof MainMenuActivity) {
             updateButtons();
             ((MainMenuActivity) context).updateCartValue();
