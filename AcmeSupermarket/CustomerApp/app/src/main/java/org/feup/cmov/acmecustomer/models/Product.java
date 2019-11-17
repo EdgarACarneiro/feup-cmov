@@ -12,7 +12,7 @@ import static org.feup.cmov.acmecustomer.Utils.encode;
 
 public class Product implements Serializable {
 
-    public static final int CHECKOUT_MSG_SIZE = 4 + 36 + 4 + 4;
+    public static final int CHECKOUT_MSG_SIZE = 4 + 16 + 4 + 4;
 
     private UUID code;
     private String name;

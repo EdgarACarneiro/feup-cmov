@@ -40,7 +40,7 @@ public class TerminalActivity extends AppCompatActivity {
                 findViewById(R.id.server_response_failure).setVisibility(View.GONE);
                 findViewById(R.id.server_response_success).setVisibility(View.VISIBLE);
                 ((TextView) findViewById(R.id.total_amount)).setText(
-                        String.format(Locale.US, "Total amount paid: %.2f €", status * 0.01));
+                        String.format(Locale.US, "Total amount paid: %.2f€", status * 0.01));
             });
         } else {
             runOnUiThread(() -> {

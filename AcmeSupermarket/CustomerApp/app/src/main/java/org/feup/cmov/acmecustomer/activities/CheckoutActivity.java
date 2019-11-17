@@ -24,6 +24,7 @@ import org.feup.cmov.acmecustomer.services.LocalStorage;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.UUID;
 
