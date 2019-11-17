@@ -81,18 +81,20 @@
 
         <TextView
             android:id="@+id/value"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/open_sans_bold"
+            android:gravity="center"
             android:text="@string/default_price"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
         <TextView
             android:id="@+id/discounted"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/open_sans"
+            android:gravity="center"
             android:text="@string/negative_default_price"
             android:textColor="@color/darkRed"
             android:textSize="18sp" />

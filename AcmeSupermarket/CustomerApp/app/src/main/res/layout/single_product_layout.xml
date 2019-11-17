@@ -23,14 +23,14 @@
         android:textSize="24sp" />
 
     <ImageView
-        android:id="@+id/remove_quantity"
+        android:id="@+id/add_quantity"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
         android:tint="@color/white"
-        app:srcCompat="@drawable/ic_remove_black_24dp" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <TextView
         android:id="@+id/product_quantity"
@@ -46,14 +46,14 @@
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/add_quantity"
+        android:id="@+id/remove_quantity"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
         android:tint="@color/white"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        app:srcCompat="@drawable/ic_remove_black_24dp" />
 
     <TextView
         android:id="@+id/product_price"
