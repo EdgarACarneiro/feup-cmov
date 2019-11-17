@@ -51,7 +51,7 @@ public class Checkout extends HttpClient implements Runnable {
         finally {
             if(urlConnection != null)
                 urlConnection.disconnect();
-            
+
             this.onFinnish.call(result);
         }
     }

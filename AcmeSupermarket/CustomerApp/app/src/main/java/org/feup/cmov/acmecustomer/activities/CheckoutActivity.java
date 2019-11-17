@@ -59,6 +59,7 @@ public class CheckoutActivity extends AppCompatActivity {
         this.currentCustomer.clearShoppingCart();
         Intent intent = new Intent(this, MainMenuActivity.class);
         intent.putExtra("Customer", this.currentCustomer);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
