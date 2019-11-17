@@ -20,7 +20,7 @@ public class GetVouchers extends HttpClient implements Runnable {
 
     public class GetVouchersResponse {
 
-        private ArrayList<Integer> vouchers;
+        private ArrayList<String> vouchers;
 
         private int discounted;
 
@@ -29,7 +29,7 @@ public class GetVouchers extends HttpClient implements Runnable {
             discounted = d;
         }
 
-        public ArrayList<Integer> getVouchers() {
+        public ArrayList<String> getVouchers() {
             return this.vouchers;
         }
 
@@ -37,7 +37,7 @@ public class GetVouchers extends HttpClient implements Runnable {
             return discounted;
         }
 
-        public void addVouchers(Integer v) {
+        public void addVouchers(String v) {
             this.vouchers.add(v);
         }
     }
@@ -124,7 +124,7 @@ public class GetVouchers extends HttpClient implements Runnable {
                             );
 
                             if (decryptedVoucher != null)
-                                response.addVouchers(parseInt(Utils.encode(decryptedVoucher)));
+                                response.addVouchers(Utils.encode(decryptedVoucher));
                         }
                     }
 

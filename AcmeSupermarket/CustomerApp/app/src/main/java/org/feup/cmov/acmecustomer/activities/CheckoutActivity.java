@@ -32,13 +32,15 @@ import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-    private static final int CHECKOUT_MSG_BASE_SIZE = 4 + 16 + 1 + 4;
+    private static final int UUID_SIZE = 16;
+
+    private static final int CHECKOUT_MSG_BASE_SIZE = 4 + UUID_SIZE + 1 + 1;
 
     private Customer currentCustomer;
 
     private Boolean discount;
 
-    private Integer voucherID;
+    private String voucherID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         this.currentCustomer = (Customer) getIntent().getSerializableExtra("Customer");
         this.discount = (Boolean) getIntent().getSerializableExtra("Discount");
-        this.voucherID = (Integer) getIntent().getSerializableExtra("Coupon");
+        this.voucherID = (String) getIntent().getSerializableExtra("Coupon");
 
         Button newPurchase = findViewById(R.id.new_purchase_button);
         newPurchase.setOnClickListener(view -> newPurchase());
@@ -93,7 +95,9 @@ public class CheckoutActivity extends AppCompatActivity {
     private void generateQRCode() {
         ArrayList<Product> products = this.currentCustomer.getShoppingCart().toArrayList();
         ByteBuffer buffer = ByteBuffer.allocate(
-                CHECKOUT_MSG_BASE_SIZE + products.size() * Product.CHECKOUT_MSG_SIZE
+                CHECKOUT_MSG_BASE_SIZE
+                        + products.size() * Product.CHECKOUT_MSG_SIZE
+                        + (voucherID != null? UUID_SIZE : 0)
         );
 
         // Loading Acme Tag and UUID
@@ -107,8 +111,15 @@ public class CheckoutActivity extends AppCompatActivity {
             buffer.put(prod.getProductAsBytes());
 
         // Loading Voucher choice and discount choice
-        System.out.println(voucherID);
-        buffer.putInt(voucherID);
+        if (voucherID != null) {
+            System.out.println(voucherID);
+            UUID voucherUID = UUID.fromString(voucherID);
+            buffer.putLong(voucherUID.getMostSignificantBits());
+            buffer.putLong(voucherUID.getLeastSignificantBits());
+            buffer.put((byte) 1);
+        } else {
+            buffer.put((byte) 0);
+        }
         buffer.put((byte) (discount? 1: 0));
 
         // Signing everything

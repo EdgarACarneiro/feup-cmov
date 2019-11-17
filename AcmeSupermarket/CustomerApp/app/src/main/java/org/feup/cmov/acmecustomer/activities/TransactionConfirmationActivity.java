@@ -147,7 +147,7 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
                 this.availableDiscont = response.getDiscounted();
                 this.couponsList = new ArrayList<>();
 
-                for (int voucherId: response.getVouchers()) {
+                for (String voucherId: response.getVouchers()) {
                     couponsList.add(new Coupon(voucherId));
                 }
                 runOnUiThread(() -> initializeCouponsDropdown());
@@ -185,7 +185,10 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         intent.putExtra("Customer", this.currentCustomer);
         intent.putExtra("Discount", customerWantsDiscount.isChecked());
         intent.putExtra("Coupon",
-                (selectedCoupon == 0? -1: couponsList.get(selectedCoupon - 1).getId())
+                (selectedCoupon == 0?
+                        null:
+                        couponsList.get(selectedCoupon - 1).getId().toString()
+                )
         );
 
         startActivity(intent);

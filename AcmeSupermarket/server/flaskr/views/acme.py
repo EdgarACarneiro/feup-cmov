@@ -16,7 +16,7 @@ acme = Blueprint('acme', __name__)
 SIGNATURE_BASE64_SIZE = 90
 UUID_SIZE = 16
 INTEGER_SIZE = 4
-PRODUCT_SIZE = 4 + 36 + 4 + 4
+PRODUCT_SIZE = 4 + 16 + 4 + 4
 ONE_HUNDRED_EUROS_IN_CENTS = 10000
 
 
@@ -79,7 +79,6 @@ def get_transactions():
 
     # Checking if User exists
     uuid = str(UUID_from_bytes(decoded_content))
-    print(uuid)
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -109,7 +108,7 @@ def get_transactions():
                         'd': t['created'].strftime("%d-%m-%Y"),
                         't': t['total'],
                         'di': t['discounted'],
-                        'v': t['voucherID'] is None,
+                        'v': t['voucherID'] is not None,
                     })),
                     user_key_from_bytes(user['userPublicKey'])
                 )))
@@ -226,12 +225,17 @@ def checkout():
                   content):
         abort(401)
 
-    # Extract voucher and discont
+    # Extract discount
     discont = unpack('b', decoded_content[-1:])[0]
     decoded_content = decoded_content[:-1]
 
-    voucher_id = unpack('>i', decoded_content[-INTEGER_SIZE:])[0]
-    decoded_content = decoded_content[:-INTEGER_SIZE]
+    # Extract voucher
+    has_voucher = unpack('b', decoded_content[-1:])[0]
+    decoded_content = decoded_content[:-1]
+
+    if has_voucher:
+        voucher_id = str(UUID_from_bytes(decoded_content[-UUID_SIZE:]))
+        decoded_content = decoded_content[:-UUID_SIZE]
 
     # Extracting products and total
     products = {}
@@ -269,20 +273,20 @@ def checkout():
     # Creating new Vouchers
     for _ in range(0, total // ONE_HUNDRED_EUROS_IN_CENTS):
         db.execute(
-            'INSERT INTO voucher (ownerID) VALUES (?)',
-            (uuid, )
+            'INSERT INTO voucher (id, ownerID) VALUES (?, ?)',
+            (str(gen_UUID()), uuid)
         )
 
     # Processing voucher
     discont_accumulator = 0
-    if voucher_id is not -1:
+    if has_voucher:
         discont_accumulator = 0.15
 
         # Checking if voucher is valid
         if db.execute(
             'SELECT * FROM voucher WHERE id = ? AND used = 0',
             (voucher_id, )
-        ) is None:
+        ).fetchone() is None:
             abort(400)
 
         # Updating voucher
@@ -293,7 +297,8 @@ def checkout():
 
     # Updating discont
     discounted = 0
-    acc_discont = user['accumulatedDiscount'] + round(total * discont_accumulator)
+    acc_discont = user['accumulatedDiscount'] + \
+        round(total * discont_accumulator)
 
     if discont:
         if user['accumulatedDiscount'] > total:
@@ -315,11 +320,18 @@ def checkout():
 
     # Creating transaction
     trans_exec = db.cursor()
-    trans_exec.execute(
-        'INSERT INTO acmeTransaction (ownerID, total,\
-            discounted, voucherID) VALUES (?, ?, ?, ?)',
-        (uuid, total, discounted, voucher_id if voucher_id is not -1 else None)
-    )
+    if has_voucher:
+        trans_exec.execute(
+            'INSERT INTO acmeTransaction (ownerID, total,\
+                discounted, voucherID) VALUES (?, ?, ?, ?)',
+            (uuid, total, discounted, voucher_id)
+        )
+    else:
+        trans_exec.execute(
+            'INSERT INTO acmeTransaction (ownerID, total,\
+                discounted) VALUES (?, ?, ?)',
+            (uuid, total, discounted)
+        )
     transaction_id = trans_exec.lastrowid
 
     # Creating Transaction - Products association

@@ -87,7 +87,7 @@
             android:gravity="center"
             android:text="@string/default_price"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/discounted"
@@ -97,7 +97,7 @@
             android:gravity="center"
             android:text="@string/negative_default_price"
             android:textColor="@color/darkRed"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

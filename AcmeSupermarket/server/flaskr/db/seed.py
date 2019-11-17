@@ -45,10 +45,10 @@ def seed_db():
 
     # Create Vouchers
     vouchers = [
-        (1, '0001', int(False)),
-        (2, '0001', int(True)),
-        (3, '0001', int(False)),
-        (4, '0003', int(True))
+        ('4dadae03-06c6-4a18-9eed-18c8a34db686', '0001', int(False)),
+        ('5dadae03-06c6-4a18-9eed-18c8a34db686', '0001', int(True)),
+        ('7dadae03-06c6-4a18-9eed-18c8a34db686', '0001', int(False)),
+        ('9dadae03-06c6-4a18-9eed-18c8a34db686', '0003', int(True))
     ]
     for voucher in vouchers:
         db.execute(
@@ -58,7 +58,7 @@ def seed_db():
 
     # Create Transactions
     transactions = [
-        (1, '0001', 397, 200, 2, [
+        (1, '0001', 397, 200, '5dadae03-06c6-4a18-9eed-18c8a34db686', [
             ('prod1', 2),
             ('prod2', 1)
         ]),
@@ -71,7 +71,7 @@ def seed_db():
         (3, '0002', 7100, 0, None, [
             ('prod5', 5)
         ]),
-        (4, '0003', 397, 0, 4, [
+        (4, '0003', 397, 0, '9dadae03-06c6-4a18-9eed-18c8a34db686', [
             ('prod4', 10),
             ('prod2', 10)
         ]),

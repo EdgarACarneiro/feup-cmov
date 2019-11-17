@@ -1,17 +1,20 @@
 package org.feup.cmov.acmecustomer.models;
 
-public class Coupon {
-    private Integer id;
+import java.util.UUID;
 
-    public Coupon(Integer id) {
-        this.id = id;
+public class Coupon {
+
+    private UUID id;
+
+    public Coupon(String id) {
+        this.id = UUID.fromString(id);
     }
 
     public String getDescription() {
-        return "Voucher "  + this.id.toString();
+        return "Voucher "  + id.toString();
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 }
