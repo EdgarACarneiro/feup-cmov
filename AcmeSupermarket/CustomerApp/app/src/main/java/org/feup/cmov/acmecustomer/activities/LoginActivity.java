@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 Customer.class
         );
         customer.initializeShoppingCart();
+
         if (!customer.verifyPassword(password))
             showError("Wrong password!");
         else {

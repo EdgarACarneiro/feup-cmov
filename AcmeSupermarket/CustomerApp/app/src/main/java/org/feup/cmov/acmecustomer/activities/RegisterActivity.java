@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder;
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.PaymentInfo;
+import org.feup.cmov.acmecustomer.services.KeyStoreHandler;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 import org.feup.cmov.acmecustomer.services.http.Register;
 
@@ -58,29 +59,30 @@ public class RegisterActivity extends AppCompatActivity {
         int cvv = parseInt(((EditText)findViewById(R.id.input_cvv)).getText().toString());
 
         if(noErrorsOnRegistration()) {
-            clearError();
+            if (!KeyStoreHandler.hasKeyUnderAlias(username)) {
+                clearError();
 
-            Customer newCustomer = new Customer(name,
-                    username,
-                    password,
-                    new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
-            newCustomer.getMetadata().generateKeyPair(this);
+                Customer newCustomer = new Customer(name,
+                        username,
+                        password,
+                        new PaymentInfo(cardNumber, cardHolder, cardMonth, cardYear, cvv));
+                newCustomer.getMetadata().generateKeyPair(this);
 
-            // Making register request to API
-            new Thread(new Register(newCustomer, (response) -> {
-                if (response != null) {
-                    storeCredentials(response, newCustomer);
+                // Making register request to API
+                new Thread(new Register(newCustomer, (response) -> {
+                    if (response != null) {
+                        storeCredentials(response, newCustomer);
 
-                    Intent intent = new Intent(this, MainMenuActivity.class);
-                    intent.putExtra("Customer", newCustomer);
-                    startActivity(intent);
+                        Intent intent = new Intent(this, MainMenuActivity.class);
+                        intent.putExtra("Customer", newCustomer);
+                        startActivity(intent);
 
-                } else {
-                    // Failed Registration - TODO - Detailed Error from Server
-                    runOnUiThread(() -> showError("Failed Registration. Please try a different Username and/ or Credit Card ."));
-                }
-            })).start();
-
+                    } else {
+                        runOnUiThread(() -> showError("Failed Registration. Please try a different Username and/ or Credit Card."));
+                    }
+                })).start();
+            } else
+                showError("User with the given username already registered in this phone.");
         } else
             showError("Please verify the data before submit!");
     }
