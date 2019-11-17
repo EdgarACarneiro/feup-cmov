@@ -1,8 +1,9 @@
 from flask import (
     current_app, json
 )
-from uuid import uuid4
+from uuid import uuid4, UUID
 import base64
+
 
 def generic_error_handler(error: int, msg: str):
     '''Creates a generic error handler for the given error
@@ -17,6 +18,11 @@ def generic_error_handler(error: int, msg: str):
 def gen_UUID():
     '''Generates a UUID using random values'''
     return uuid4()
+
+
+def UUID_from_bytes(bytes):
+    '''Initialize a UUID from the given bytes'''
+    return UUID(bytes=bytes)
 
 
 def decode(byte_string):

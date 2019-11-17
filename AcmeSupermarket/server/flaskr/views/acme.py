@@ -5,16 +5,16 @@ from flaskr.keys.keys import (
     sign, verify, user_key_from_bytes, load_keys, encrypt
 )
 from ..utils import (
-    generic_error_handler, gen_UUID, decode, encode, b64_decode, b64_encode
+    generic_error_handler, gen_UUID, UUID_from_bytes, decode, encode, b64_decode, b64_encode
 )
 from flaskr.db.db import get_db
 from struct import pack, unpack
-import uuid
+from uuid import UUID
 
 acme = Blueprint('acme', __name__)
 
 SIGNATURE_BASE64_SIZE = 90
-UUID_ENCODED_SIZE = 36
+UUID_SIZE = 16
 INTEGER_SIZE = 4
 PRODUCT_SIZE = 4 + 36 + 4 + 4
 ONE_HUNDRED_EUROS_IN_CENTS = 10000
@@ -31,7 +31,7 @@ def get_products():
     # Converting to tag format
     encoded_prods = []
     for prod in products:
-        code = uuid.UUID('{' + prod['code'] + '}')
+        code = UUID('{' + prod['code'] + '}')
         euros = int(prod['price'] // 100)
         cents = int(prod['price'] % 100)
 
@@ -73,7 +73,7 @@ def get_transactions():
     signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
     # Checking if User exists
-    uuid = decode(b64_decode(content))
+    uuid = str(UUID_from_bytes(b64_decode(content)))
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -135,7 +135,7 @@ def get_vouchers():
     signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
     # Checking if User exists
-    uuid = decode(b64_decode(content))
+    uuid = str(UUID_from_bytes(b64_decode(content)))
     user = db.execute(
         'SELECT userPublicKey, accumulatedDiscount FROM user WHERE id = ?',
         (uuid, )
@@ -200,8 +200,8 @@ def checkout():
     decoded_content = decoded_content[INTEGER_SIZE:]
 
     # Checking if User exists
-    uuid = decode(decoded_content[:UUID_ENCODED_SIZE])
-    decoded_content = decoded_content[UUID_ENCODED_SIZE:]
+    uuid = str(UUID_from_bytes(decoded_content[:UUID_SIZE]))
+    decoded_content = decoded_content[UUID_SIZE:]
     user = db.execute(
         'SELECT userPublicKey, accumulatedDiscount FROM user WHERE id = ?',
         (uuid, )
@@ -234,8 +234,8 @@ def checkout():
         prod = prod[INTEGER_SIZE:]
 
         # Product Code
-        code = decode(prod[:UUID_ENCODED_SIZE])
-        prod = prod[UUID_ENCODED_SIZE:]
+        code = str(UUID_from_bytes(prod[:UUID_SIZE]))
+        prod = prod[UUID_SIZE:]
         if code in products:
             products[code] += 1
         else:

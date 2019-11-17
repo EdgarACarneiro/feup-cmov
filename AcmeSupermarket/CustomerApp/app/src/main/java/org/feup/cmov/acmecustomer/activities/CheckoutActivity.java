@@ -17,7 +17,6 @@ import com.google.zxing.common.BitMatrix;
 
 import org.feup.cmov.acmecustomer.Constants;
 import org.feup.cmov.acmecustomer.R;
-import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
 import org.feup.cmov.acmecustomer.models.Product;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
@@ -26,13 +25,14 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.UUID;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-    private static final int CHECKOUT_MSG_BASE_SIZE = 4 + 36 + 1 + 4;
+    private static final int CHECKOUT_MSG_BASE_SIZE = 4 + 16 + 1 + 4;
 
     private Customer currentCustomer;
 
@@ -97,10 +97,10 @@ public class CheckoutActivity extends AppCompatActivity {
         );
 
         // Loading Acme Tag and UUID
+        UUID uuid = UUID.fromString(LocalStorage.getCurrentUuid(this.getApplicationContext()));
         buffer.putInt(Constants.ACME_TAG_ID);
-        buffer.put(Utils.decode(
-                LocalStorage.getCurrentUuid(this.getApplicationContext())
-        ));
+        buffer.putLong(uuid.getMostSignificantBits());
+        buffer.putLong(uuid.getLeastSignificantBits());
 
         // Loading Products
         for (Product prod: products)
@@ -114,28 +114,6 @@ public class CheckoutActivity extends AppCompatActivity {
         // Signing everything
         byte[] msg = toBase64(buffer.array());
         byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
-
-        /*byte[] uuid = Utils.decode(
-                LocalStorage.getCurrentUuid(this.getApplicationContext())
-        );
-        byte[] items = this.currentCustomer.getShoppingCart().getAsBytes();
-        byte[] msg = concaByteArrays(uuid, items);
-        System.out.println(LocalStorage.getCurrentUuid(this.getApplicationContext()));
-        System.out.println(Base64.encodeToString(uuid, Base64.DEFAULT));
-
-        byte[] discountByte = new byte[1];
-        discountByte[0] = (byte) (discount? 1 : 0);
-        msg = concaByteArrays(msg, discountByte);
-
-        byte[] voucherBytes = ByteBuffer.allocate(4).putInt(voucherID).array();
-        msg = toBase64(concaByteArrays(msg, voucherBytes));
-
-        // Signing everything
-        Log.d("String", Base64.encodeToString(this.currentCustomer.signMsg(msg), Base64.DEFAULT));
-        Log.d("Size", Integer.toString(Base64.encodeToString(this.currentCustomer.signMsg(msg), Base64.DEFAULT).length()));
-
-        byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
-        System.out.println(Arrays.toString(content));*/
 
         // As QRCode message
         String string = new String(content, StandardCharsets.ISO_8859_1);
