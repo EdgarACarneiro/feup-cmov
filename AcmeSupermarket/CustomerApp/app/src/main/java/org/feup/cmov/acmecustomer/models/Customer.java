@@ -93,15 +93,17 @@ public class Customer implements Serializable {
     }
 
     public byte[] getSignedServerMsgContent(byte[] message, Context context) {
-        byte[] signature = Utils.fromBase64(Arrays.copyOfRange(
-                message, message.length - SIGNATURE_BASE64_SIZE, message.length
-        ));
-        byte[] content = Arrays.copyOfRange(
-                message, 0, message.length - SIGNATURE_BASE64_SIZE
-        );
-
         boolean verified = false;
+        byte[] content = null;
+
         try {
+            byte[] signature = Utils.fromBase64(Arrays.copyOfRange(
+                    message, message.length - SIGNATURE_BASE64_SIZE, message.length
+            ));
+            content = Arrays.copyOfRange(
+                    message, 0, message.length - SIGNATURE_BASE64_SIZE
+            );
+
             Signature sign = Signature.getInstance("SHA256withRSA");
             sign.initVerify(
                     KeyStoreHandler.getKeyFromBytes(
