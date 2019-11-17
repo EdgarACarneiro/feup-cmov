@@ -72,8 +72,14 @@ def get_transactions():
     content = request.data[: -SIGNATURE_BASE64_SIZE]
     signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
+    # Acme tag
+    decoded_content = b64_decode(content)
+    _ = decoded_content[0: INTEGER_SIZE]
+    decoded_content = decoded_content[INTEGER_SIZE:]
+
     # Checking if User exists
-    uuid = str(UUID_from_bytes(b64_decode(content)))
+    uuid = str(UUID_from_bytes(decoded_content))
+    print(uuid)
     user = db.execute(
         'SELECT userPublicKey FROM user WHERE id = ?',
         (uuid, )
@@ -134,8 +140,13 @@ def get_vouchers():
     content = request.data[: -SIGNATURE_BASE64_SIZE]
     signature = b64_decode(request.data[-SIGNATURE_BASE64_SIZE:])
 
+    # Acme tag
+    decoded_content = b64_decode(content)
+    _ = decoded_content[0: INTEGER_SIZE]
+    decoded_content = decoded_content[INTEGER_SIZE:]
+
     # Checking if User exists
-    uuid = str(UUID_from_bytes(b64_decode(content)))
+    uuid = str(UUID_from_bytes(decoded_content))
     user = db.execute(
         'SELECT userPublicKey, accumulatedDiscount FROM user WHERE id = ?',
         (uuid, )
@@ -269,7 +280,7 @@ def checkout():
 
         # Checking if voucher is valid
         if db.execute(
-            'SELECT * FROM voucher WHERE id = ? ',
+            'SELECT * FROM voucher WHERE id = ? AND used = 0',
             (voucher_id, )
         ) is None:
             abort(400)
@@ -282,7 +293,7 @@ def checkout():
 
     # Updating discont
     discounted = 0
-    acc_discont = user['accumulatedDiscount'] + total * discont_accumulator
+    acc_discont = user['accumulatedDiscount'] + round(total * discont_accumulator)
 
     if discont:
         if user['accumulatedDiscount'] > total:

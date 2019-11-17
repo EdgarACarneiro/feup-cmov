@@ -108,7 +108,7 @@ public class GetVouchers extends HttpClient implements Runnable {
                             Utils.encode(Utils.fromBase64(encodedContent)),
                             EncodedResponse.class
                     );
-                    // Handling encoded discont
+                    // Handling encoded discount
                     byte[] decryptedDiscount = customer.decryptMsg(
                             Utils.fromBase64(Utils.decode(
                                     encodedResponse.getDiscount()))

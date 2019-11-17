@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.feup.cmov.acmecustomer.Constants;
 import org.feup.cmov.acmecustomer.R;
 import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.adapters.ShoppingListAdapter;
@@ -31,15 +32,19 @@ import org.feup.cmov.acmecustomer.models.TransactionRecord;
 import org.feup.cmov.acmecustomer.services.http.GetTransactions;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.UUID;
 
 import static org.feup.cmov.acmecustomer.Utils.concaByteArrays;
 import static org.feup.cmov.acmecustomer.Utils.fromBase64;
 import static org.feup.cmov.acmecustomer.Utils.toBase64;
 
 public class MainMenuActivity extends AppCompatActivity {
+
+    private static final int GET_TRANSACTIONS_MSG_SIZE = 4 + 16;
 
     private Customer currentCustomer;
 
@@ -229,11 +234,17 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void requestTransactions() {
         // Building up message
-        byte[] uuid = toBase64(Utils.decode(
-                LocalStorage.getCurrentUuid(this.getApplicationContext())
-        ));
-        System.out.println(toBase64(this.currentCustomer.signMsg(uuid)).length);
-        byte[] content = concaByteArrays(uuid, toBase64(this.currentCustomer.signMsg(uuid)));
+        ByteBuffer buffer = ByteBuffer.allocate(GET_TRANSACTIONS_MSG_SIZE);
+        buffer.putInt(Constants.ACME_TAG_ID);
+
+        // Loading the UUID
+        UUID uuid = UUID.fromString(LocalStorage.getCurrentUuid(this.getApplicationContext()));
+        buffer.putLong(uuid.getMostSignificantBits());
+        buffer.putLong(uuid.getLeastSignificantBits());
+
+        // Signing everything
+        byte[] msg = toBase64(buffer.array());
+        byte[] content = concaByteArrays(msg, toBase64(this.currentCustomer.signMsg(msg)));
 
         // Triggering vouchers request to server
         new Thread(new GetTransactions(content, currentCustomer, getApplicationContext(), (response) -> {
