@@ -12,9 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import org.feup.cmov.acmecustomer.R;
-import org.feup.cmov.acmecustomer.Utils;
 import org.feup.cmov.acmecustomer.models.Customer;
-import org.feup.cmov.acmecustomer.models.PaymentInfo;
 import org.feup.cmov.acmecustomer.services.LocalStorage;
 
 public class LoginActivity extends AppCompatActivity {
@@ -83,26 +81,6 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("Customer", customer);
             startActivity(intent);
         }
-
-        // PREVIOUS CODE
-        /*if (noErrorsOnLogin()) {
-            clearError();
-
-            //TODO: Missing load of local info
-            Customer newCustomer = new Customer("Teste",
-                    "teste",
-                    "teste",
-                    new PaymentInfo("1111222233334444", "teste", 12 , 21, 111));
-
-            newCustomer.getMetadata().generateKeyPair(this);
-
-            Intent intent = new Intent(this, MainMenuActivity.class);
-            intent.putExtra("Customer", newCustomer);
-            startActivity(intent);
-        } else {
-            //showError("Please verify the data before submit!");
-            Utils.showErrorUI(findViewById(R.id.login_root), "Please verify the data before submit!");
-        }*/
     }
 
     protected boolean noErrorsOnLogin() {

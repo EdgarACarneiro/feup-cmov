@@ -24,7 +24,6 @@ import org.feup.cmov.acmecustomer.services.LocalStorage;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.UUID;
 
@@ -113,7 +112,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // Loading Voucher choice and discount choice
         if (voucherID != null) {
-            System.out.println(voucherID);
             UUID voucherUID = UUID.fromString(voucherID);
             buffer.putLong(voucherUID.getMostSignificantBits());
             buffer.putLong(voucherUID.getLeastSignificantBits());
@@ -122,6 +120,7 @@ public class CheckoutActivity extends AppCompatActivity {
             buffer.put((byte) 0);
         }
         buffer.put((byte) (discount? 1: 0));
+
 
         // Signing everything
         byte[] msg = toBase64(buffer.array());

@@ -1,7 +1,6 @@
 package org.feup.cmov.acmecustomer.models;
 
 import org.feup.cmov.acmecustomer.Constants;
-import org.feup.cmov.acmecustomer.Utils;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;

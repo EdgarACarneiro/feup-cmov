@@ -77,7 +77,6 @@ public class TransactionConfirmationActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(view -> checkout());
 
         showPriceWithoutDisconts();
-
     }
 
     private void showPriceWithoutDisconts() {

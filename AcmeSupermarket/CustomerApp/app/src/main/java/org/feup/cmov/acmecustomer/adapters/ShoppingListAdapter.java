@@ -67,7 +67,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @Override
     public void onBindViewHolder(ShoppingListViewHolder holder, int position) {
         holder.productName.setText(this.customer.getShoppingCart().getProducts().get(position).getFirst().getName());
-        holder.productPrice.setText(String.format(Locale.US, "%.2f €", this.customer.getShoppingCart().getProducts().get(position).getFirst().getFullPrice() * this.customer.getShoppingCart().getProducts().get(position).getSecond()));
+        holder.productPrice.setText(String.format(
+                Locale.US,
+                "%.2f €",
+                this.customer.getShoppingCart().getProducts().get(position).getFirst().getFullPrice() *
+                        this.customer.getShoppingCart().getProducts().get(position).getSecond()
+                ));
         holder.productQuantity.setText(this.customer.getShoppingCart().getProducts().get(position).getSecond().toString());
 
         if(context instanceof MainMenuActivity) {
