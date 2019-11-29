@@ -9,5 +9,5 @@ public class Constants {
     public static final String ENC_ALGO = "RSA/NONE/PKCS8";
     public static final String ACME_KEY= "ACME_SERVER_KEY";
     public static final int ACME_TAG_ID = 0x41636D65; // equal to "Acme"
-    public static final String SERVER_ENDPOINT = "fe77d4f1.ngrok.io";
+    public static final String SERVER_ENDPOINT = "b9a1f4a8.ngrok.io";
 }
