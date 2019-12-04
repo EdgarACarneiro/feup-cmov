@@ -10,7 +10,7 @@ namespace WeatherApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new CityListView();
         }
 
         protected override void OnStart()
