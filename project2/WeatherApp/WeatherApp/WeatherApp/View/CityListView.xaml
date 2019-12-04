@@ -9,21 +9,28 @@
         <ListView x:Name="cityList"
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
+            CachingStrategy="RecycleElement"
+            HasUnevenRows="True"
+            IsPullToRefreshEnabled="False">
 
             <!--Custom View Cells-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                <ViewCell>
-                    <StackLayout>
-                    <Label Text="{Binding Name}" 
-                            d:Text="{Binding .}"
-                            Style="{DynamicResource ListItemTextStyle}" />
-                    <Label Text="{Binding CountryCode}" 
-                            d:Text="Detail"
-                            Style="{DynamicResource ListItemDetailTextStyle}"/>
-                    </StackLayout>
-                </ViewCell>
+                    <ViewCell>
+                        <Grid BackgroundColor="CadetBlue" Padding="10" Margin="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding CurrentTime}" TextColor="White" FontSize="Subtitle" Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="1" Grid.Column="0"/>
+                            <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="Large" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
