@@ -3,36 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              mc:Ignorable="d"
              x:Class="WeatherApp.CityListView">
     <StackLayout>
-        <ListView x:Name="cityList"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9.5*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListView x:Name="cityList"
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement"
             HasUnevenRows="True"
-            IsPullToRefreshEnabled="False">
+            IsPullToRefreshEnabled="False"
+                      Grid.Row="0" Grid.Column="0">
 
-            <!--Custom View Cells-->
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid BackgroundColor="CadetBlue" Padding="10" Margin="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="5*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Text="{Binding CurrentTime}" TextColor="White" FontSize="Subtitle" Grid.Row="0" Grid.Column="0"/>
-                            <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="1" Grid.Column="0"/>
-                            <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="Large" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                <!--Custom View Cells-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="0, 0, 0, 1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="5*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <magic:GradientView Grid.ColumnSpan="2" Grid.RowSpan="2">
+                                    <magic:GradientView.GradientSource>
+                                        <magic:CssGradientSource>
+                                            <x:String>
+                                                <![CDATA[
+                                                linear-gradient(90deg, rgb(160, 222, 219),rgb(3, 165, 209))
+                                            ]]>
+                                            </x:String>
+                                        </magic:CssGradientSource>
+                                    </magic:GradientView.GradientSource>
+                                </magic:GradientView>
+                                <Label Text="{Binding CurrentTime}" TextColor="White" FontSize="Medium" Grid.Row="0" Grid.Column="0" Padding="10, 5, 0, 0"/>
+                                <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="1" Grid.Column="0" Padding="10, 0, 0, 5"/>
+                                <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="Title" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Padding="0, 0, 10, 0"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Label Text="TESTE" TextColor="Black" FontSize="Medium" Grid.Row="1" Grid.Column="0"/>
+        </Grid>
     </StackLayout>
 </ContentPage>
