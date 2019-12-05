@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              mc:Ignorable="d"
-             x:Class="WeatherApp.CityListView">
+             x:Class="WeatherApp.CityListView"
+             NavigationPage.HasNavigationBar="false">
     <StackLayout>
         <Grid>
             <Grid.RowDefinitions>

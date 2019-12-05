@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherApp.View;
 using WeatherApp.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -28,7 +29,8 @@ namespace WeatherApp
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await Navigation.PushModalAsync(new NavigationPage(new CityView()));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
