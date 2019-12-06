@@ -6,7 +6,7 @@
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              mc:Ignorable="d"
              x:Class="WeatherApp.CityListView"
-             NavigationPage.HasNavigationBar="false">
+             NavigationPage.HasNavigationBar="false" BackgroundColor="#121212">
     <StackLayout>
         <Grid>
             <Grid.RowDefinitions>
@@ -38,13 +38,13 @@
                                     <ColumnDefinition Width="8*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <magic:GradientView Grid.ColumnSpan="2" Grid.RowSpan="2">
+                                <magic:GradientView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
                                     <magic:GradientView.GradientSource>
                                         <magic:CssGradientSource>
                                             <x:String>
                                                 <![CDATA[
-                                                linear-gradient(90deg, rgb(160, 222, 219),rgb(3, 165, 209))
-                                            ]]>
+                                                    linear-gradient(90deg, rgb(160, 222, 219),rgb(3, 165, 209))
+                                                ]]>
                                             </x:String>
                                         </magic:CssGradientSource>
                                     </magic:GradientView.GradientSource>

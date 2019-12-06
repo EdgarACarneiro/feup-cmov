@@ -136,4 +136,22 @@
       <Name>WeatherApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cold_temperature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\hot_temperature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\humidity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pressure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\rain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\wind.png" />
+  </ItemGroup>
 </Project>

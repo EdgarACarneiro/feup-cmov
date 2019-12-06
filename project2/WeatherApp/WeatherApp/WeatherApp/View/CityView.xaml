@@ -31,40 +31,54 @@
             <Label Text="14º" TextColor="White" FontSize="60" HorizontalTextAlignment="Center" Margin="0, 10, 0, 0"/>
         </StackLayout>
 
-        <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" VerticalOptions="Start">
+        <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackLayout Grid.Column="0" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                    <StackLayout Spacing="7" HorizontalOptions="CenterAndExpand">
-                        <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                        <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
+                    <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                    <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="13º" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Text="Max. Temp" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                    <StackLayout Spacing="7" HorizontalOptions="CenterAndExpand">
-                        <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                        <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
+                    <Image Source="cold_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                    <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="9º" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Text="Min. Temp" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                    <StackLayout Spacing="7" HorizontalOptions="CenterAndExpand">
-                        <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                        <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
+                    <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
+                    <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="512hpa" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Text="Pressure" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                    <StackLayout Spacing="7" HorizontalOptions="CenterAndExpand">
-                        <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                        <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
+                    <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
+                    <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="5mm" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Text="Precipitation" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                    <StackLayout Spacing="7" HorizontalOptions="CenterAndExpand">
+                    <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
+                    <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="3.7m/s" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Text="Wind" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                    <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
+                    <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
                         <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
                         <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
                     </StackLayout>
