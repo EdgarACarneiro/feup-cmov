@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -96,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WeatherApp\WeatherApp.csproj">
-      <Project>{6EB57F91-3206-42C2-8929-D29A14D1AA09}</Project>
+      <Project>{3420D4ED-FC2C-46A2-B9A6-95E0141247E8}</Project>
       <Name>WeatherApp</Name>
     </ProjectReference>
   </ItemGroup>

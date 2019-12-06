@@ -37,6 +37,8 @@ At any time, the app should be capable of consulting past transactions’ inform
 | Landing Screen | Successful Transaction | Error on Transaction | 
 | ![received_2298018783654117](https://user-images.githubusercontent.com/22712373/69869950-387feb80-12a6-11ea-832c-b632882d11de.png) | ![received_445207113079941](https://user-images.githubusercontent.com/22712373/69869947-37e75500-12a6-11ea-9c3b-85cb00b57f4e.png) | ![received_458530121440994](https://user-images.githubusercontent.com/22712373/69869948-387feb80-12a6-11ea-9c82-87c68d9cca33.png) |
 
+---
+
 ## Practical Assignment \#2
 
 To be announced.
