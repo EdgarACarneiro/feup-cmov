@@ -23,6 +23,7 @@ namespace WeatherApp
             vm = new CityViewModel();
             cityList.ItemsSource = vm.Cities;
             cityPicker.ItemsSource = vm.AllCities;
+            // vm.GetWeathers();
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -39,7 +40,7 @@ namespace WeatherApp
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-
+            // TRigger Forecast request
         }
     }
 }

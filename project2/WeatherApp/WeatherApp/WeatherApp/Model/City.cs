@@ -13,6 +13,8 @@ namespace WeatherApp.Model
 
         public string CurrentTemp { get; set; }
 
+        public Weather CurrentWeather { get; set; }
+
         public List<City> GetCities()
         {
             List<City> cities = new List<City>()
