@@ -54,7 +54,7 @@ namespace WeatherApp.Model
         public async void getWeather(City city)
         {
             String url = String.Format(
-                "{0}weather?q={1},Portugal&units=metric&{2}",
+                "{0}weather?q={1},pt&units=metric&{2}",
                 endpoint,
                 city.Name,
                 key
@@ -64,7 +64,7 @@ namespace WeatherApp.Model
                 try
                 {
                     HttpResponseMessage message = await client.GetAsync(url);
-                    Status = message.StatusCode.ToString()
+                    Status = message.StatusCode.ToString();
                     if (message.StatusCode == HttpStatusCode.OK)
                         Result = Extract(await message.Content.ReadAsStringAsync());
                 }
