@@ -6,7 +6,7 @@
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              mc:Ignorable="d"
              x:Class="WeatherApp.CityListView"
-             NavigationPage.HasNavigationBar="false" BackgroundColor="#121212">
+             NavigationPage.HasNavigationBar="false">
     <StackLayout>
         <Grid>
             <Grid.RowDefinitions>
@@ -14,6 +14,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9.5*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
@@ -23,7 +24,7 @@
             CachingStrategy="RecycleElement"
             HasUnevenRows="True"
             IsPullToRefreshEnabled="False"
-                      Grid.Row="0" Grid.Column="0">
+                      Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0">
 
                 <!--Custom View Cells-->
                 <ListView.ItemTemplate>
@@ -57,8 +58,9 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
-            <Label Text="TESTE" TextColor="Black" FontSize="Medium" Grid.Row="1" Grid.Column="0"/>
+
+            <Picker x:Name="cityPicker" Title="Add a city..." ItemsSource="{Binding CityList}" ItemDisplayBinding="{Binding Name}" Grid.Row="1" Grid.Column="0" Margin="5"/>
+            <Button Text="+" Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent"  FontSize="Medium" BorderColor="Gray" WidthRequest="40" HeightRequest="40" BorderRadius="20" BorderWidth="2" VerticalOptions="CenterAndExpand" Margin="5, 5, 10, 5"/>
         </Grid>
     </StackLayout>
 </ContentPage>

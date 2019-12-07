@@ -22,6 +22,7 @@ namespace WeatherApp
 
             vm = new CityViewModel();
             cityList.ItemsSource = vm.Cities;
+            cityPicker.ItemsSource = vm.AllCities;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -34,6 +35,11 @@ namespace WeatherApp
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

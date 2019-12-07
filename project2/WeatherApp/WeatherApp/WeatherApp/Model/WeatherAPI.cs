@@ -64,7 +64,7 @@ namespace WeatherApp.Model
                 try
                 {
                     HttpResponseMessage message = await client.GetAsync(url);
-                    Status = message.StatusCode.ToString()
+                    Status = message.StatusCode.ToString();
                     if (message.StatusCode == HttpStatusCode.OK)
                         Result = Extract(await message.Content.ReadAsStringAsync());
                 }
