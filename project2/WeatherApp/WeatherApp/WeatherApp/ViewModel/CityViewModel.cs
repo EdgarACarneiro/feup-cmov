@@ -13,6 +13,7 @@ namespace WeatherApp.ViewModel
         {
             Cities = new City().GetCities();
             AllCities = new City().GetAllCities();
+            (new WeatherAPI()).fetchWeather(Cities[0]);
         }
     }
 }
