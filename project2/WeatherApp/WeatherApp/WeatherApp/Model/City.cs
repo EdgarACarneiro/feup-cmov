@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using WeatherApp.ViewModel;
 
 namespace WeatherApp.Model
 {
-    public class City
+    public class City : DynamicViewModel
     {
         public string Name { get; set; }
         public string CountryCode { get; set; }
 
         public string CurrentTime { get; set; }
 
-        public string CurrentTemp { get; set; }
+        private string _CurrentTemp ;
 
-        public Weather CurrentWeather { get; set; }
+        public string CurrentTemp { get => _CurrentTemp; set => SetProperty(ref _CurrentTemp, value); }
 
         public List<City> GetAllCities()
         {
@@ -24,84 +23,84 @@ namespace WeatherApp.Model
                     Name="Aveiro",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Beja",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="10ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Braga",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Bragança",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="11ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Castelo Branco",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Coimbra",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="10ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Évora",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Faro",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="11ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Guarda",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Leiria",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="10ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Lisboa",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Portalegre",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="11ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
@@ -115,35 +114,35 @@ namespace WeatherApp.Model
                     Name="Santarém",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="10ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Setúbal",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Viana do Castelo",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="11ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Vila Real",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="10ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {
                     Name="Viseu",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 }
             };
             return cities;

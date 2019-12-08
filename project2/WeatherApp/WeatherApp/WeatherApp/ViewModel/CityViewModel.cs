@@ -6,8 +6,6 @@ using WeatherApp.Model;
 using Xamarin.Forms;
 using System.Net;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using Xamarin.Essentials;
 
 namespace WeatherApp.ViewModel
 {
@@ -56,9 +54,12 @@ namespace WeatherApp.ViewModel
                     HttpResponseMessage response = await client.GetAsync(url);
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        string content = await response.Content.ReadAsStringAsync();
-                        city.CurrentWeather = JsonConvert.DeserializeObject<Weather>(content);
-                        city.CurrentTemp = city.CurrentWeather.main.temp.ToString() + "ºC";
+                        Weather apiWeather = JsonConvert.DeserializeObject<Weather>(
+                            await response.Content.ReadAsStringAsync()
+                        );
+
+                        // Updating City
+                        city.CurrentTemp = apiWeather.main.temp.ToString() + "ºC";
                     }
                 }
                 catch (Exception ex)
