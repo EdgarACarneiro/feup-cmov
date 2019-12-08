@@ -32,6 +32,6 @@
     <Compile Remove="Model\WeatherAPI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\xml\" />
+    <None Remove="Resources\xml\network_security_config.xml" />
   </ItemGroup>
 </Project>

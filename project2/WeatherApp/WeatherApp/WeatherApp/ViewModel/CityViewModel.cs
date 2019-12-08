@@ -6,7 +6,6 @@ using WeatherApp.Model;
 using Xamarin.Forms;
 using System.Net;
 using Newtonsoft.Json;
-using Xamarin.Essentials;
 using System.Diagnostics;
 
 namespace WeatherApp.ViewModel
@@ -43,7 +42,7 @@ namespace WeatherApp.ViewModel
 
         public async void UpdateCityWeather(City city)
         {
-            if (true)//Connectivity.NetworkAccess != NetworkAccess.Internet)
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 String url = String.Format(
                     "{0}weather?q={1},pt&units=metric&{2}",
