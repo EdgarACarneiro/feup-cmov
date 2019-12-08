@@ -15,42 +15,6 @@ namespace WeatherApp.Model
 
         public Weather CurrentWeather;
 
-        public List<City> GetCities()
-        {
-            List<City> cities = new List<City>()
-            {
-                new City()
-                {
-                    Name="Porto",
-                    CountryCode="PT",
-                    CurrentTime="16:47",
-                    CurrentTemp="12ºC"
-                },
-                new City()
-                {
-                    Name="Lisboa",
-                    CountryCode="PT",
-                    CurrentTime="16:47",
-                    CurrentTemp="10ºC"
-                },
-                new City()
-                {
-                    Name="Braga",
-                    CountryCode="PT",
-                    CurrentTime="16:47",
-                    CurrentTemp="12ºC"
-                },
-                new City()
-                {
-                    Name="Faro",
-                    CountryCode="PT",
-                    CurrentTime="16:47",
-                    CurrentTemp="11ºC"
-                },
-            };
-            return cities;
-        }
-
         public List<City> GetAllCities()
         {
             List<City> cities = new List<City>()
