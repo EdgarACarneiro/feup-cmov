@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-<<<<<<< HEAD
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using WeatherApp.Model;
-=======
->>>>>>> f67f1327ed72b107c42dd724bf607686728e15bc
 using WeatherApp.View;
 using WeatherApp.ViewModel;
 using Xamarin.Forms;
@@ -22,13 +15,11 @@ namespace WeatherApp
         public CityListView()
         {
             vm = new CityViewModel();
+            vm.updateWeathers();
             BindingContext = vm;
 
-            vm.updateWeathers();
-            cityPicker.ItemsSource = vm.AllCities;
-
-
             InitializeComponent();
+            cityPicker.ItemsSource = vm.AllCities;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

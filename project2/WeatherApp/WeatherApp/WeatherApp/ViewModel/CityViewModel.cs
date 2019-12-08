@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using System.Collections.ObjectModel;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using WeatherApp.Model;
 using Xamarin.Forms;
-=======
 using System.Net;
-using System.Net.Http;
 using Newtonsoft.Json;
-using WeatherApp.Model;
 using Xamarin.Essentials;
->>>>>>> f67f1327ed72b107c42dd724bf607686728e15bc
+using System.Diagnostics;
 
 namespace WeatherApp.ViewModel
 {
@@ -22,8 +15,7 @@ namespace WeatherApp.ViewModel
     {
         public ObservableCollection<City> Cities { get; set; } = new ObservableCollection<City>();
         public List<City> AllCities { get; set; }
-<<<<<<< HEAD
-        public WeatherAPI api;
+
         public Command<City> Remove_City
         {
             get{
@@ -33,11 +25,10 @@ namespace WeatherApp.ViewModel
                 });
             }
         }
-=======
 
-        private string endpoint = "https://api.openweathermap.org/data/2.5/",
+        private string endpoint = "http://api.openweathermap.org/data/2.5/",
             key = "appid=744c7d488901b071cef81d5efeb9a5b3";
->>>>>>> f67f1327ed72b107c42dd724bf607686728e15bc
+
 
         public CityViewModel()
         {
@@ -52,7 +43,7 @@ namespace WeatherApp.ViewModel
 
         public async void UpdateCityWeather(City city)
         {
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            if (true)//Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 String url = String.Format(
                     "{0}weather?q={1},pt&units=metric&{2}",
@@ -60,7 +51,7 @@ namespace WeatherApp.ViewModel
                     city.Name,
                     key
                 );
-                Console.WriteLine(" :::::::: YAYAYAYAYAYAYAYAYAYYAYAYAYAYAYA");
+                Debug.WriteLine(" :::::::: MAKING REQUEST");
 
                 using (HttpClient client = new HttpClient())
                     try
@@ -68,16 +59,16 @@ namespace WeatherApp.ViewModel
                         HttpResponseMessage response = await client.GetAsync(url);
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
+                            Debug.WriteLine(" :::::::: YAYAYAYAYAYAYAYAYAYYAYAYAYAYAYA");
                             string content = await response.Content.ReadAsStringAsync();
                             city.CurrentWeather = JsonConvert.DeserializeObject<Weather>(content);
                             city.CurrentTemp = city.CurrentWeather.main.temp.ToString() + "ºC";
-                            Console.WriteLine(" :::::::: YAYAYAYAYAYAYAYAYAYYAYAYAYAYAYA");
                         }
                     }
                     catch (Exception ex)
                     {
                         Console.Error.Write(ex.StackTrace);
-                        Console.WriteLine(" :::::::: YAYAYAYAYAYAYAYAYAYYAYAYAYAYAYA");
+                        Debug.WriteLine(" :::::::: NONONOONON");
                     }
             }
         }
@@ -85,6 +76,7 @@ namespace WeatherApp.ViewModel
         public void AddCity(City city)
         {
             Cities.Add(city);
+            UpdateCityWeather(city);
         }
     }
 }

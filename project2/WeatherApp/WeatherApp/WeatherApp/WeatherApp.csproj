@@ -31,4 +31,7 @@
     <Compile Remove="Model\CityWeather.cs" />
     <Compile Remove="Model\WeatherAPI.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\xml\" />
+  </ItemGroup>
 </Project>
