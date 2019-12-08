@@ -3,7 +3,7 @@ namespace WeatherApp.Model
 {
     public class Weather
     {
-        public class weather
+        public class info
         {
             public int id;
             public string main;
@@ -11,29 +11,32 @@ namespace WeatherApp.Model
             public string icon;
         }
 
-        public class main
+        public class mainStats
         {
             public float temp;
             public int pressure;
             public int humidity;
             public int temp_min;
-            public int temp_max; 
+            public int temp_max;
         }
 
-        public int visibility;
-
-        public class wind
+        public class Wind
         {
             public float speed;
         }
 
-        public class sys
+        public class Sys
         {
             public string country;
             public int sunrise;
             public int sunset;
         }
 
+        public info weather;
+        public mainStats main;
+        public int visibility;
+        public Wind wind;
+        public Sys sys;
         public int timezone;
         public string name;
     }

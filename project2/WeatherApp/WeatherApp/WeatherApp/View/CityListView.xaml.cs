@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using WeatherApp.View;
 using WeatherApp.ViewModel;
 using Xamarin.Forms;
@@ -18,12 +15,13 @@ namespace WeatherApp
 
         public CityListView()
         {
-            InitializeComponent();
-
             vm = new CityViewModel();
+            vm.updateWeathers();
             cityList.ItemsSource = vm.Cities;
             cityPicker.ItemsSource = vm.AllCities;
-            // vm.GetWeathers();
+
+
+            InitializeComponent();
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -42,5 +40,7 @@ namespace WeatherApp
         {
             // TRigger Forecast request
         }
+
+
     }
 }
