@@ -29,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Model\CityWeather.cs" />
+    <Compile Remove="Model\WeatherAPI.cs" />
   </ItemGroup>
 </Project>
