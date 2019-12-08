@@ -13,7 +13,7 @@ namespace WeatherApp.Model
 
         public string CurrentTemp { get; set; }
 
-        public Weather CurrentWeather;
+        public Weather CurrentWeather { get; set; }
 
         public List<City> GetAllCities()
         {
@@ -108,7 +108,7 @@ namespace WeatherApp.Model
                     Name="Porto",
                     CountryCode="PT",
                     CurrentTime="16:47",
-                    CurrentTemp="12ºC"
+                    CurrentTemp="--ºC"
                 },
                 new City()
                 {

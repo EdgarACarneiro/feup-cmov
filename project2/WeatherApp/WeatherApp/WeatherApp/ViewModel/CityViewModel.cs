@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using System.Net;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using Xamarin.Essentials;
 
 namespace WeatherApp.ViewModel
 {
@@ -41,35 +42,30 @@ namespace WeatherApp.ViewModel
         }
 
         public async void UpdateCityWeather(City city)
-        {
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                String url = String.Format(
-                    "{0}weather?q={1},pt&units=metric&{2}",
-                    endpoint,
-                    city.Name,
-                    key
-                );
-                Debug.WriteLine(" :::::::: MAKING REQUEST");
+        {   
+            String url = String.Format(
+                "{0}weather?q={1},pt&units=metric&{2}",
+                endpoint,
+                city.Name,
+                key
+            );
 
-                using (HttpClient client = new HttpClient())
-                    try
+            using (HttpClient client = new HttpClient())
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        HttpResponseMessage response = await client.GetAsync(url);
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            Debug.WriteLine(" :::::::: YAYAYAYAYAYAYAYAYAYYAYAYAYAYAYA");
-                            string content = await response.Content.ReadAsStringAsync();
-                            city.CurrentWeather = JsonConvert.DeserializeObject<Weather>(content);
-                            city.CurrentTemp = city.CurrentWeather.main.temp.ToString() + "ºC";
-                        }
+                        string content = await response.Content.ReadAsStringAsync();
+                        city.CurrentWeather = JsonConvert.DeserializeObject<Weather>(content);
+                        city.CurrentTemp = city.CurrentWeather.main.temp.ToString() + "ºC";
                     }
-                    catch (Exception ex)
-                    {
-                        Console.Error.Write(ex.StackTrace);
-                        Debug.WriteLine(" :::::::: NONONOONON");
-                    }
-            }
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.Write(ex.StackTrace);
+                }
+            
         }
 
         public void AddCity(City city)
