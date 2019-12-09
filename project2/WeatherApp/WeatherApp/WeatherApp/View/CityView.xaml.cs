@@ -40,13 +40,14 @@ namespace WeatherApp.View
 
         void DrawAxis(SKCanvas cnv, int wd, int hg, float pxP, out float one, out float xhg)
         {
+            string[] hours = {"00h", "03h", "06h", "09h", "12h", "15h", "18h", "21h"};
             int ylen;    // total size of the Y axis (in pixels) with a maximum of 500px for 1 and another 500px for -1 + 20px after 1 and -1
 
             SKPaint coorPaint = new SKPaint
             {      // paint for the axis and text
                 Style = SKPaintStyle.Stroke,
-                Color = SKColors.Blue,
-                StrokeWidth = 2,
+                Color = SKColors.Black,
+                StrokeWidth = 4,
                 StrokeCap = SKStrokeCap.Square,
                 TextSize = 2 * margin
             };

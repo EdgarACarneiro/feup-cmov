@@ -81,26 +81,227 @@
 
         <ScrollView Orientation="Vertical" Grid.Row="2">
             <StackLayout>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
-                <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Text="Humidity" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
+                
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="0, 10, 0, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="00:00h" TextColor="Black" FontSize="25" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="9º-13º" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="512hpa" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="5mm" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="3.7m/s" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="1" Padding="0, 15">
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Grid>
+
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="03:00h" TextColor="Black" FontSize="25" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="9º-13º" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="512hpa" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="5mm" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="3.7m/s" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="1" Padding="0, 15">
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Grid>
+
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="06:00h" TextColor="Black" FontSize="25" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="9º-13º" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="512hpa" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="5mm" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="3.7m/s" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="1" Padding="0, 15">
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Grid>
+
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" Spacing="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="09:00h" TextColor="Black" FontSize="25" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="9º-13º" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="512hpa" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="5mm" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="3.7m/s" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                        <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
+                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                            <Label Text="50%" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="1" Padding="0, 15">
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Grid>
+
                 <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400" Grid.Row="2"/>
             </StackLayout>
         </ScrollView>
