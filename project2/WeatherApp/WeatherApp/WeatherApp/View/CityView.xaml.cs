@@ -25,29 +25,80 @@ namespace WeatherApp.View
 
         public void OnPaint(object sender, SKPaintSurfaceEventArgs args)
         {
-            int wd = args.Info.Width;
-            int hg = args.Info.Height;
-            SKCanvas cnv = args.Surface.Canvas;
+            string[] hours = { "00h", "03h", "06h", "09h", "12h", "15h", "18h", "21h" };
+            float[] temps = { 9, 12.4f, 11.3f, 11, 11.1f, 10.7f, 10.1f, 9.4f };
 
-            cnv.Clear();
+            int topLeftX = (int)Math.Round(args.Info.Width * 0.08);
+            int topLeftY = (int)Math.Round(args.Info.Height * 0.08);
+            int bottomRightX = (int)Math.Round(args.Info.Width * 0.95);
+            int bottomRightY = (int)Math.Round(args.Info.Height * 0.90);
 
-            float pxP = (float)(wd - 4 * margin) / ncycles;    // pixel size for 1 period on the Y axis
-            float one, xhg;
+            SKCanvas canvas = args.Surface.Canvas;
 
-            DrawAxis(cnv, wd, hg, pxP, out one, out xhg);
-            DrawGraph(cnv, wd, hg, pxP, one, xhg);
+            canvas.Clear();
+
+            //canvas.DrawLine(new SKPoint(originX, originY), new SKPoint(maxX, maxY), coorPaint);
+            DrawAxis(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), hours, temps);
+            //DrawAxis(args.Surface.Canvas, hours, temps, )
         }
 
-        void DrawAxis(SKCanvas cnv, int wd, int hg, float pxP, out float one, out float xhg)
+        void DrawAxis(SKCanvas canvas, SKPoint topLeft, SKPoint bottomRight, string[] hours, float[] temps)
         {
-            string[] hours = {"00h", "03h", "06h", "09h", "12h", "15h", "18h", "21h"};
+            SKPaint coorPaint = new SKPaint
+            {      // paint for the axis and text
+                Style = SKPaintStyle.Stroke,
+                Color = SKColors.Black,
+                StrokeWidth = 2,
+                StrokeCap = SKStrokeCap.Round,
+                TextSize = 30
+            };
+
+            SKPoint origin = new SKPoint(topLeft.X, bottomRight.Y);
+
+            //draw X and Y axis;
+            canvas.DrawLine(origin, bottomRight, coorPaint);
+            canvas.DrawLine(origin, topLeft, coorPaint);
+
+            //draw hour text
+            int steps = hours.Count();
+            float stepX = (bottomRight.X - origin.X) / steps;
+            for(int i = 0; i < steps; i++)
+            {
+                canvas.DrawLine(new SKPoint(origin.X + i * stepX, origin.Y), new SKPoint(origin.X + i * stepX, origin.Y + 15), coorPaint); //draw guide lines on X axis
+                canvas.DrawText(hours[i], origin.X + i * stepX + 5, origin.Y + 35, coorPaint); //draw '00h' text
+            }
+
+            //draw guide lines on Y axis
+            float maxTemp = temps.Max();
+            float minTemp = temps.Min();
+
+            canvas.DrawLine(origin, new SKPoint(origin.X - 15, origin.Y), coorPaint);
+            canvas.DrawLine(new SKPoint(topLeft.X, topLeft.Y + 30), new SKPoint(topLeft.X - 15, topLeft.Y + 30), coorPaint);
+            canvas.DrawText(minTemp.ToString(), origin.X - 60, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
+            canvas.DrawText(maxTemp.ToString(), topLeft.X - 60, topLeft.Y + 15, coorPaint);
+
+            //calculate temperature value per pixel in Y axis
+            float pixelPerDegree = (topLeft.Y - origin.Y) / (maxTemp - minTemp);
+
+            for(int i = 0; i < temps.Count(); i++)
+            {
+                if(temps[i] != minTemp && temps[i] != maxTemp)
+                {
+                    canvas.DrawText(temps[i].ToString(), origin.X - 60, origin.Y + (temps[i] - minTemp) * pixelPerDegree - 15, coorPaint);
+                }
+            }
+        }
+
+        /*void DrawAxis(SKCanvas cnv, int wd, int hg, float pxP, out float one, out float xhg)
+        {
+            
             int ylen;    // total size of the Y axis (in pixels) with a maximum of 500px for 1 and another 500px for -1 + 20px after 1 and -1
 
             SKPaint coorPaint = new SKPaint
             {      // paint for the axis and text
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.Black,
-                StrokeWidth = 4,
+                StrokeWidth = 3,
                 StrokeCap = SKStrokeCap.Square,
                 TextSize = 2 * margin
             };
@@ -83,7 +134,7 @@ namespace WeatherApp.View
             cnv.DrawPath(path, gPaint);
         }
 
-        /*void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
+        void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
