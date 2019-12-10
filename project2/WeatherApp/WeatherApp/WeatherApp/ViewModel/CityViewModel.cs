@@ -24,10 +24,6 @@ namespace WeatherApp.ViewModel
             }
         }
 
-        private string endpoint = "http://api.openweathermap.org/data/2.5/",
-            key = "appid=744c7d488901b071cef81d5efeb9a5b3";
-
-
         public CityViewModel()
         {
             AllCities = new City().GetAllCities();
@@ -41,17 +37,10 @@ namespace WeatherApp.ViewModel
 
         public async void UpdateCityWeather(City city)
         {   
-            String url = String.Format(
-                "{0}weather?q={1},pt&units=metric&{2}",
-                endpoint,
-                city.Name,
-                key
-            );
-
             using (HttpClient client = new HttpClient())
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
+                    HttpResponseMessage response = await client.GetAsync(API.getWeatherURL(city));
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         Weather apiWeather = JsonConvert.DeserializeObject<Weather>(
