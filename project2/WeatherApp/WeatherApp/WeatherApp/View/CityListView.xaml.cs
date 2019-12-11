@@ -27,8 +27,9 @@ namespace WeatherApp
             if (e.Item == null)
                 return;
 
-            //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-            await Navigation.PushModalAsync(new NavigationPage(new CityView()));
+            await Navigation.PushModalAsync(new NavigationPage(
+                new CityView(new DetailedCityViewModel(vm.Cities[e.ItemIndex]))
+            ));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

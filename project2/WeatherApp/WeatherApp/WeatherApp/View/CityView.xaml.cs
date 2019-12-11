@@ -3,6 +3,7 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WeatherApp.ViewModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,8 +18,11 @@ namespace WeatherApp.View
         readonly int ncycles = 8;
         readonly int graphH = 500;
         readonly int margin = 10;
-        public CityView()
+        public CityView(DetailedCityViewModel vm)
         {
+            vm.getCityDetails();
+            BindingContext = vm.city;
+
             InitializeComponent();
             canvas.PaintSurface += OnPaint;
         }

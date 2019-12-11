@@ -6,13 +6,33 @@ namespace WeatherApp.Model
     public class City : DynamicViewModel
     {
         public string Name { get; set; }
+
+        private string _Description;
+        public string Description { get => _Description; set => SetProperty(ref _Description, value); }
+
         public string CountryCode { get; set; }
 
         public string CurrentTime { get; set; }
 
+        // TEMPERATURES
         private string _CurrentTemp ;
-
         public string CurrentTemp { get => _CurrentTemp; set => SetProperty(ref _CurrentTemp, value); }
+
+        private string _CurrentTempDiff;
+        public string CurrentTempDiff { get => _CurrentTempDiff; set => SetProperty(ref _CurrentTempDiff, value); }
+
+        // OTHER STATS
+        private string _CurrentPressure;
+        public string CurrentPressure { get => _CurrentPressure; set => SetProperty(ref _CurrentPressure, value); }
+
+        private string _CurrentPreciptitation;
+        public string CurrentPreciptitation { get => _CurrentPreciptitation; set => SetProperty(ref _CurrentPreciptitation, value); }
+
+        private string _CurrentWind;
+        public string CurrentWind { get => _CurrentWind; set => SetProperty(ref _CurrentWind, value); }
+
+        private string _CurrentHumidity;
+        public string CurrentHumidity { get => _CurrentHumidity; set => SetProperty(ref _CurrentHumidity, value); }
 
         public List<City> GetAllCities()
         {

@@ -35,6 +35,22 @@ namespace WeatherApp.ViewModel
                 UpdateCityWeather(c);
         }
 
+        private void updateModel(City city, Weather apiWeather)
+        {
+            city.Description = apiWeather.weather[0].description;
+
+            // Temperatures
+            city.CurrentTemp = apiWeather.main.temp.ToString() + "ºC";
+            city.CurrentTempDiff = Math.Round(apiWeather.main.temp_max).ToString() +
+                "-" + Math.Round(apiWeather.main.temp_min).ToString() + "ºC";
+
+            // Other Stats
+            city.CurrentPressure = apiWeather.main.pressure.ToString() + "hpa";
+            //city.CurrentPreciptitation = apiWeather;
+            city.CurrentWind = apiWeather.wind.speed.ToString() + "m/s";
+            city.CurrentHumidity = apiWeather.main.humidity.ToString() + "%";
+        }
+
         public async void UpdateCityWeather(City city)
         {   
             using (HttpClient client = new HttpClient())
@@ -47,8 +63,7 @@ namespace WeatherApp.ViewModel
                             await response.Content.ReadAsStringAsync()
                         );
 
-                        // Updating City
-                        city.CurrentTemp = apiWeather.main.temp.ToString() + "ºC";
+                        updateModel(city, apiWeather);
                     }
                 }
                 catch (Exception ex)
