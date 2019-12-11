@@ -18,6 +18,7 @@ namespace WeatherApp.View
         readonly int ncycles = 8;
         readonly int graphH = 500;
         readonly int margin = 10;
+
         public CityView(DetailedCityViewModel vm)
         {
             vm.getCityDetails();
