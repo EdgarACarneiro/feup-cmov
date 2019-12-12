@@ -27,10 +27,12 @@ namespace WeatherApp.View
 
         public void FillPredictions()
         {
-            for (int i = 0; i < vm.city.Icons.Count(); ++i)
-            {
-                CityView["graph_image_" + i].Source = vm.city.Icons[0];
-            }
+            //for (int i = 0; i < vm.city.Icons.Count(); ++i)
+            //{
+            //     //"graph_image_" + i].Source = vm.city.Icons[0];
+            //}
+            string start = "https://openweathermap.org/img/wn/";
+            string end = "@2x.png";
 
             graph_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
             graph_image_2.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
