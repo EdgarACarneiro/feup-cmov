@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WeatherApp.ViewModel;
+using Xamarin.Forms;
 
 namespace WeatherApp.Model
 {
@@ -45,6 +46,9 @@ namespace WeatherApp.Model
         public float[] _Temps = { 0 };
         public float[] Temps { get => _Temps; set => SetProperty(ref _Temps, value); }
 
+        public ImageSource[] _Icons;
+        public ImageSource[] Icons { get => _Icons; set => SetProperty(ref _Icons, value); }
+
         public void UpdateModel(Weather weather)
         {
             Description = weather.weather[0].description;
@@ -57,15 +61,18 @@ namespace WeatherApp.Model
             HourlyStats = new List<ForecastPair>();
             Hours = new string[NUM_SELECTED_FORECASTS];
             Temps = new float[NUM_SELECTED_FORECASTS];
+            Icons = new ImageSource[NUM_SELECTED_FORECASTS];
 
             for (int i = 0; i < forecast.list.Count && i < NUM_SELECTED_FORECASTS; ++i)
             {
                 Entry temp = forecast.list[i];
                 string time = temp.dt_txt.Split(' ')[1].Remove(HOURS_MINS_STRING_SIZE);
+                MainStats stats = new MainStats(temp);
 
-                HourlyStats.Add(new ForecastPair(time, new MainStats(temp)));
+                HourlyStats.Add(new ForecastPair(time, stats));
                 Hours.SetValue(time + "h", i);
                 Temps.SetValue((float) Math.Round(temp.main.temp, 1), i);
+                Icons.SetValue(stats.Icon, i);
             }
         }
 

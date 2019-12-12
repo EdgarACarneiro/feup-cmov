@@ -1,11 +1,8 @@
 ﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using WeatherApp.ViewModel;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -30,9 +27,10 @@ namespace WeatherApp.View
 
         public void FillPredictions()
         {
-            string start = "https://openweathermap.org/img/wn/";
-            string end = "@2x.png";
-            //prediction_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            for (int i = 0; i < vm.city.Icons.Count(); ++i)
+            {
+                CityView["graph_image_" + i].Source = vm.city.Icons[0];
+            }
 
             graph_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
             graph_image_2.Source = ImageSource.FromUri(new Uri(start + "02d" + end));

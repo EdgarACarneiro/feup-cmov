@@ -95,7 +95,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image x:Name="prediction_image_1" Grid.Column="0"/>
+                                    <Image Source="{Binding Stats.Icon}" Grid.Column="0"/>
                                     <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
                                         <Label Text="{Binding Hour}" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                                     </StackLayout>
