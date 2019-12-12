@@ -29,14 +29,7 @@ namespace WeatherApp.View
         {
             string start = "https://openweathermap.org/img/wn/";
             string end = "@2x.png";
-            prediction_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
-            prediction_image_2.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
-            prediction_image_3.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
-            prediction_image_4.Source = ImageSource.FromUri(new Uri(start + "04d" + end));
-            prediction_image_5.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
-            prediction_image_6.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
-            prediction_image_7.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
-            prediction_image_8.Source = ImageSource.FromUri(new Uri(start + "03d" + end));
+            //prediction_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
 
             graph_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
             graph_image_2.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
