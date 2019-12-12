@@ -3,6 +3,18 @@ using WeatherApp.ViewModel;
 
 namespace WeatherApp.Model
 {
+    public class ForecastPair
+    {
+        public string Hour { get; set; }
+        public MainStats Stats { get; set; }
+
+        public ForecastPair(string h, MainStats s)
+        {
+            Hour = h;
+            Stats = s;
+        }
+    }
+
     public class City : DynamicViewModel
     {
         public string Name { get; set; }
@@ -20,11 +32,25 @@ namespace WeatherApp.Model
         public MainStats _CurrentStats;
         public MainStats CurrentStats { get => _CurrentStats; set => SetProperty(ref _CurrentStats, value); }
 
-        public void updateModel(Weather weather)
+        public List<ForecastPair> _HourlyStats;
+        public List<ForecastPair> HourlyStats { get => _HourlyStats; set => SetProperty(ref _HourlyStats, value); }
+
+        public void UpdateModel(Weather weather)
         {
             Description = weather.weather[0].description;
             CurrentTemp = weather.main.temp.ToString() + "ºC";
             CurrentStats = new MainStats(weather);
+        }
+
+        public void DetailedUpdateModel(Forecast forecast)
+        {
+            HourlyStats = new List<ForecastPair>();
+            for(int i = 0; i < forecast.list.Count && i < 8; ++i)
+            {
+                Entry temp = forecast.list[i];
+                string time = temp.dt_txt.Split(' ')[1].Remove(5);
+                HourlyStats.Add(new ForecastPair(time, new MainStats(temp)));
+            }
         }
 
         public List<City> GetAllCities()

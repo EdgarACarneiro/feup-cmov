@@ -29,5 +29,15 @@ namespace WeatherApp.Model
             CurrentWind = weather.wind.speed.ToString() + "m/s";
             CurrentHumidity = weather.main.humidity.ToString() + "%";
         }
+
+        public MainStats(Entry entry)
+        {
+            CurrentTempDiff = Math.Round(entry.main.temp_max).ToString() +
+                "-" + Math.Round(entry.main.temp_min).ToString() + "ºC";
+            CurrentPressure = entry.main.pressure.ToString() + "hpa";
+            //city.CurrentPreciptitation = apiWeather;
+            CurrentWind = entry.wind.speed.ToString() + "m/s";
+            CurrentHumidity = entry.main.humidity.ToString() + "%";
+        }
     }
 }

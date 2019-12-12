@@ -23,12 +23,11 @@ namespace WeatherApp.ViewModel
                     HttpResponseMessage response = await client.GetAsync(API.getForecastURL(city));
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        Weather apiWeather = JsonConvert.DeserializeObject<Weather>(
+                        Forecast apiForecast = JsonConvert.DeserializeObject<Forecast>(
                             await response.Content.ReadAsStringAsync()
                         );
 
-                        // Updating Details
-                        city.CurrentTemp = apiWeather.main.temp.ToString() + "ºC";
+                        city.DetailedUpdateModel(apiForecast);
                     }
                 }
                 catch (Exception ex)

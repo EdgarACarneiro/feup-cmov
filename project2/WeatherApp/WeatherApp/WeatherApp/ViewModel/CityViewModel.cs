@@ -47,7 +47,7 @@ namespace WeatherApp.ViewModel
                             await response.Content.ReadAsStringAsync()
                         );
 
-                        city.updateModel(apiWeather);
+                        city.UpdateModel(apiWeather);
                     }
                 }
                 catch (Exception ex)
