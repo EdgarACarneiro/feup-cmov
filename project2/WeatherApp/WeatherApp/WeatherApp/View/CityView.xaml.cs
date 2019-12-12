@@ -15,17 +15,37 @@ namespace WeatherApp.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CityView : ContentPage
     {
-        readonly int ncycles = 8;
-        readonly int graphH = 500;
-        readonly int margin = 10;
-
         public CityView(DetailedCityViewModel vm)
         {
             vm.getCityDetails();
             BindingContext = vm.city;
 
             InitializeComponent();
+            FillPredictions();
             canvas.PaintSurface += OnPaint;
+        }
+
+        public void FillPredictions()
+        {
+            string start = "https://openweathermap.org/img/wn/";
+            string end = "@2x.png";
+            prediction_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            prediction_image_2.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
+            prediction_image_3.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            prediction_image_4.Source = ImageSource.FromUri(new Uri(start + "04d" + end));
+            prediction_image_5.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            prediction_image_6.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
+            prediction_image_7.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            prediction_image_8.Source = ImageSource.FromUri(new Uri(start + "03d" + end));
+
+            graph_image_1.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            graph_image_2.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
+            graph_image_3.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            graph_image_4.Source = ImageSource.FromUri(new Uri(start + "04d" + end));
+            graph_image_5.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            graph_image_6.Source = ImageSource.FromUri(new Uri(start + "02d" + end));
+            graph_image_7.Source = ImageSource.FromUri(new Uri(start + "01d" + end));
+            graph_image_8.Source = ImageSource.FromUri(new Uri(start + "03d" + end));
         }
 
         public void OnPaint(object sender, SKPaintSurfaceEventArgs args)
@@ -36,18 +56,18 @@ namespace WeatherApp.View
             int topLeftX = (int)Math.Round(args.Info.Width * 0.08);
             int topLeftY = (int)Math.Round(args.Info.Height * 0.08);
             int bottomRightX = (int)Math.Round(args.Info.Width * 0.95);
-            int bottomRightY = (int)Math.Round(args.Info.Height * 0.90);
+            int bottomRightY = (int)Math.Round(args.Info.Height * 0.93);
 
             SKCanvas canvas = args.Surface.Canvas;
 
             canvas.Clear();
 
             //canvas.DrawLine(new SKPoint(originX, originY), new SKPoint(maxX, maxY), coorPaint);
-            DrawAxis(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), hours, temps);
+            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), hours, temps);
             //DrawAxis(args.Surface.Canvas, hours, temps, )
         }
 
-        void DrawAxis(SKCanvas canvas, SKPoint topLeft, SKPoint bottomRight, string[] hours, float[] temps)
+        void DrawGraph(SKCanvas canvas, SKPoint topLeft, SKPoint bottomRight, string[] hours, float[] temps)
         {
             SKPaint coorPaint = new SKPaint
             {      // paint for the axis and text
