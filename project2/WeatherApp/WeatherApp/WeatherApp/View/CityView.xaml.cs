@@ -44,6 +44,15 @@ namespace WeatherApp.View
             }
         }
 
+        public void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+                return;
+
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
+        }
+
         public void OnPaint(object sender, SKPaintSurfaceEventArgs args)
         {
             int topLeftX = (int)Math.Round(args.Info.Width * 0.08);
