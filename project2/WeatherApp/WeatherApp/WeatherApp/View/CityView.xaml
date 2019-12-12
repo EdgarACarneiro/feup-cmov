@@ -58,7 +58,7 @@
                 <StackLayout Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
                     <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
                     <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                        <Label Text="5mm" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <Label Text="{Binding CurrentPrecipitation}" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
                         <Label Text="Precipitation" TextColor="#7D7D7D" FontSize="10" HorizontalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
@@ -114,7 +114,7 @@
                                     <StackLayout BindingContext="{Binding Stats}" Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
                                         <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
                                         <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                                            <Label Text="5mm" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                            <Label Text="{Binding CurrentPrecipitation}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
                                         </StackLayout>
                                     </StackLayout>
                                     <StackLayout BindingContext="{Binding Stats}" Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">

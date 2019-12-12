@@ -35,6 +35,7 @@ namespace WeatherApp.Model
         public Main main;
         public IList<forecastInfo> weather;
         public forecastWind wind;
+        public Dictionary<string, float> rain;
         // Datetime as a string
         public string dt_txt;
     }

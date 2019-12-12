@@ -11,8 +11,8 @@ namespace WeatherApp.Model
         private string _CurrentPressure;
         public string CurrentPressure { get => _CurrentPressure; set => SetProperty(ref _CurrentPressure, value); }
 
-        private string _CurrentPreciptitation;
-        public string CurrentPreciptitation { get => _CurrentPreciptitation; set => SetProperty(ref _CurrentPreciptitation, value); }
+        private string _CurrentPrecipitation;
+        public string CurrentPrecipitation { get => _CurrentPrecipitation; set => SetProperty(ref _CurrentPrecipitation, value); }
 
         private string _CurrentWind;
         public string CurrentWind { get => _CurrentWind; set => SetProperty(ref _CurrentWind, value); }
@@ -25,7 +25,7 @@ namespace WeatherApp.Model
             CurrentTempDiff = Math.Round(weather.main.temp_min).ToString() +
                 "-" + Math.Round(weather.main.temp_max).ToString() + "ºC";
             CurrentPressure = weather.main.pressure.ToString() + "hpa";
-            //city.CurrentPreciptitation = apiWeather;
+            CurrentPrecipitation = (weather.rain != null ? weather.rain["1h"].ToString() : "0") + "mm";
             CurrentWind = weather.wind.speed.ToString() + "m/s";
             CurrentHumidity = weather.main.humidity.ToString() + "%";
         }
@@ -35,7 +35,7 @@ namespace WeatherApp.Model
             CurrentTempDiff = Math.Round(entry.main.temp_min).ToString() +
                 "-" + Math.Round(entry.main.temp_max).ToString() + "ºC";
             CurrentPressure = entry.main.pressure.ToString() + "hpa";
-            //city.CurrentPreciptitation = apiWeather;
+            CurrentPrecipitation = (entry.rain != null? entry.rain["3h"].ToString() : "0") + "mm";
             CurrentWind = entry.wind.speed.ToString() + "m/s";
             CurrentHumidity = entry.main.humidity.ToString() + "%";
         }

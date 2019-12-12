@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WeatherApp.ViewModel;
 
 namespace WeatherApp.Model
@@ -18,6 +19,7 @@ namespace WeatherApp.Model
     public class City : DynamicViewModel
     {
         public static readonly int NUM_SELECTED_FORECASTS = 8;
+        public static readonly int HOURS_MINS_STRING_SIZE = 5;
 
         public string Name { get; set; }
 
@@ -37,10 +39,10 @@ namespace WeatherApp.Model
         public List<ForecastPair> _HourlyStats;
         public List<ForecastPair> HourlyStats { get => _HourlyStats; set => SetProperty(ref _HourlyStats, value); }
 
-        public string[] _Hours;
+        public string[] _Hours = { "--" };
         public string[] Hours { get => _Hours; set => SetProperty(ref _Hours, value); }
 
-        public float[] _Temps;
+        public float[] _Temps = { 0 };
         public float[] Temps { get => _Temps; set => SetProperty(ref _Temps, value); }
 
         public void UpdateModel(Weather weather)
@@ -59,11 +61,11 @@ namespace WeatherApp.Model
             for (int i = 0; i < forecast.list.Count && i < NUM_SELECTED_FORECASTS; ++i)
             {
                 Entry temp = forecast.list[i];
-                string time = temp.dt_txt.Split(' ')[1].Remove(5);
+                string time = temp.dt_txt.Split(' ')[1].Remove(HOURS_MINS_STRING_SIZE);
 
                 HourlyStats.Add(new ForecastPair(time, new MainStats(temp)));
                 Hours.SetValue(time + "h", i);
-                Temps.SetValue(temp.main.temp, i);
+                Temps.SetValue((float) Math.Round(temp.main.temp, 1), i);
             }
         }
 

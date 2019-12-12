@@ -46,9 +46,6 @@ namespace WeatherApp.View
 
         public void OnPaint(object sender, SKPaintSurfaceEventArgs args)
         {
-            string[] hours = { "00h", "03h", "06h", "09h", "12h", "15h", "18h", "21h" };
-            float[] temps = { 9, 12.4f, 11.3f, 11, 11.1f, 10.7f, 10.1f, 9.4f };
-
             int topLeftX = (int)Math.Round(args.Info.Width * 0.08);
             int topLeftY = (int)Math.Round(args.Info.Height * 0.08);
             int bottomRightX = (int)Math.Round(args.Info.Width * 0.95);
@@ -59,7 +56,7 @@ namespace WeatherApp.View
             canvas.Clear();
 
             //canvas.DrawLine(new SKPoint(originX, originY), new SKPoint(maxX, maxY), coorPaint);
-            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), this.vm.city.Hours, this.vm.city.Temps);
+            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), vm.city.Hours, vm.city.Temps);
             //DrawAxis(args.Surface.Canvas, hours, temps, )
         }
 

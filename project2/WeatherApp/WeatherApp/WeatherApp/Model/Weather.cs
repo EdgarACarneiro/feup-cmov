@@ -39,6 +39,7 @@ namespace WeatherApp.Model
         public int visibility;
         public Wind wind;
         public Sys sys;
+        public Dictionary<string, float> rain;
         public int timezone;
         public string name;
     }
