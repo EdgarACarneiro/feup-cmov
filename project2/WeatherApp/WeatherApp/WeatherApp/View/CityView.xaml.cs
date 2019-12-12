@@ -15,9 +15,12 @@ namespace WeatherApp.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CityView : ContentPage
     {
+        DetailedCityViewModel vm;
+
         public CityView(DetailedCityViewModel vm)
         {
             vm.getCityDetails();
+            this.vm = vm;
             BindingContext = vm.city;
 
             InitializeComponent();
@@ -56,7 +59,7 @@ namespace WeatherApp.View
             canvas.Clear();
 
             //canvas.DrawLine(new SKPoint(originX, originY), new SKPoint(maxX, maxY), coorPaint);
-            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), hours, temps);
+            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), this.vm.city.Hours, this.vm.city.Temps);
             //DrawAxis(args.Surface.Canvas, hours, temps, )
         }
 

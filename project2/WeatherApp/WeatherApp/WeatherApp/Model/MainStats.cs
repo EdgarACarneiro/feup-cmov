@@ -22,8 +22,8 @@ namespace WeatherApp.Model
 
         public MainStats(Weather weather)
         {
-            CurrentTempDiff = Math.Round(weather.main.temp_max).ToString() +
-                "-" + Math.Round(weather.main.temp_min).ToString() + "ºC";
+            CurrentTempDiff = Math.Round(weather.main.temp_min).ToString() +
+                "-" + Math.Round(weather.main.temp_max).ToString() + "ºC";
             CurrentPressure = weather.main.pressure.ToString() + "hpa";
             //city.CurrentPreciptitation = apiWeather;
             CurrentWind = weather.wind.speed.ToString() + "m/s";
@@ -32,8 +32,8 @@ namespace WeatherApp.Model
 
         public MainStats(Entry entry)
         {
-            CurrentTempDiff = Math.Round(entry.main.temp_max).ToString() +
-                "-" + Math.Round(entry.main.temp_min).ToString() + "ºC";
+            CurrentTempDiff = Math.Round(entry.main.temp_min).ToString() +
+                "-" + Math.Round(entry.main.temp_max).ToString() + "ºC";
             CurrentPressure = entry.main.pressure.ToString() + "hpa";
             //city.CurrentPreciptitation = apiWeather;
             CurrentWind = entry.wind.speed.ToString() + "m/s";

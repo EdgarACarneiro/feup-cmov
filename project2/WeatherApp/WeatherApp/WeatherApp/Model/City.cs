@@ -17,14 +17,16 @@ namespace WeatherApp.Model
 
     public class City : DynamicViewModel
     {
+        public static readonly int NUM_SELECTED_FORECASTS = 8;
+
         public string Name { get; set; }
 
         private string _Description;
         public string Description { get => _Description; set => SetProperty(ref _Description, value); }
 
-        public string CountryCode { get; set; }
+        public string CountryCode { get; set; } // TODO - Delete
 
-        public string CurrentTime { get; set; }
+        public string CurrentTime { get; set; } //TODO - Delete
 
         private string _CurrentTemp;
         public string CurrentTemp { get => _CurrentTemp; set => SetProperty(ref _CurrentTemp, value); }
@@ -34,6 +36,12 @@ namespace WeatherApp.Model
 
         public List<ForecastPair> _HourlyStats;
         public List<ForecastPair> HourlyStats { get => _HourlyStats; set => SetProperty(ref _HourlyStats, value); }
+
+        public string[] _Hours;
+        public string[] Hours { get => _Hours; set => SetProperty(ref _Hours, value); }
+
+        public float[] _Temps;
+        public float[] Temps { get => _Temps; set => SetProperty(ref _Temps, value); }
 
         public void UpdateModel(Weather weather)
         {
@@ -45,11 +53,17 @@ namespace WeatherApp.Model
         public void DetailedUpdateModel(Forecast forecast)
         {
             HourlyStats = new List<ForecastPair>();
-            for(int i = 0; i < forecast.list.Count && i < 8; ++i)
+            Hours = new string[NUM_SELECTED_FORECASTS];
+            Temps = new float[NUM_SELECTED_FORECASTS];
+
+            for (int i = 0; i < forecast.list.Count && i < NUM_SELECTED_FORECASTS; ++i)
             {
                 Entry temp = forecast.list[i];
                 string time = temp.dt_txt.Split(' ')[1].Remove(5);
+
                 HourlyStats.Add(new ForecastPair(time, new MainStats(temp)));
+                Hours.SetValue(time + "h", i);
+                Temps.SetValue(temp.main.temp, i);
             }
         }
 
