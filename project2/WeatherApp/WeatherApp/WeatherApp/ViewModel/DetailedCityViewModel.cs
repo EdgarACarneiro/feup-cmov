@@ -3,12 +3,14 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
 using WeatherApp.Model;
+using WeatherApp.View;
 
 namespace WeatherApp.ViewModel
 {
     public class DetailedCityViewModel
     {
         public City city;
+        public CityView view;
 
         public DetailedCityViewModel(City city)
         {
@@ -28,6 +30,8 @@ namespace WeatherApp.ViewModel
                         );
 
                         city.DetailedUpdateModel(apiForecast);
+                        if (view != null)
+                            view.SetGraphIcons();
                     }
                 }
                 catch (Exception ex)

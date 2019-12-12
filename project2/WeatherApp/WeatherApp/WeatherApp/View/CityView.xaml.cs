@@ -16,26 +16,22 @@ namespace WeatherApp.View
 
         public CityView(DetailedCityViewModel vm)
         {
+            vm.view = this;
             vm.getCityDetails();
             this.vm = vm;
             BindingContext = vm.city;
 
             InitializeComponent();
-            FillPredictions();
             canvas.PaintSurface += OnPaint;
         }
 
-        public void FillPredictions()
+        public void SetGraphIcons()
         {
-            string start = "https://openweathermap.org/img/wn/";
-            string end = "@2x.png";
-
-            for(int i = 0; i < /*vm.city.Icons.Count()*/ 8; i++)
+            for(int i = 0; i < vm.city.Icons.Count(); i++)
             {
                 Image img = new Image
                 {
-                    //Source = vm.city.Icons[i],
-                    Source = ImageSource.FromUri(new Uri(start + "01d" + end)),
+                    Source = vm.city.Icons[i],
                     Aspect = Aspect.AspectFill
                 };
 

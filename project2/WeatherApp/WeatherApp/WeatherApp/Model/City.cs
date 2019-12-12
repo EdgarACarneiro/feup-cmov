@@ -46,7 +46,7 @@ namespace WeatherApp.Model
         public float[] _Temps = { 0 };
         public float[] Temps { get => _Temps; set => SetProperty(ref _Temps, value); }
 
-        public ImageSource[] _Icons;
+        public ImageSource[] _Icons = { };
         public ImageSource[] Icons { get => _Icons; set => SetProperty(ref _Icons, value); }
 
         public void UpdateModel(Weather weather)
