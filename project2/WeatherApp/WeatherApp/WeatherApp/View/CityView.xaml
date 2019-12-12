@@ -78,90 +78,79 @@
                 </StackLayout>
             </Grid>
         </Frame>
+        
+        <ListView ItemsSource="{Binding HourlyStats}" HasUnevenRows="True" Grid.Row="2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="0, 10, 0, 0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*"/>
+                                <ColumnDefinition Width="1.2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding Stats.Icon}" Grid.Column="0"/>
+                            <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                <Label Text="{Binding Hour}" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                            <StackLayout BindingContext="{Binding Stats}" Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                                <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
+                                <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="{Binding CurrentTempDiff}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout BindingContext="{Binding Stats}" Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                                <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
+                                <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="{Binding CurrentPressure}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout BindingContext="{Binding Stats}" Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                                <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
+                                <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="{Binding CurrentPrecipitation}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout BindingContext="{Binding Stats}" Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                                <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
+                                <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="{Binding CurrentWind}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout BindingContext="{Binding Stats}" Grid.Column="6" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
+                                <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
+                                <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="{Binding CurrentHumidity}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <StackLayout>
+                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400" Grid.Row="2"/>
 
-        <ScrollView Orientation="Vertical" Grid.Row="2">
-            <StackLayout>
-                <ListView ItemsSource="{Binding HourlyStats}" HasUnevenRows="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="0, 10, 0, 0" Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.8*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding Stats.Icon}" Grid.Column="0"/>
-                                    <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                                        <Label Text="{Binding Hour}" TextColor="Black" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                                    </StackLayout>
-                                    <StackLayout BindingContext="{Binding Stats}" Grid.Column="2" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                                        <Image Source="hot_temperature.png" HeightRequest="25" HorizontalOptions="Center"/>
-                                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                                            <Label Text="{Binding CurrentTempDiff}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                    <StackLayout BindingContext="{Binding Stats}" Grid.Column="3" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                                        <Image Source="pressure.png" HeightRequest="25" HorizontalOptions="Center"/>
-                                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                                            <Label Text="{Binding CurrentPressure}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                    <StackLayout BindingContext="{Binding Stats}" Grid.Column="4" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                                        <Image Source="rain.png" HeightRequest="25" HorizontalOptions="Center"/>
-                                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                                            <Label Text="{Binding CurrentPrecipitation}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                    <StackLayout BindingContext="{Binding Stats}" Grid.Column="5" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                                        <Image Source="wind.png" HeightRequest="25" HorizontalOptions="Center"/>
-                                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                                            <Label Text="{Binding CurrentWind}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                    <StackLayout BindingContext="{Binding Stats}" Grid.Column="6" Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand">
-                                        <Image Source="humidity.png" HeightRequest="25" HorizontalOptions="Center"/>
-                                        <StackLayout Spacing="3" HorizontalOptions="CenterAndExpand">
-                                            <Label Text="{Binding CurrentHumidity}" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
-                <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400" Grid.Row="2"/>
-
-                <Grid x:Name="graph_images">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.8*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.5*"/>
-                    </Grid.ColumnDefinitions>
-<!--
-                    <Image x:Name="graph_image_1" Grid.Column="1" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_2" Grid.Column="2" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_3" Grid.Column="3" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_4" Grid.Column="4" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_5" Grid.Column="5" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_6" Grid.Column="6" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_7" Grid.Column="7" Aspect="AspectFill"/>
-                    <Image x:Name="graph_image_8" Grid.Column="8" Aspect="AspectFill"/>
-                    -->
-                </Grid>
-            </StackLayout>
-        </ScrollView>
+                    <Grid x:Name="graph_images">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </StackLayout>
+            </ListView.Footer>
+        </ListView>
     </Grid>
 </ContentPage>
