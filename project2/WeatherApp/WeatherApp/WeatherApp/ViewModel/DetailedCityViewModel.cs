@@ -20,7 +20,7 @@ namespace WeatherApp.ViewModel
             using (HttpClient client = new HttpClient())
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync(API.getWeatherURL(city));
+                    HttpResponseMessage response = await client.GetAsync(API.getForecastURL(city));
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         Weather apiWeather = JsonConvert.DeserializeObject<Weather>(

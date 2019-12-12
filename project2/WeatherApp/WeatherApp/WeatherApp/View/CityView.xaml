@@ -33,7 +33,7 @@
         </StackLayout>
 
         <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
-            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+            <Grid BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

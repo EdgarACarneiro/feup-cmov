@@ -14,25 +14,18 @@ namespace WeatherApp.Model
 
         public string CurrentTime { get; set; }
 
-        // TEMPERATURES
-        private string _CurrentTemp ;
+        private string _CurrentTemp;
         public string CurrentTemp { get => _CurrentTemp; set => SetProperty(ref _CurrentTemp, value); }
 
-        private string _CurrentTempDiff;
-        public string CurrentTempDiff { get => _CurrentTempDiff; set => SetProperty(ref _CurrentTempDiff, value); }
+        public MainStats _CurrentStats;
+        public MainStats CurrentStats { get => _CurrentStats; set => SetProperty(ref _CurrentStats, value); }
 
-        // OTHER STATS
-        private string _CurrentPressure;
-        public string CurrentPressure { get => _CurrentPressure; set => SetProperty(ref _CurrentPressure, value); }
-
-        private string _CurrentPreciptitation;
-        public string CurrentPreciptitation { get => _CurrentPreciptitation; set => SetProperty(ref _CurrentPreciptitation, value); }
-
-        private string _CurrentWind;
-        public string CurrentWind { get => _CurrentWind; set => SetProperty(ref _CurrentWind, value); }
-
-        private string _CurrentHumidity;
-        public string CurrentHumidity { get => _CurrentHumidity; set => SetProperty(ref _CurrentHumidity, value); }
+        public void updateModel(Weather weather)
+        {
+            Description = weather.weather[0].description;
+            CurrentTemp = weather.main.temp.ToString() + "ºC";
+            CurrentStats = new MainStats(weather);
+        }
 
         public List<City> GetAllCities()
         {
