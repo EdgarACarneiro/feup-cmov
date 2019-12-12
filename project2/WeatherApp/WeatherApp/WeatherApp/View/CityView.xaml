@@ -137,7 +137,7 @@
 
                 <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400" Grid.Row="2"/>
 
-                <Grid>
+                <Grid x:Name="graph_images">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.8*"/>
                         <ColumnDefinition Width="*"/>
@@ -150,7 +150,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
-
+<!--
                     <Image x:Name="graph_image_1" Grid.Column="1" Aspect="AspectFill"/>
                     <Image x:Name="graph_image_2" Grid.Column="2" Aspect="AspectFill"/>
                     <Image x:Name="graph_image_3" Grid.Column="3" Aspect="AspectFill"/>
@@ -159,6 +159,7 @@
                     <Image x:Name="graph_image_6" Grid.Column="6" Aspect="AspectFill"/>
                     <Image x:Name="graph_image_7" Grid.Column="7" Aspect="AspectFill"/>
                     <Image x:Name="graph_image_8" Grid.Column="8" Aspect="AspectFill"/>
+                    -->
                 </Grid>
             </StackLayout>
         </ScrollView>
