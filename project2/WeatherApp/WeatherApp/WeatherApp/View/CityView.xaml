@@ -33,7 +33,7 @@
         </StackLayout>
 
         <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
-            <Grid BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+            <Grid x:Name="current_stats" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -78,13 +78,46 @@
                 </StackLayout>
             </Grid>
         </Frame>
-        
-        <ListView ItemsSource="{Binding HourlyStats}" HasUnevenRows="True" Grid.Row="2" ItemTapped="Handle_ItemTapped">
+
+        <ListView x:Name="prevision_list" HasUnevenRows="True" Grid.Row="2" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
+            <ListView.Header>
+                <StackLayout>
+                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400" PaintSurface="OnPaint"/>
+
+                    <Grid x:Name="graph_images" Margin="0, 0, 0, 15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </StackLayout>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout>
-                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="7*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="1" Padding="0, 10">
+                                    <BoxView
+                                        HeightRequest="1" 
+                                        BackgroundColor="Black" 
+                                        HorizontalOptions="FillAndExpand" />
+                                </StackLayout>
+                            </Grid>
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.8*"/>
                                     <ColumnDefinition Width="1.2*"/>
@@ -129,44 +162,10 @@
                                     </StackLayout>
                                 </StackLayout>
                             </Grid>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="7*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="1" Padding="0, 10">
-                                    <BoxView
-                                        HeightRequest="1" 
-                                        BackgroundColor="Black" 
-                                        HorizontalOptions="FillAndExpand" />
-                                </StackLayout>
-                            </Grid>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.Footer>
-                <StackLayout>
-                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400" Grid.Row="2"/>
-
-                    <Grid x:Name="graph_images">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.5*"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </StackLayout>
-            </ListView.Footer>
         </ListView>
     </Grid>
 </ContentPage>

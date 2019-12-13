@@ -32,15 +32,14 @@
                         <ViewCell>
                             <Grid Margin="0, 0, 0, 1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="5*"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="6*"/>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <magic:GradientView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                                <magic:GradientView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                                     <magic:GradientView.GradientSource>
                                         <magic:LinearGradient BindingContext="{Binding Grad}" Angle="90">
                                             <!--<magic:GradientStop Color="{Binding First}" Offset="0" />
@@ -50,9 +49,9 @@
                                         </magic:LinearGradient>
                                     </magic:GradientView.GradientSource>
                                 </magic:GradientView>
-                                <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10, 0, 0, 5"/>
-                                <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="Title" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Padding="0, 0, 10, 0"/>
-                                <Button Text="-" Clicked="Remove_City" TextColor="White" BackgroundColor="PaleVioletRed" FontSize="Title" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Margin="-5, 0, 0, 0"/>
+                                <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10, 0, 0, 5" VerticalTextAlignment="Center"/>
+                                <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="Title" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="1" Padding="0, 0, 10, 0"/>
+                                <Button Text="-" Clicked="Remove_City" TextColor="White" BackgroundColor="PaleVioletRed" FontSize="Title" Grid.Row="0" Grid.Column="2" Margin="-5, 0, 0, 0"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

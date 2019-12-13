@@ -19,10 +19,14 @@ namespace WeatherApp.View
             vm.view = this;
             vm.getCityDetails();
             this.vm = vm;
-            BindingContext = vm.city;
 
             InitializeComponent();
-            canvas.PaintSurface += OnPaint;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                prevision_list.ItemsSource = vm.city.HourlyStats;
+                BindingContext = vm.city;
+                current_stats.BindingContext = vm.city.CurrentStats;
+            });
         }
 
         public void SetGraphIcons()
@@ -36,6 +40,7 @@ namespace WeatherApp.View
                 };
 
                 Grid.SetColumn(img, i + 1);
+                Grid.SetRow(img, 0);
                 graph_images.Children.Add(img);
             }
         }
