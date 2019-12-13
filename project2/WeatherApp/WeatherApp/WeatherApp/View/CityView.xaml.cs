@@ -69,7 +69,7 @@ namespace WeatherApp.View
         {
             SKPaint coorPaint = new SKPaint
             {      // paint for the axis and text
-                Style = SKPaintStyle.Stroke,
+                Style = SKPaintStyle.StrokeAndFill,
                 Color = SKColors.Black,
                 StrokeWidth = 2,
                 StrokeCap = SKStrokeCap.Round,
@@ -88,7 +88,7 @@ namespace WeatherApp.View
             SKPaint graphPaint = new SKPaint
             {      // paint for the axis and text
                 Style = SKPaintStyle.Stroke,
-                Color = SKColors.Blue,
+                Color = SKColors.OrangeRed,
                 StrokeWidth = 5,
                 StrokeCap = SKStrokeCap.Round,
                 TextSize = 30
@@ -97,7 +97,7 @@ namespace WeatherApp.View
             SKPaint graphPaint2 = new SKPaint
             {      // paint for the axis and text
                 Style = SKPaintStyle.StrokeAndFill,
-                Color = SKColors.Blue,
+                Color = SKColors.OrangeRed,
                 StrokeWidth = 5,
                 StrokeCap = SKStrokeCap.Round,
                 TextSize = 30
