@@ -17,6 +17,18 @@ namespace WeatherApp.Model
         }
     }
 
+    public class Gradient
+    {
+        public string First { get; set; }
+        public string Second { get; set; }
+
+        public Gradient(string f, string s)
+        {
+            First = f;
+            Second = s;
+        }
+    }
+
     public class City : DynamicViewModel
     {
         public static readonly int NUM_SELECTED_FORECASTS = 8;
@@ -26,10 +38,6 @@ namespace WeatherApp.Model
 
         private string _Description;
         public string Description { get => _Description; set => SetProperty(ref _Description, value); }
-
-        public string CountryCode { get; set; } // TODO - Delete
-
-        public string CurrentTime { get; set; } //TODO - Delete
 
         private string _CurrentTemp;
         public string CurrentTemp { get => _CurrentTemp; set => SetProperty(ref _CurrentTemp, value); }
@@ -48,6 +56,9 @@ namespace WeatherApp.Model
 
         public ImageSource[] _Icons = { };
         public ImageSource[] Icons { get => _Icons; set => SetProperty(ref _Icons, value); }
+
+        
+        public Gradient Grad { get; set; } //"#a0dedb", "#03a4d1");
 
         public void UpdateModel(Weather weather)
         {
@@ -83,7 +94,8 @@ namespace WeatherApp.Model
                 new City()
                 {
                     Name="Aveiro",
-                    CurrentTemp="--ºC"
+                    CurrentTemp="--ºC",
+                    Grad=new Gradient("#a0dedb", "#03a4d1")
                 },
                 new City()
                 {

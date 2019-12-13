@@ -42,13 +42,12 @@
                                 </Grid.ColumnDefinitions>
                                 <magic:GradientView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
                                     <magic:GradientView.GradientSource>
-                                        <magic:CssGradientSource>
-                                            <x:String>
-                                                <![CDATA[
-                                                    linear-gradient(90deg, rgb(160, 222, 219),rgb(3, 165, 209))
-                                                ]]>
-                                            </x:String>
-                                        </magic:CssGradientSource>
+                                        <magic:LinearGradient BindingContext="{Binding Grad}" Angle="90">
+                                            <!--<magic:GradientStop Color="{Binding First}" Offset="0" />
+                                            <magic:GradientStop Color="{Binding Second}" Offset="1" />-->
+                                            <magic:GradientStop Color="#03a4d1" Offset="0" />
+                                            <magic:GradientStop Color="#a0dedb" Offset="1" />
+                                        </magic:LinearGradient>
                                     </magic:GradientView.GradientSource>
                                 </magic:GradientView>
                                 <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10, 0, 0, 5"/>
