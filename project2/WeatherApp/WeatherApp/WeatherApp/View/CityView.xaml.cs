@@ -66,8 +66,10 @@ namespace WeatherApp.View
 
             canvas.Clear();
 
-            float[] precipitation = new float[] { 0.4f, 0.0f, 0.1f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f };
-            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), vm.city.Hours, vm.city.Temps, precipitation);
+            DrawGraph(
+                canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY),
+                vm.city.Hours, vm.city.Temps, vm.city.Precipitations
+            );
         }
 
         void DrawGraph(SKCanvas canvas, SKPoint topLeft, SKPoint bottomRight, string[] hours, float[] temps, float[] precipitation)

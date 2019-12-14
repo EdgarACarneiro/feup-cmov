@@ -54,6 +54,9 @@ namespace WeatherApp.Model
         public float[] _Temps = { 0 };
         public float[] Temps { get => _Temps; set => SetProperty(ref _Temps, value); }
 
+        public float[] _Precipitations = { 0 };
+        public float[] Precipitations { get => _Precipitations; set => SetProperty(ref _Precipitations, value); }
+
         public ImageSource[] _Icons = { };
         public ImageSource[] Icons { get => _Icons; set => SetProperty(ref _Icons, value); }
 
@@ -72,6 +75,7 @@ namespace WeatherApp.Model
             HourlyStats = new List<ForecastPair>();
             Hours = new string[NUM_SELECTED_FORECASTS];
             Temps = new float[NUM_SELECTED_FORECASTS];
+            Precipitations = new float[NUM_SELECTED_FORECASTS];
             Icons = new ImageSource[NUM_SELECTED_FORECASTS];
 
             for (int i = 0; i < forecast.list.Count && i < NUM_SELECTED_FORECASTS; ++i)
@@ -83,6 +87,7 @@ namespace WeatherApp.Model
                 HourlyStats.Add(new ForecastPair(time, stats));
                 Hours.SetValue(time + "h", i);
                 Temps.SetValue((float) Math.Round(temp.main.temp, 1), i);
+                Precipitations.SetValue((float)Math.Round(temp.rain != null ? temp.rain["3h"] : 0, 1), i);
                 Icons.SetValue(stats.Icon, i);
             }
         }
