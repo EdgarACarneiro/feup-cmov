@@ -26,6 +26,7 @@ namespace WeatherApp.View
                 prevision_list.ItemsSource = vm.city.HourlyStats;
                 BindingContext = vm.city;
                 current_stats.BindingContext = vm.city.CurrentStats;
+                canvas.PaintSurface += OnPaint;
             });
         }
 
@@ -65,12 +66,11 @@ namespace WeatherApp.View
 
             canvas.Clear();
 
-            //canvas.DrawLine(new SKPoint(originX, originY), new SKPoint(maxX, maxY), coorPaint);
-            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), vm.city.Hours, vm.city.Temps);
-            //DrawAxis(args.Surface.Canvas, hours, temps, )
+            float[] precipitation = new float[] { 0.4f, 0.0f, 0.1f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f };
+            DrawGraph(canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY), vm.city.Hours, vm.city.Temps, precipitation);
         }
 
-        void DrawGraph(SKCanvas canvas, SKPoint topLeft, SKPoint bottomRight, string[] hours, float[] temps)
+        void DrawGraph(SKCanvas canvas, SKPoint topLeft, SKPoint bottomRight, string[] hours, float[] temps, float[] precipitation)
         {
             SKPaint coorPaint = new SKPaint
             {      // paint for the axis and text
@@ -108,11 +108,30 @@ namespace WeatherApp.View
                 TextSize = 30
             };
 
+            SKPaint graphPaint3 = new SKPaint
+            {      // paint for the axis and text
+                Style = SKPaintStyle.Stroke,
+                Color = SKColors.LightSteelBlue,
+                StrokeWidth = 5,
+                StrokeCap = SKStrokeCap.Round,
+                TextSize = 30
+            };
+
+            SKPaint graphPaint4 = new SKPaint
+            {      // paint for the axis and text
+                Style = SKPaintStyle.StrokeAndFill,
+                Color = SKColors.LightSteelBlue,
+                StrokeWidth = 5,
+                StrokeCap = SKStrokeCap.Round,
+                TextSize = 30
+            };
+
             SKPoint origin = new SKPoint(topLeft.X, bottomRight.Y);
 
-            //draw X and Y axis;
+            //draw X, Y and 2nd Y axis;
             canvas.DrawLine(origin, bottomRight, coorPaint);
             canvas.DrawLine(origin, new SKPoint(topLeft.X, topLeft.Y - 30), coorPaint);
+            canvas.DrawLine(new SKPoint(bottomRight.X, origin.Y), new SKPoint(bottomRight.X, topLeft.Y - 30), coorPaint);
 
             //draw hour text
             int steps = hours.Count();
@@ -123,10 +142,16 @@ namespace WeatherApp.View
                 canvas.DrawText(hours[i], origin.X + i * stepX + stepX / 5, origin.Y + 40, coorPaint); //draw '00h' text
             }
 
+            //calculate temperature value per pixel in Y axis
             float maxTemp = temps.Max();
             float minTemp = temps.Min();
-            //calculate temperature value per pixel in Y axis
             float pixelPerDegree = Math.Abs((topLeft.Y - origin.Y) / (maxTemp - minTemp));
+
+            //calculate temperature value per pixel in Y2 axis
+            float maxPrecipitation = precipitation.Max();
+            float minPrecipitation = precipitation.Min();
+            float pixelPerPrecipitationMM = Math.Abs((topLeft.Y - origin.Y) / (maxPrecipitation - minPrecipitation));
+
             float stepY = (origin.Y - topLeft.Y) / 4;
 
             //draw guide lines on Y axis
@@ -145,6 +170,23 @@ namespace WeatherApp.View
             canvas.DrawText(minTemp.ToString(), origin.X - 80, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
             canvas.DrawText(maxTemp.ToString(), topLeft.X - 80, topLeft.Y + 15, coorPaint);
 
+            //draw guide text on Y2 axis
+            for (int i = 0; i < 4; i++)
+            {
+                float guidelineTemp = maxPrecipitation - i * ((maxPrecipitation - minPrecipitation) / 4);
+                if (guidelineTemp != maxPrecipitation && guidelineTemp != maxPrecipitation)
+                {
+                    canvas.DrawText(guidelineTemp.ToString(), bottomRight.X + 10, topLeft.Y + 30 + i * stepY, coorPaint);
+                }
+            }
+
+            canvas.DrawLine(bottomRight, new SKPoint(bottomRight.X + 15, bottomRight.Y), coorPaint);
+            canvas.DrawLine(new SKPoint(bottomRight.X, topLeft.Y), new SKPoint(bottomRight.X + 15, topLeft.Y), coorPaint);
+            canvas.DrawText(minPrecipitation.ToString(), bottomRight.X + 10, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
+            canvas.DrawText(maxPrecipitation.ToString(), bottomRight.X + 10, topLeft.Y + 15, coorPaint);
+
+
+            //draw temperature path
             SKPath path = new SKPath();
 
             path.MoveTo(origin.X + stepX / 2, origin.Y - (temps[0] - minTemp) * pixelPerDegree);
@@ -155,8 +197,37 @@ namespace WeatherApp.View
                 canvas.DrawCircle(new SKPoint(origin.X + i * stepX + stepX / 2, origin.Y - (temps[i] - minTemp) * pixelPerDegree), 10, graphPaint2);
                 path.LineTo(origin.X + i * stepX + stepX / 2, origin.Y - (temps[i] - minTemp) * pixelPerDegree);
             }
-            //path.Close();
             canvas.DrawPath(path, graphPaint);
+
+            //draw precipitation path
+            SKPath path2 = new SKPath();
+
+            path2.MoveTo(origin.X + stepX / 2, origin.Y - (precipitation[0] - minPrecipitation) * pixelPerPrecipitationMM);
+            canvas.DrawCircle(new SKPoint(origin.X + stepX / 2, origin.Y - (precipitation[0] - minPrecipitation) * pixelPerPrecipitationMM), 10, graphPaint4);
+
+            for (int i = 1; i < temps.Count(); i++)
+            {
+                canvas.DrawCircle(new SKPoint(origin.X + i * stepX + stepX / 2, origin.Y - (precipitation[i] - minPrecipitation) * pixelPerPrecipitationMM), 10, graphPaint4);
+                path2.LineTo(origin.X + i * stepX + stepX / 2, origin.Y - (precipitation[i] - minPrecipitation) * pixelPerPrecipitationMM);
+            }
+            canvas.DrawPath(path2, graphPaint3);
+
+            //draw graph info
+            SKPath path3 = new SKPath();
+            path3.MoveTo(origin.X + 100, topLeft.Y - 50);
+            path3.LineTo(origin.X + 115, topLeft.Y - 50);
+            canvas.DrawCircle(new SKPoint(origin.X + 115, topLeft.Y - 50), 7, graphPaint2);
+            path3.LineTo(origin.X + 130, topLeft.Y - 50);
+            canvas.DrawPath(path3, graphPaint);
+            canvas.DrawText("Temperature - ºC (Left Axis)", new SKPoint(origin.X + 140, topLeft.Y - 45), coorPaint);
+
+            SKPath path4 = new SKPath();
+            path4.MoveTo(bottomRight.X - 575, topLeft.Y - 50);
+            path4.LineTo(bottomRight.X - 560, topLeft.Y - 50);
+            canvas.DrawCircle(new SKPoint(bottomRight.X - 560, topLeft.Y - 50), 7, graphPaint4);
+            path4.LineTo(bottomRight.X - 545, topLeft.Y - 50);
+            canvas.DrawPath(path4, graphPaint3);
+            canvas.DrawText("Precipitation - mm (Right Axis)", new SKPoint(bottomRight.X - 535, topLeft.Y - 45), coorPaint);
         }
     }
 }
