@@ -37,7 +37,7 @@
                     <ColumnDefinition Width="4.5*"/>
                     <ColumnDefinition Width="5.5*"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="https://openweathermap.org/img/wn/10d@2x.png" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HorizontalOptions="End" VerticalOptions="Center"  Margin="0, -15, -20, 0" />
+                <Image Source="{Binding CurrentStats.Icon}" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HorizontalOptions="End" VerticalOptions="Center"  Margin="0, -15, -20, 0" />
                 <Label Text="{Binding Name}" TextColor="White" FontSize="32" HorizontalTextAlignment="Start" VerticalTextAlignment="End" Grid.Row="0" Grid.Column="1" />
                 <Label Text="{Binding Description}" TextColor="White" FontSize="15" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" Grid.Row="1" Grid.Column="1"/>
                 <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="60" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
@@ -45,7 +45,7 @@
         </StackLayout>
 
         <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
-            <Grid x:Name="current_stats" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+            <Grid x:Name="current_stats" BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

@@ -29,9 +29,10 @@ namespace WeatherApp.Model
             CurrentTempDiff = Math.Round(weather.main.temp_min).ToString() +
                 "-" + Math.Round(weather.main.temp_max).ToString() + "ºC";
             CurrentPressure = weather.main.pressure.ToString() + "hpa";
-            CurrentPrecipitation = (weather.rain != null ? weather.rain["1h"].ToString() : "0") + "mm";
+            CurrentPrecipitation = (weather.rain != null && weather.rain.ContainsKey("1h")? weather.rain["1h"].ToString() : "0") + "mm";
             CurrentWind = weather.wind.speed.ToString() + "m/s";
             CurrentHumidity = weather.main.humidity.ToString() + "%";
+            Icon = ImageSource.FromUri(API.getIconUri(weather.weather[0].icon));
         }
 
         public MainStats(Entry entry)

@@ -66,7 +66,7 @@ namespace WeatherApp.Model
         public void UpdateModel(Weather weather)
         {
             Description = weather.weather[0].description;
-            CurrentTemp = weather.main.temp.ToString() + "ºC";
+            CurrentTemp = Math.Round(weather.main.temp, 1).ToString() + "ºC";
             CurrentStats = new MainStats(weather);
         }
 
