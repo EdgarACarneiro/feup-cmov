@@ -40,7 +40,7 @@ namespace WeatherApp
             var button = sender as Button;
             var city = button?.BindingContext as City;
 
-            var vm = BindingContext as CityViewModel;
+            var vm = BindingContext as CitiesViewModel;
             vm?.Remove_City.Execute(city);
         }
 
