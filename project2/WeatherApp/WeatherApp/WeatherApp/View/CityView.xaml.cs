@@ -216,20 +216,20 @@ namespace WeatherApp.View
 
             //draw graph info
             SKPath path3 = new SKPath();
-            path3.MoveTo(origin.X + 100, topLeft.Y - 50);
-            path3.LineTo(origin.X + 115, topLeft.Y - 50);
-            canvas.DrawCircle(new SKPoint(origin.X + 115, topLeft.Y - 50), 7, graphPaint2);
-            path3.LineTo(origin.X + 130, topLeft.Y - 50);
+            path3.MoveTo(origin.X + 100, topLeft.Y - 100);
+            path3.LineTo(origin.X + 115, topLeft.Y - 100);
+            canvas.DrawCircle(new SKPoint(origin.X + 115, topLeft.Y - 100), 7, graphPaint2);
+            path3.LineTo(origin.X + 130, topLeft.Y - 100);
             canvas.DrawPath(path3, graphPaint);
-            canvas.DrawText("Temperature - ºC (Left Axis)", new SKPoint(origin.X + 140, topLeft.Y - 45), coorPaint);
+            canvas.DrawText("Temperature - ºC (Left Axis)", new SKPoint(origin.X + 140, topLeft.Y - 95), coorPaint);
 
             SKPath path4 = new SKPath();
-            path4.MoveTo(bottomRight.X - 575, topLeft.Y - 50);
-            path4.LineTo(bottomRight.X - 560, topLeft.Y - 50);
-            canvas.DrawCircle(new SKPoint(bottomRight.X - 560, topLeft.Y - 50), 7, graphPaint4);
-            path4.LineTo(bottomRight.X - 545, topLeft.Y - 50);
+            path4.MoveTo(origin.X + 100, topLeft.Y - 50);
+            path4.LineTo(origin.X + 115, topLeft.Y - 50);
+            canvas.DrawCircle(new SKPoint(origin.X + 115, topLeft.Y - 50), 7, graphPaint4);
+            path4.LineTo(origin.X + 130, topLeft.Y - 50);
             canvas.DrawPath(path4, graphPaint3);
-            canvas.DrawText("Precipitation - mm (Right Axis)", new SKPoint(bottomRight.X - 535, topLeft.Y - 45), coorPaint);
+            canvas.DrawText("Precipitation - mm (Right Axis)", new SKPoint(origin.X + 140, topLeft.Y - 45), coorPaint);
         }
     }
 }

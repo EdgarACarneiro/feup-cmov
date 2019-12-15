@@ -94,7 +94,7 @@
         <ListView x:Name="prevision_list" HasUnevenRows="True" Grid.Row="2" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
             <ListView.Header>
                 <StackLayout>
-                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="400"/>
+                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="420"/>
 
                     <Grid x:Name="graph_images" Margin="0, 0, 0, 15">
                         <Grid.ColumnDefinitions>
