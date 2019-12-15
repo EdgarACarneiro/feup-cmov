@@ -39,7 +39,7 @@ namespace WeatherApp.Model
         private string _Description;
         public string Description { get => _Description; set => SetProperty(ref _Description, value); }
 
-        private string _CurrentTemp;
+        private string _CurrentTemp = "--ºC";
         public string CurrentTemp { get => _CurrentTemp; set => SetProperty(ref _CurrentTemp, value); }
 
         public MainStats _CurrentStats;
@@ -90,105 +90,6 @@ namespace WeatherApp.Model
                 Precipitations.SetValue((float)Math.Round(temp.rain != null ? temp.rain["3h"] : 0, 1), i);
                 Icons.SetValue(stats.Icon, i);
             }
-        }
-
-        public List<City> GetAllCities()
-        {
-            List<City> cities = new List<City>()
-            {
-                new City()
-                {
-                    Name="Aveiro",
-                    CurrentTemp="--ºC",
-                    Grad=new Gradient("#a0dedb", "#03a4d1")
-                },
-                new City()
-                {
-                    Name="Beja",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Braga",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Bragança",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Castelo Branco",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Coimbra",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Évora",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Faro",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Guarda",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Leiria",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Lisboa",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Portalegre",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Porto",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Santarém",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Setúbal",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Viana do Castelo",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Vila Real",
-                    CurrentTemp="--ºC"
-                },
-                new City()
-                {
-                    Name="Viseu",
-                    CurrentTemp="--ºC"
-                }
-            };
-            return cities;
         }
     }
 }

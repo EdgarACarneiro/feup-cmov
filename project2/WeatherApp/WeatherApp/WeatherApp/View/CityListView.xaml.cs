@@ -10,11 +10,11 @@ namespace WeatherApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CityListView : ContentPage
     {
-        CityViewModel vm;
+        CitiesViewModel vm;
 
         public CityListView()
         {
-            vm = new CityViewModel();
+            vm = new CitiesViewModel();
             vm.updateWeathers();
             BindingContext = vm;
 
