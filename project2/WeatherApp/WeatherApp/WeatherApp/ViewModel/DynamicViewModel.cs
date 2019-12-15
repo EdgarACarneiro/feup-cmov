@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace WeatherApp.ViewModel
 {
-    public class DynamicViewModel : INotifyPropertyChanged
+    public abstract class DynamicViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

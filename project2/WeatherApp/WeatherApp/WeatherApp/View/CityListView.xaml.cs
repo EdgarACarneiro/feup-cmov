@@ -56,12 +56,5 @@ namespace WeatherApp
                 vm.AddCity(pickedCity);
             }
         }
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            // TRigger Forecast request
-        }
-
-
     }
 }
