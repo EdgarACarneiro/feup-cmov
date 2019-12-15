@@ -44,10 +44,17 @@ namespace WeatherApp
             vm?.Remove_City.Execute(city);
         }
 
-        private void Add_City(object sender, EventArgs e)
+        async private void Add_City(object sender, EventArgs e)
         {
             City pickedCity = (City) cityPicker.SelectedItem;
-            vm.AddCity(pickedCity);
+            int index = vm.Cities.IndexOf(pickedCity);
+            if (index >= 0)
+            {
+                await DisplayAlert("Duplicate City", "This city is already in your favorites.", "OK");
+            } else
+            {
+                vm.AddCity(pickedCity);
+            }
         }
 
         private void Button_Clicked(object sender, EventArgs e)
