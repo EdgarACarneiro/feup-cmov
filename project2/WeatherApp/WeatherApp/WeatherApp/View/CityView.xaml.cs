@@ -163,29 +163,29 @@ namespace WeatherApp.View
                 canvas.DrawLine(new SKPoint(origin.X, topLeft.Y + i * stepY), new SKPoint(bottomRight.X, topLeft.Y + i * stepY), coorPaint2);
                 if(guidelineTemp != maxTemp && guidelineTemp != minTemp)
                 {
-                    canvas.DrawText(guidelineTemp.ToString(), origin.X - 80, topLeft.Y + 30 + i * stepY, coorPaint);
+                    canvas.DrawText(guidelineTemp.ToString("0.0"), origin.X - 80, topLeft.Y + 30 + i * stepY, coorPaint);
                 }
             }
 
             canvas.DrawLine(origin, new SKPoint(origin.X - 15, origin.Y), coorPaint);
             canvas.DrawLine(new SKPoint(topLeft.X, topLeft.Y), new SKPoint(topLeft.X - 15, topLeft.Y), coorPaint);
-            canvas.DrawText(minTemp.ToString(), origin.X - 80, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
-            canvas.DrawText(maxTemp.ToString(), topLeft.X - 80, topLeft.Y + 15, coorPaint);
+            canvas.DrawText(minTemp.ToString("0.0"), origin.X - 80, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
+            canvas.DrawText(maxTemp.ToString("0.0"), topLeft.X - 80, topLeft.Y + 15, coorPaint);
 
             //draw guide text on Y2 axis
             for (int i = 0; i < 4; i++)
             {
-                float guidelineTemp = maxPrecipitation - i * ((maxPrecipitation - minPrecipitation) / 4);
-                if (guidelineTemp != maxPrecipitation && guidelineTemp != maxPrecipitation)
+                float guidelinePrecipitation = maxPrecipitation - i * ((maxPrecipitation - minPrecipitation) / 4);
+                if (guidelinePrecipitation != maxPrecipitation && guidelinePrecipitation != maxPrecipitation)
                 {
-                    canvas.DrawText(guidelineTemp.ToString(), bottomRight.X + 10, topLeft.Y + 30 + i * stepY, coorPaint);
+                    canvas.DrawText(guidelinePrecipitation.ToString("0.00"), bottomRight.X + 10, topLeft.Y + 30 + i * stepY, coorPaint);
                 }
             }
 
             canvas.DrawLine(bottomRight, new SKPoint(bottomRight.X + 15, bottomRight.Y), coorPaint);
             canvas.DrawLine(new SKPoint(bottomRight.X, topLeft.Y), new SKPoint(bottomRight.X + 15, topLeft.Y), coorPaint);
-            canvas.DrawText(minPrecipitation.ToString(), bottomRight.X + 10, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
-            canvas.DrawText(maxPrecipitation.ToString(), bottomRight.X + 10, topLeft.Y + 15, coorPaint);
+            canvas.DrawText(minPrecipitation.ToString("0.00"), bottomRight.X + 10, origin.Y - 15, coorPaint); //estes + e - 15 são ajustes para tornar o número mais legível
+            canvas.DrawText(maxPrecipitation.ToString("0.00"), bottomRight.X + 10, topLeft.Y + 15, coorPaint);
 
 
             //draw temperature path
@@ -230,6 +230,11 @@ namespace WeatherApp.View
             path4.LineTo(origin.X + 130, topLeft.Y - 50);
             canvas.DrawPath(path4, graphPaint3);
             canvas.DrawText("Precipitation - mm (Right Axis)", new SKPoint(origin.X + 140, topLeft.Y - 45), coorPaint);
+        }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PopModalAsync();
         }
     }
 }

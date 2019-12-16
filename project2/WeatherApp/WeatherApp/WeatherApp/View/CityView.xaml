@@ -7,14 +7,15 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              mc:Ignorable="d"
              x:Class="WeatherApp.View.CityView"
-             NavigationPage.HasNavigationBar="false">
+             NavigationPage.HasNavigationBar="False">
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="3.5*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="6*" />
         </Grid.RowDefinitions>
-        <magic:GradientView>
+        <magic:GradientView Grid.Row="0" Grid.RowSpan="2">
             <magic:GradientView.GradientSource>
                 <magic:CssGradientSource>
                     <x:String>
@@ -26,7 +27,9 @@
             </magic:GradientView.GradientSource>
         </magic:GradientView>
 
-        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Spacing="-4">
+        <ImageButton Source="left_arrow.png" Clicked="ImageButton_Clicked" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="0" HeightRequest="30" Margin="15, 15, 0, 0" BackgroundColor="Transparent"/>
+
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Spacing="-4" Grid.Row="1" Margin="0, -40, 0, 0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -44,7 +47,7 @@
             </Grid>
         </StackLayout>
 
-        <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
+        <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
             <Grid x:Name="current_stats" BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -91,7 +94,7 @@
             </Grid>
         </Frame>
 
-        <ListView x:Name="prevision_list" HasUnevenRows="True" Grid.Row="2" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
+        <ListView x:Name="prevision_list" HasUnevenRows="True" Grid.Row="3" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
             <ListView.Header>
                 <StackLayout>
                     <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="420"/>

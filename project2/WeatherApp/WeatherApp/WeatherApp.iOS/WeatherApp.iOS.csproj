@@ -154,4 +154,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\wind.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\left_arrow.png" />
+  </ItemGroup>
 </Project>

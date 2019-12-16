@@ -130,6 +130,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cold_temperature.png" />
+    <Content Include="hot_temperature.png" />
+    <Content Include="humidity.png" />
+    <Content Include="left_arrow.png" />
+    <Content Include="pressure.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -138,6 +143,8 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="rain.png" />
+    <Content Include="wind.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
