@@ -11,9 +11,9 @@
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" />
-            <RowDefinition Height="3.5*" />
+            <RowDefinition Height="3*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="6*" />
+            <RowDefinition Height="6.5*" />
         </Grid.RowDefinitions>
         <magic:GradientView Grid.Row="0" Grid.RowSpan="2">
             <magic:GradientView.GradientSource>
@@ -97,9 +97,9 @@
         <ListView x:Name="prevision_list" HasUnevenRows="True" Grid.Row="3" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
             <ListView.Header>
                 <StackLayout>
-                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" HeightRequest="420"/>
+                    <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="420" MinimumHeightRequest="420"/>
 
-                    <Grid x:Name="graph_images" Margin="0, 0, 0, 15">
+                    <Grid x:Name="graph_images">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.8*"/>
                             <ColumnDefinition Width="*"/>

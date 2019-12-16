@@ -37,11 +37,11 @@ namespace WeatherApp.View
                 Image img = new Image
                 {
                     Source = vm.city.Icons[i],
-                    Aspect = Aspect.AspectFill
+                    Aspect = Aspect.AspectFit
                 };
 
                 Grid.SetColumn(img, i + 1);
-                Grid.SetRow(img, 0);
+                //Grid.SetRow(img, 0);
                 graph_images.Children.Add(img);
             }
         }
