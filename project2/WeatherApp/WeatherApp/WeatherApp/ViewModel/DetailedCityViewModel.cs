@@ -31,7 +31,7 @@ namespace WeatherApp.ViewModel
 
                         city.DetailedUpdateModel(apiForecast);
                         if (view != null)
-                            view.SetGraphIcons();
+                            view.UpdateChart(); // Updating chart since it does not work with binds
                     }
                 }
                 catch (Exception ex)

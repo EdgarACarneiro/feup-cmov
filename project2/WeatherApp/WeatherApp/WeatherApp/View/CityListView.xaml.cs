@@ -28,7 +28,7 @@ namespace WeatherApp
                 return;
 
             await Navigation.PushModalAsync(new NavigationPage(
-                new CityView(new DetailedCityViewModel(vm.Cities[e.ItemIndex]))
+                new CityView(vm.Cities[e.ItemIndex])
             ));
 
             //Deselect Item

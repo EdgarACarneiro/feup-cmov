@@ -3,6 +3,7 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Linq;
 using WeatherApp.ViewModel;
+using WeatherApp.Model;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,11 +15,11 @@ namespace WeatherApp.View
     {
         DetailedCityViewModel vm;
 
-        public CityView(DetailedCityViewModel vm)
+        public CityView(City city)
         {
+            vm = new DetailedCityViewModel(city);
             vm.view = this;
             vm.getCityDetails();
-            this.vm = vm;
 
             InitializeComponent();
             Device.BeginInvokeOnMainThread(() =>
@@ -30,9 +31,11 @@ namespace WeatherApp.View
             });
         }
 
-        public void SetGraphIcons()
+        public void UpdateChart()
         {
-            for(int i = 0; i < vm.city.Icons.Count(); i++)
+            canvas.PaintSurface += OnPaint;
+
+            for (int i = 0; i < vm.city.Icons.Count(); i++)
             {
                 Image img = new Image
                 {

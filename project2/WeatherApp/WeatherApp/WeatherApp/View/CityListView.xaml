@@ -60,7 +60,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Picker x:Name="cityPicker" Title="Add a city..." ItemsSource="{Binding CityList}" ItemDisplayBinding="{Binding Name}" SelectedIndex="{Binding PickedCity}" Grid.Row="1" Grid.Column="0" Margin="5"/>
+            <Picker x:Name="cityPicker" Title="Add a city..." ItemsSource="{Binding CityList}" ItemDisplayBinding="{Binding Name}" Grid.Row="1" Grid.Column="0" Margin="5"/>
             <Button Text="Add" Clicked="Add_City" Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent" FontSize="Small" BorderColor="Gray" WidthRequest="80" HeightRequest="40" BorderRadius="20" BorderWidth="2" VerticalOptions="CenterAndExpand" Margin="5, 5, 10, 5"/>
         </Grid>
     </StackLayout>

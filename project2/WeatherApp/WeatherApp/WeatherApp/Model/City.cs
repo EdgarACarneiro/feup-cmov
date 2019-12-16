@@ -72,11 +72,11 @@ namespace WeatherApp.Model
 
         public void DetailedUpdateModel(Forecast forecast)
         {
-            HourlyStats = new List<ForecastPair>();
-            Hours = new string[NUM_SELECTED_FORECASTS];
-            Temps = new float[NUM_SELECTED_FORECASTS];
-            Precipitations = new float[NUM_SELECTED_FORECASTS];
-            Icons = new ImageSource[NUM_SELECTED_FORECASTS];
+            List<ForecastPair> TempHourlyStats = new List<ForecastPair>();
+            string[] TempHours = new string[NUM_SELECTED_FORECASTS];
+            float[] TempTemps = new float[NUM_SELECTED_FORECASTS];
+            float[] TempPrecipitations = new float[NUM_SELECTED_FORECASTS];
+            ImageSource[] TempIcons = new ImageSource[NUM_SELECTED_FORECASTS];
 
             for (int i = 0; i < forecast.list.Count && i < NUM_SELECTED_FORECASTS; ++i)
             {
@@ -84,12 +84,19 @@ namespace WeatherApp.Model
                 string time = temp.dt_txt.Split(' ')[1].Remove(HOURS_MINS_STRING_SIZE);
                 MainStats stats = new MainStats(temp);
 
-                HourlyStats.Add(new ForecastPair(time, stats));
-                Hours.SetValue(time + "h", i);
-                Temps.SetValue((float) Math.Round(temp.main.temp, 1), i);
-                Precipitations.SetValue((float)Math.Round(temp.rain != null ? temp.rain["3h"] : 0, 1), i);
-                Icons.SetValue(stats.Icon, i);
+                TempHourlyStats.Add(new ForecastPair(time, stats));
+                TempHours.SetValue(time + "h", i);
+                TempTemps.SetValue((float) Math.Round(temp.main.temp, 1), i);
+                TempPrecipitations.SetValue((float)Math.Round(temp.rain != null ? temp.rain["3h"] : 0, 1), i);
+                TempIcons.SetValue(stats.Icon, i);
             }
+
+            // Setting with properties with final values
+            HourlyStats = TempHourlyStats;
+            Hours = TempHours;
+            Temps = TempTemps;
+            Precipitations = TempPrecipitations;
+            Icons = TempIcons;
         }
     }
 }
