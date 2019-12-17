@@ -38,7 +38,7 @@ namespace WeatherApp
         private void Remove_City(object sender, EventArgs e)
         {
             var button = sender as Button;
-            var city = button?.BindingContext as City;
+            var city = button?.BindingContext as CityViewModel;
 
             var vm = BindingContext as CitiesViewModel;
             vm?.Remove_City.Execute(city);
@@ -46,7 +46,7 @@ namespace WeatherApp
 
         async private void Add_City(object sender, EventArgs e)
         {
-            City pickedCity = (City) cityPicker.SelectedItem;
+            CityViewModel pickedCity = (CityViewModel) cityPicker.SelectedItem;
             int index = vm.Cities.IndexOf(pickedCity);
             if (index >= 0)
             {

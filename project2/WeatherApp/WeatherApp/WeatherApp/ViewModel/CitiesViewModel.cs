@@ -11,32 +11,63 @@ namespace WeatherApp.ViewModel
 {
     public class CitiesViewModel
     {
-        public ObservableCollection<City> Cities { get; set; } = new ObservableCollection<City>();
-        public List<City> AllCities { get; set; }
-
-        public Command<City> Remove_City
+        public string[] PortugueseCapitals =
         {
-            get{
-                return new Command<City>(city =>
-                {
-                    Cities.Remove(city);
-                });
-            }
-        }
+            "Aveiro",
+            "Beja",
+            "Braga",
+            "Bragança",
+            "Castelo Branco",
+            "Coimbra",
+            "Évora",
+            "Faro",
+            "Guarda",
+            "Leiria",
+            "Lisboa",
+            "Portalegre",
+            "Porto",
+            "Santarém",
+            "Setúbal",
+            "Viana do Castelo",
+            "Vila Real",
+            "Viseu"
+        };
+
+        public ObservableCollection<CityViewModel> Cities { get; set; } = new ObservableCollection<CityViewModel>();
+
+        public List<CityViewModel> AllCities { get; set; }
 
         public CitiesViewModel()
         {
             AllCities = GetAllCities();
         }
 
+        public void AddCity(CityViewModel city)
+        {
+            Cities.Add(city);
+            UpdateCityWeather(city);
+        }
+
+        public Command<CityViewModel> Remove_City
+        {
+            get{
+                return new Command<CityViewModel>(city =>
+                {
+                    Cities.Remove(city);
+                });
+            }
+        }
+
         public void updateWeathers()
         {
-            foreach (City c in Cities)
+            foreach (CityViewModel c in Cities)
                 UpdateCityWeather(c);
         }
 
-        public async void UpdateCityWeather(City city)
-        {   
+        public async void UpdateCityWeather(CityViewModel cityVM)
+        {
+            City city = cityVM.getCity();
+
             using (HttpClient client = new HttpClient())
                 try
                 {
@@ -47,7 +78,7 @@ namespace WeatherApp.ViewModel
                             await response.Content.ReadAsStringAsync()
                         );
 
-                        city.UpdateModel(apiWeather);
+                        city.UpdateWeather(apiWeather);
                     }
                 }
                 catch (Exception ex)
@@ -56,89 +87,15 @@ namespace WeatherApp.ViewModel
                 }
         }
 
-        public void AddCity(City city)
+        public List<CityViewModel> GetAllCities()
         {
-            Cities.Add(city);
-            UpdateCityWeather(city);
-        }
+            List<CityViewModel> cities = new List<CityViewModel>();
 
-        public List<City> GetAllCities()
-        {
-            List<City> cities = new List<City>()
+            foreach (string capital in PortugueseCapitals)
             {
-                new City()
-                {
-                    Name="Aveiro"
-                },
-                new City()
-                {
-                    Name="Beja"
-                },
-                new City()
-                {
-                    Name="Braga"
-                },
-                new City()
-                {
-                    Name="Bragança"
-                },
-                new City()
-                {
-                    Name="Castelo Branco"
-                },
-                new City()
-                {
-                    Name="Coimbra"
-                },
-                new City()
-                {
-                    Name="Évora"
-                },
-                new City()
-                {
-                    Name="Faro"
-                },
-                new City()
-                {
-                    Name="Guarda"
-                },
-                new City()
-                {
-                    Name="Leiria"
-                },
-                new City()
-                {
-                    Name="Lisboa"
-                },
-                new City()
-                {
-                    Name="Portalegre"
-                },
-                new City()
-                {
-                    Name="Porto"
-                },
-                new City()
-                {
-                    Name="Santarém"
-                },
-                new City()
-                {
-                    Name="Setúbal"
-                },
-                new City()
-                {
-                    Name="Viana do Castelo"
-                },
-                new City()
-                {
-                    Name="Vila Real"
-                },
-                new City()
-                {
-                    Name="Viseu"
-                }
-            };
+                cities.Add(new City(capital).getViewModel());
+            }
+
             return cities;
         }
     }
