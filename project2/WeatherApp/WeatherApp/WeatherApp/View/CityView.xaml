@@ -48,7 +48,7 @@
         </StackLayout>
 
         <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
-            <Grid x:Name="current_stats" BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+            <Grid BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -94,7 +94,7 @@
             </Grid>
         </Frame>
 
-        <ListView x:Name="prevision_list" HasUnevenRows="True" Grid.Row="3" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
+        <ListView x:Name="prevision_list" ItemsSource="{Binding HourlyStats}" HasUnevenRows="True" Grid.Row="3" ItemTapped="Handle_ItemTapped" VerticalOptions="FillAndExpand">
             <ListView.Header>
                 <StackLayout>
                     <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="420" MinimumHeightRequest="420"/>

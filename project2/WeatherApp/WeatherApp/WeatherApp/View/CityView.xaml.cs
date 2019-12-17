@@ -22,18 +22,15 @@ namespace WeatherApp.View
             vm.getCityDetails();
 
             InitializeComponent();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                prevision_list.ItemsSource = vm.city.HourlyStats;
-                BindingContext = vm.city;
-                current_stats.BindingContext = vm.city.CurrentStats;
-                canvas.PaintSurface += OnPaint;
-            });
+
+            BindingContext = vm.city;
+            canvas.PaintSurface += OnPaint;
         }
 
         public void UpdateChart()
         {
-            canvas.PaintSurface += OnPaint;
+            // To force redraw of canvas
+            canvas.InvalidateSurface();
 
             for (int i = 0; i < vm.city.Icons.Count(); i++)
             {
