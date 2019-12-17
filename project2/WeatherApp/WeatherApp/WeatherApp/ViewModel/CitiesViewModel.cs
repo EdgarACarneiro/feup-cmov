@@ -6,6 +6,7 @@ using WeatherApp.Model;
 using Xamarin.Forms;
 using System.Net;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace WeatherApp.ViewModel
 {
@@ -42,10 +43,10 @@ namespace WeatherApp.ViewModel
             AllCities = GetAllCities();
         }
 
-        public void AddCity(CityViewModel city)
+        public async void AddCity(CityViewModel city)
         {
+            await UpdateCityWeather(city);
             Cities.Add(city);
-            UpdateCityWeather(city);
         }
 
         public Command<CityViewModel> Remove_City
@@ -64,7 +65,7 @@ namespace WeatherApp.ViewModel
                 UpdateCityWeather(c);
         }
 
-        public async void UpdateCityWeather(CityViewModel cityVM)
+        public async Task UpdateCityWeather(CityViewModel cityVM)
         {
             City city = cityVM.getCity();
 
@@ -85,6 +86,7 @@ namespace WeatherApp.ViewModel
                 {
                     Console.Error.Write(ex.StackTrace);
                 }
+            return;
         }
 
         public List<CityViewModel> GetAllCities()
