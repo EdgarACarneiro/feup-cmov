@@ -7,6 +7,32 @@ namespace WeatherApp.ViewModel
 {
     public class CityViewModel : DynamicViewModel
     {
+        private City city;
+
+        public class ForecastPair
+        {
+            public string Hour { get; set; }
+            public MainStatsViewModel Stats { get; set; }
+
+            public ForecastPair(string h, MainStatsViewModel s)
+            {
+                Hour = h;
+                Stats = s;
+            }
+        }
+
+        public class Gradient
+        {
+            public string First { get; set; }
+            public string Second { get; set; }
+
+            public Gradient(string f, string s)
+            {
+                First = f;
+                Second = s;
+            }
+        }
+
         public static readonly int NUM_SELECTED_FORECASTS = 8;
         public static readonly int HOURS_MINS_STRING_SIZE = 5;
 
@@ -36,35 +62,16 @@ namespace WeatherApp.ViewModel
         public ImageSource[] _Icons = { };
         public ImageSource[] Icons { get => _Icons; set => SetProperty(ref _Icons, value); }
 
-
         public Gradient Grad { get; set; } //"#a0dedb", "#03a4d1");
 
-        public CityViewModel()
+        public CityViewModel(City c)
         {
+            city = c;
         }
 
-        public class ForecastPair
+        public City getCity()
         {
-            public string Hour { get; set; }
-            public MainStatsViewModel Stats { get; set; }
-
-            public ForecastPair(string h, MainStatsViewModel s)
-            {
-                Hour = h;
-                Stats = s;
-            }
-        }
-
-        public class Gradient
-        {
-            public string First { get; set; }
-            public string Second { get; set; }
-
-            public Gradient(string f, string s)
-            {
-                First = f;
-                Second = s;
-            }
+            return city;
         }
 
         public void UpdateViewModel(City city)
@@ -87,7 +94,7 @@ namespace WeatherApp.ViewModel
 
                 for (int i = 0; i < forecast.list.Count && i < NUM_SELECTED_FORECASTS; ++i)
                 {
-                    Entry temp = forecast.list[i];
+                    Model.Entry temp = forecast.list[i];
                     string time = temp.dt_txt.Split(' ')[1].Remove(HOURS_MINS_STRING_SIZE);
                     MainStatsViewModel stats = new MainStatsViewModel(temp);
 

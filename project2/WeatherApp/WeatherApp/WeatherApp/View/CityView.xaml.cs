@@ -15,7 +15,7 @@ namespace WeatherApp.View
     {
         DetailedCityViewModel vm;
 
-        public CityView(City city)
+        public CityView(CityViewModel city)
         {
             vm = new DetailedCityViewModel(city);
             vm.view = this;
@@ -23,7 +23,7 @@ namespace WeatherApp.View
 
             InitializeComponent();
 
-            BindingContext = vm.city;
+            BindingContext = vm.cityVM;
             canvas.PaintSurface += OnPaint;
         }
 
@@ -32,11 +32,11 @@ namespace WeatherApp.View
             // To force redraw of canvas
             canvas.InvalidateSurface();
 
-            for (int i = 0; i < vm.city.Icons.Count(); i++)
+            for (int i = 0; i < vm.cityVM.Icons.Count(); i++)
             {
                 Image img = new Image
                 {
-                    Source = vm.city.Icons[i],
+                    Source = vm.cityVM.Icons[i],
                     Aspect = Aspect.AspectFit
                 };
 
@@ -68,7 +68,7 @@ namespace WeatherApp.View
 
             DrawGraph(
                 canvas, new SKPoint(topLeftX, topLeftY), new SKPoint(bottomRightX, bottomRightY),
-                vm.city.Hours, vm.city.Temps, vm.city.Precipitations
+                vm.cityVM.Hours, vm.cityVM.Temps, vm.cityVM.Precipitations
             );
         }
 

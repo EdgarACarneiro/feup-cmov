@@ -15,7 +15,7 @@ namespace WeatherApp.Model
             return String.Format(
                 "{0}weather?q={1},pt&units=metric&{2}",
                 Endpoint,
-                city.Name,
+                city.getName(),
                 Key
             );
         }
@@ -25,7 +25,7 @@ namespace WeatherApp.Model
             return String.Format(
                 "{0}forecast?q={1},pt&units=metric&{2}",
                 Endpoint,
-                city.Name,
+                city.getName(),
                 Key
             );
         }

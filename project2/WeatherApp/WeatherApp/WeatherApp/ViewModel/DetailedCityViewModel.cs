@@ -9,17 +9,19 @@ namespace WeatherApp.ViewModel
 {
     public class DetailedCityViewModel
     {
-        public City city;
+        public CityViewModel cityVM;
 
         public CityView view;
 
-        public DetailedCityViewModel(City city)
+        public DetailedCityViewModel(CityViewModel cityVM)
         {
-            this.city = city;
+            this.cityVM = cityVM;
         }
 
         public async void getCityDetails()
         {
+            City city = cityVM.getCity();
+
             using (HttpClient client = new HttpClient())
                 try
                 {
@@ -30,7 +32,7 @@ namespace WeatherApp.ViewModel
                             await response.Content.ReadAsStringAsync()
                         );
 
-                        city.DetailedUpdateModel(apiForecast);
+                        city.UpdateForecast(apiForecast);
                         if (view != null)
                             view.UpdateChart(); // Updating chart since it does not work with binds
                     }

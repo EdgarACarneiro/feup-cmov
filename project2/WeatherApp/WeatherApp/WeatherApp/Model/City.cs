@@ -13,10 +13,11 @@ namespace WeatherApp.Model
 
         private CityViewModel Proxy;
 
-        public City(string n, CityViewModel vm)
+        public City(string n)
         {
             Name = n;
-            Proxy = vm;
+            Proxy = new CityViewModel(this);
+            Proxy.Name = n;
         }
 
         public void UpdateWeather(Weather weather)
@@ -46,5 +47,9 @@ namespace WeatherApp.Model
             return LastForecast;
         }
 
+        public CityViewModel getViewModel()
+        {
+            return Proxy;
+        }
     }
 }
