@@ -12,6 +12,7 @@ namespace WeatherApp.ViewModel
     public class CitiesViewModel
     {
         public ObservableCollection<City> Cities { get; set; } = new ObservableCollection<City>();
+
         public List<City> AllCities { get; set; }
 
         public Command<City> Remove_City

@@ -10,6 +10,7 @@ namespace WeatherApp.ViewModel
     public class DetailedCityViewModel
     {
         public City city;
+
         public CityView view;
 
         public DetailedCityViewModel(City city)
