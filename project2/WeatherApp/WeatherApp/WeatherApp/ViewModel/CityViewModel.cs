@@ -21,18 +21,6 @@ namespace WeatherApp.ViewModel
             }
         }
 
-        public class Gradient
-        {
-            public string First { get; set; }
-            public string Second { get; set; }
-
-            public Gradient(string f, string s)
-            {
-                First = f;
-                Second = s;
-            }
-        }
-
         public static readonly int NUM_SELECTED_FORECASTS = 8;
         public static readonly int HOURS_MINS_STRING_SIZE = 5;
 
@@ -62,7 +50,8 @@ namespace WeatherApp.ViewModel
         public ImageSource[] _Icons = { };
         public ImageSource[] Icons { get => _Icons; set => SetProperty(ref _Icons, value); }
 
-        public Gradient Grad { get; set; } //"#a0dedb", "#03a4d1");
+        public string _Background;
+        public string Background { get => _Background; set => SetProperty(ref _Background, value); }
 
         public CityViewModel(City c)
         {
@@ -81,6 +70,7 @@ namespace WeatherApp.ViewModel
             Description = weather.weather[0].description;
             CurrentTemp = Math.Round(weather.main.temp, 1).ToString() + "ºC";
             CurrentStats = new MainStatsViewModel(weather);
+            Background = GetBackgroundGradient(weather.weather[0].icon);
 
             // More detailed Update with Forecasts
             if (city.GetForecast() != null)
@@ -113,5 +103,44 @@ namespace WeatherApp.ViewModel
                 Icons = TempIcons;
             }
         }
+
+        private string GetBackgroundGradient(string icon)
+        {
+
+            switch (icon)
+            {
+                case ("03d"):
+                case ("03n"):
+                case ("04d"):
+                case ("04n"):
+                    {
+                        return "cloudsGrad.png";
+                    }
+                case ("09d"):
+                case ("09n"):
+                case ("10d"):
+                case ("10n"):
+                    {
+                        return "rainGrad.png";
+                    }
+                case ("11d"):
+                case ("11n"):
+                    {
+                        return "thunderGrad.png";
+                    }
+                case ("13d"):
+                case ("13n"):
+                case ("50d"):
+                case ("50n"):
+                    {
+                        return "snowGrad.png";
+                    }
+                default:
+                    {
+                        return "clearGrad.png";
+                    }
+            }
+        }
+
     }
 }

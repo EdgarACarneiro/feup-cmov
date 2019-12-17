@@ -34,5 +34,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\xml\network_security_config.xml" />
+    <None Remove="Resources\good-weather.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\clearGrad.png" />
   </ItemGroup>
 </Project>
