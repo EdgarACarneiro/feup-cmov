@@ -16,7 +16,7 @@
             <RowDefinition Height="6.5*" />
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Grid.RowSpan="2" Source="{Binding Background}"
-            HorizontalOptions="Center" Aspect="AspectFill"/>
+            HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
         <!--<magic:GradientView Grid.Row="0" Grid.RowSpan="2">
             <magic:GradientView.GradientSource>
                 <magic:CssGradientSource>

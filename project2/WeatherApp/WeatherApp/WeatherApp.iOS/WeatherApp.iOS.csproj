@@ -157,4 +157,19 @@
   <ItemGroup>
     <BundleResource Include="Resources\left_arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\clearGrad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cloudsGrad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thunderGrad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\snowGrad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\rainGrad.png" />
+  </ItemGroup>
 </Project>

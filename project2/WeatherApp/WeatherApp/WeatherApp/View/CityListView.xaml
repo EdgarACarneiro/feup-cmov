@@ -40,8 +40,8 @@
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="{Binding Background}"
-                                       HorizontalOptions="Center" Aspect="AspectFill"/>
+                                <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Background}" HeightRequest="80"
+                                       HorizontalOptions="Fill" Aspect="AspectFill"/>
                                 <!--<magic:GradientView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                                     <magic:GradientView.GradientSource>
                                         <magic:LinearGradient BindingContext="{Binding Grad}" Angle="90">
@@ -55,7 +55,7 @@
                                 <Image Source="{Binding CurrentStats.Icon}" HeightRequest="50" Aspect="AspectFill" Grid.Row="0" Grid.Column="0" HorizontalOptions="End" VerticalOptions="Center"/>
                                 <Label Text="{Binding Name}" TextColor="White" FontSize="Title" Grid.Row="0" Grid.Column="1" Padding="10, 0, 0, 0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
                                 <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="Title" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="2" Padding="0, 0, 10, 0"/>
-                                <Button Text="-" Clicked="Remove_City" TextColor="White" BackgroundColor="OrangeRed" FontSize="Title" Grid.Row="0" Grid.Column="3" Margin="-5, 0, 0, 0"/>
+                                <Button Text="-" Clicked="Remove_City" TextColor="White" BackgroundColor="IndianRed" FontSize="Title" Grid.Row="0" Grid.Column="3" Margin="-5, 0, 0, 0"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
