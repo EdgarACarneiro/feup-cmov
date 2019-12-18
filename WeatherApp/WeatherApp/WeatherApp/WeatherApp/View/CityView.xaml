@@ -16,7 +16,7 @@
             <RowDefinition Height="6.5*" />
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Grid.RowSpan="2" Source="{Binding Background}"
-            HorizontalOptions="Center" Aspect="AspectFill"/>
+            HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
         <!--<magic:GradientView Grid.Row="0" Grid.RowSpan="2">
             <magic:GradientView.GradientSource>
                 <magic:CssGradientSource>
@@ -38,18 +38,18 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4.5*"/>
-                    <ColumnDefinition Width="5.5*"/>
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding CurrentStats.Icon}" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HorizontalOptions="End" VerticalOptions="Center"  Margin="0, -15, -20, 0" />
-                <Label Text="{Binding Name}" TextColor="White" FontSize="32" HorizontalTextAlignment="Start" VerticalTextAlignment="End" Grid.Row="0" Grid.Column="1" />
-                <Label Text="{Binding Description}" TextColor="White" FontSize="15" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" Grid.Row="1" Grid.Column="1"/>
-                <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="60" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="-25, 0, 0, 0">
+                    <Image Source="{Binding CurrentStats.Icon}" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.RowSpan="2" HorizontalOptions="End" VerticalOptions="Center"/>
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                        <Label Text="{Binding Name}" TextColor="White" FontSize="32" HorizontalTextAlignment="Start" VerticalTextAlignment="End" Grid.Row="0"/>
+                        <Label Text="{Binding Description}" TextColor="White" FontSize="15" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" Grid.Row="1"/>
+                    </StackLayout>
+                </StackLayout>
+                <Label Text="{Binding CurrentTemp}" TextColor="White" FontSize="60" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Grid.Row="2" Margin="0, -30, 0, 0"/>
             </Grid>
         </StackLayout>
 
-        <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start">
+        <Frame Grid.Row="2" HasShadow="True" CornerRadius="10" Margin="20, -40, 20, 0" Padding="0" HeightRequest="100" VerticalOptions="Start" BackgroundColor="White">
             <Grid BindingContext="{Binding CurrentStats}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

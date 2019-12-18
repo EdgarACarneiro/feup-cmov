@@ -130,6 +130,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="clearGrad.png" />
+    <Content Include="cloudsGrad.png" />
     <Content Include="cold_temperature.png" />
     <Content Include="hot_temperature.png" />
     <Content Include="humidity.png" />
@@ -144,6 +146,9 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="rain.png" />
+    <Content Include="thunderGrad.png" />
+    <Content Include="snowGrad.png" />
+    <Content Include="rainGrad.png" />
     <Content Include="wind.png" />
   </ItemGroup>
   <ItemGroup>
