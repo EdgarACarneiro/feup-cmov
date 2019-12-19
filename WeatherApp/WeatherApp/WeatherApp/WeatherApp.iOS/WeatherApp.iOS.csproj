@@ -162,7 +162,6 @@
     <BundleResource Include="Resources\left_arrow.png" />
   </ItemGroup>
   <ItemGroup>
-
     <BundleResource Include="Resources\clearGrad.png" />
   </ItemGroup>
   <ItemGroup>
