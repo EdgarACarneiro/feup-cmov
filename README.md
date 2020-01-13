@@ -17,9 +17,9 @@ At any time, the app should be capable of consulting past transactions’ inform
 
 * __Grade and Documentation__
 
-| Report | Server Setup | Grade |
-|:- |:- |:-:|
-| Report is available [here](https://github.com/EdgarACarneiro/feup-cmov/blob/master/AcmeSupermarket/docs/report.pdf) | Server Setup is available [here](https://github.com/EdgarACarneiro/feup-cmov/tree/master/AcmeSupermarket/server) | - |
+| Report | Server Setup | Report Grade (20%)| Project Grade (80%)|
+|:- |:- |:-:|:-:|
+| Report is available [here](https://github.com/EdgarACarneiro/feup-cmov/blob/master/AcmeSupermarket/docs/report.pdf) | Server Setup is available [here](https://github.com/EdgarACarneiro/feup-cmov/tree/master/AcmeSupermarket/server) | 19.5 | 19 |
 
 * __Customer App UI__
 
@@ -41,7 +41,28 @@ At any time, the app should be capable of consulting past transactions’ inform
 
 ## Practical Assignment \#2
 
-To be announced.
+### Theme
+
+A team of mobile apps’ developers had the idea to provide an application for weather data consultation.
+In this app the user maintains a record of the cities he is interested in, among the district capitals of Portugal. In any time, he can add or remove cities from the list.
+
+Also, from the list of those particularly interesting cities the user can ask for the current weather conditions of a city, obtaining information at least about temperature, pressure, precipitation, wind and humidity (can also have an image characterizing those conditions – an icon).
+
+Another feature is that the user can ask for a characterization of a forecast, in the next day and in 3h intervals, of a city (between the ones in the preferred list), and should obtain in a separate page at least min and max temperatures, wind, precipitation, and humidity. In a section of that page a line graph should be drawn linking the temperatures at 3h intervals along the next 8 forecasts (for instance at 0h00, 3h00, 6h00, 9h00, 12h00, 15h00, 18h00, 21h00). Also, a small image, characterizing the conditions for each of those hours, can optionally be shown near each of the 8 mains points of the graph.
+
+### Result
+
+* __Grade and Documentation__
+
+| Report | Server Setup | Report Grade (20%)| Project Grade (80%)|
+|:- |:- |:-:|:-:|
+| Report is available [here](https://github.com/EdgarACarneiro/feup-cmov/blob/master/AcmeSupermarket/docs/report.pdf) | Server Setup is available [here](https://github.com/EdgarACarneiro/feup-cmov/tree/master/AcmeSupermarket/server) | 19 | 19 |
+
+* __Weather App UI__
+
+| Application Workflow and Screens | 
+|:-:|
+| ![Imgur](https://i.imgur.com/yJfA38K.png)|
 
 ## Authors
 * [chaotixkilla](https://github.com/chaotixkilla)
