@@ -54,9 +54,9 @@ Another feature is that the user can ask for a characterization of a forecast, i
 
 * __Grade and Documentation__
 
-| Report | Server Setup | Report Grade (20%)| Project Grade (80%)|
-|:- |:- |:-:|:-:|
-| Report is available [here](https://github.com/EdgarACarneiro/feup-cmov/blob/master/AcmeSupermarket/docs/report.pdf) | Server Setup is available [here](https://github.com/EdgarACarneiro/feup-cmov/tree/master/AcmeSupermarket/server) | 19 | 19 |
+| Report | Report Grade (20%)| Project Grade (80%)|
+|:- |:-:|:-:|
+| Report is available [here](https://github.com/EdgarACarneiro/feup-cmov/blob/master/WeatherApp/docs/report.pdf) | 19 | 19 |
 
 * __Weather App UI__
 
